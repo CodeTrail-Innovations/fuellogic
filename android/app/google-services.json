@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "487311368374",
+    "project_id": "testproject-3e376",
+    "storage_bucket": "testproject-3e376.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:487311368374:android:25e648045956ba29b34617",
+        "android_client_info": {
+          "package_name": "com.example.fuellogic"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCF6xzE-VRggEeuqz6UlEY6WLM8iWj1ZtM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

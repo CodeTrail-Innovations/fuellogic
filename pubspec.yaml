@@ -42,6 +42,7 @@ dependencies:
   cloud_firestore: ^5.6.9
   awesome_dialog: ^3.2.1
   google_fonts: ^6.2.1
+  package_rename: ^1.10.0
 
 dev_dependencies:
   flutter_test:
@@ -96,3 +97,14 @@ flutter:
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+
+package_rename_config:
+  android:
+    app_name: Fuelogic
+    package_name: com.codetrail.fuelogic
+
+  ios:
+    app_name: Fuelogic
+    bundle_name: fuelogic
+    package_name: com.codetrail.fuelogic
