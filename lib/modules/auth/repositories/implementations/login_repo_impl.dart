@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:fuellogic/core/constant/custom_bottom_bar.dart';
 import 'package:fuellogic/modules/auth/repositories/implementations/home_repo_impl.dart';
 import 'package:fuellogic/modules/auth/repositories/interfaces/home_repo.dart';
 import 'package:fuellogic/modules/auth/repositories/interfaces/login_repo.dart';
@@ -37,11 +38,12 @@ class LoginRepoImpl implements LoginRepository {
             type: DialogType.success,
             title: 'Success',
             message: 'Login successful!',
-            positiveButtonText: 'Continue',
           );
 
+          Get.off(CustomBottomBar());
+
           if (!Get.isRegistered<HomeRepository>()) {
-            Get.put(HomeRepositoryImpl());
+            Get.put(() => HomeRepositoryImpl());
           }
         } else {
           DialogUtils.hideLoadingDialog();

@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fuellogic/core/enums/user_role.dart';
+import 'package:fuellogic/core/enums/enum.dart';
 
 class UserModel {
   final String uid;

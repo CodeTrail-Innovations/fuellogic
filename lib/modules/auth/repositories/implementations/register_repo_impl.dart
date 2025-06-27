@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fuellogic/core/constant/custom_bottom_bar.dart';
+import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/modules/auth/repositories/interfaces/register_repo.dart';
 import 'package:fuellogic/utils/dialog_utils.dart';
 import 'package:get/get.dart';
@@ -12,10 +13,12 @@ class RegisterRepoImpl implements RegisterRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
+  @override
   Future<void> userSignUp({
     required String name,
     required String email,
     required String password,
+    required UserRole role,
   }) async {
     try {
       UserCredential userCredential = await _auth
@@ -24,13 +27,19 @@ class RegisterRepoImpl implements RegisterRepository {
       final User? user = userCredential.user;
 
       if (user != null) {
+        String roleString = role.toString().split('.').last;
+
         await _firestore.collection('users').doc(user.uid).set({
           'uid': user.uid,
           'email': email,
           'displayName': name,
+          'userRole': roleString,
           'createdAt': FieldValue.serverTimestamp(),
-          'isSubscriber': 0,
         });
+
+        DocumentSnapshot doc =
+            await _firestore.collection('users').doc(user.uid).get();
+        log('Stored user data: ${doc.data()}');
 
         Get.off(() => CustomBottomBar());
 
@@ -42,11 +51,11 @@ class RegisterRepoImpl implements RegisterRepository {
         );
       }
     } catch (e) {
-      log('EXCEPTION: $e');
+      log('EXCEPTION: $e', stackTrace: e is Error ? e.stackTrace : null);
       String errorMessage =
           e is FirebaseAuthException
               ? _getFirebaseAuthErrorMessage(e)
-              : e.toString();
+              : 'An error occurred. Please try again.';
 
       DialogUtils.showAnimatedDialog(
         type: DialogType.error,

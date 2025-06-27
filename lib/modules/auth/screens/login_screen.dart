@@ -5,10 +5,12 @@ import 'package:fuellogic/core/constant/app_button.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
 import 'package:fuellogic/core/constant/app_field.dart';
 import 'package:fuellogic/core/constant/app_fonts.dart';
+import 'package:fuellogic/modules/auth/controllers/login_controller.dart';
+import 'package:get/get.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
-  // final controller = Get.put(LoginController());
+  LoginScreen({super.key});
+  final controller = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +46,14 @@ class LoginScreen extends StatelessWidget {
                       16.vertical,
                       AppFeild(
                         hintText: "someone@mail.com",
-                        // controller: controller.emailController,
+                        controller: controller.emailController,
                       ),
                       Text("Password", style: AppTextStyles.regularStyle),
                       16.vertical,
                       AppFeild(
                         isPasswordField: true,
                         hintText: "Enter password",
-                        // controller: controller.passwordController,
+                        controller: controller.passwordController,
                       ),
                       Align(
                         alignment: Alignment.centerRight,
@@ -63,12 +65,12 @@ class LoginScreen extends StatelessWidget {
                       24.vertical,
                       AppButton(
                         text: "Login",
-                        // isLoading: controller.isLoading.value,
+                        isLoading: controller.isLoading.value,
                         onPressed: () {
-                          // controller.handleSignUp(
-                          //    controller.emailController.text,
-                          //   controller.passwordController.text,
-                          // );
+                          controller.handleSignIn(
+                            email: controller.emailController.text,
+                            password: controller.passwordController.text,
+                          );
                         },
                       ),
                     ],
@@ -76,7 +78,7 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               InkWell(
-                // onTap: controller.goToRegisterScreen,
+                onTap: controller.goToRegisterScreen,
                 borderRadius: BorderRadius.circular(12),
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 24.0),

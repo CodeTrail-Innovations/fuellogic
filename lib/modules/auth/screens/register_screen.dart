@@ -5,8 +5,7 @@ import 'package:fuellogic/core/constant/app_button.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
 import 'package:fuellogic/core/constant/app_field.dart';
 import 'package:fuellogic/core/constant/app_fonts.dart';
-import 'package:fuellogic/core/enums/user_role.dart';
-import 'package:fuellogic/core/routes/app_router.dart';
+import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/modules/auth/controllers/register_controller.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +13,6 @@ class RegisterScreen extends StatelessWidget {
   final UserRole? userRole;
   RegisterScreen({super.key}) : userRole = Get.arguments;
   final controller = Get.put(RegisterController());
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -101,13 +99,8 @@ class RegisterScreen extends StatelessWidget {
                         () => AppButton(
                           text: "Sign Up",
                           isLoading: controller.isLoading.value,
-                          onPressed: () {
-                            controller.handleSignUp(
-                              controller.nameController.text,
-                              controller.emailController.text,
-                              controller.passwordController.text,
-                            );
-                          },
+                          onPressed:
+                              () => controller.handleSignUp(role: userRole!),
                         ),
                       ),
                     ],
@@ -115,10 +108,7 @@ class RegisterScreen extends StatelessWidget {
                 ),
               ),
               InkWell(
-                onTap: () {
-                  Get.toNamed(AppRouter.loginScreen);
-                },
-                // controller.goToLoginScreen,
+                onTap: () => controller.goToLoginScreen(),
                 borderRadius: BorderRadius.circular(12),
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 24.0),

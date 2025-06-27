@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/core/constant/app_button.dart';
-import 'package:fuellogic/core/enums/user_role.dart';
+import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/modules/auth/controllers/auth_controller.dart';
 import 'package:get/get.dart';
 

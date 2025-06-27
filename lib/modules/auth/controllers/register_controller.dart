@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:fuellogic/core/constant/custom_bottom_bar.dart';
+import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/core/routes/app_router.dart';
 import 'package:fuellogic/modules/auth/repositories/implementations/register_repo_impl.dart';
 import 'package:fuellogic/utils/dialog_utils.dart';
@@ -18,7 +20,7 @@ class RegisterController extends GetxController {
     Get.toNamed(AppRouter.loginScreen);
   }
 
-  Future<void> handleSignUp(String name, String email, String password) async {
+  Future<void> handleSignUp({required UserRole role}) async {
     final name = nameController.text.trim();
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
@@ -32,6 +34,15 @@ class RegisterController extends GetxController {
       return;
     }
 
+    if (!isTermsAccepted.value) {
+      DialogUtils.showAnimatedDialog(
+        type: DialogType.error,
+        title: 'Error',
+        message: 'Please accept terms and conditions',
+      );
+      return;
+    }
+
     isLoading.value = true;
     final registerRepo = RegisterRepoImpl();
 
@@ -40,22 +51,20 @@ class RegisterController extends GetxController {
         name: name,
         email: email,
         password: password,
+        role: role,
       );
 
       DialogUtils.showAnimatedDialog(
         type: DialogType.success,
         title: 'Success',
         message: 'Registration successful!',
-        positiveButtonText: 'Continue',
-        positiveButtonAction: () {
-          Get.offNamed(AppRouter.loginScreen);
-        },
       );
+
+      Get.off(() => CustomBottomBar());
 
       await fetchCurrentUserData();
     } catch (e) {
       log('Error during sign-up: $e');
-
       DialogUtils.showAnimatedDialog(
         type: DialogType.error,
         title: 'Registration Failed',

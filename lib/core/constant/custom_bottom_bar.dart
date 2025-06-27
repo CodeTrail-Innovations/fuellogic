@@ -3,6 +3,8 @@ import 'package:fuellogic/config/app_assets.dart';
 import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
 import 'package:fuellogic/modules/home/screens/home_screen.dart';
+import 'package:fuellogic/modules/orders/screens/all_orders_screen.dart';
+import 'package:fuellogic/modules/setting/screens/setting_screen.dart';
 import 'package:svg_flutter/svg_flutter.dart';
 
 class CustomBottomBar extends StatefulWidget {
@@ -34,9 +36,9 @@ class CustomBottomBarState extends State<CustomBottomBar> {
   final List<Widget> _screens = [
     // Add your screens here
     HomeScreen(),
-    // OrderScreen(),
+    AllOrdersScreen(),
     // AddOrderScreen(),
-    // SettingScreen(),
+    SettingScreen(),
     // ProfileScreen(),
     Placeholder(), Placeholder(), Placeholder(), Placeholder(), Placeholder(),
   ];
@@ -50,9 +52,12 @@ class CustomBottomBarState extends State<CustomBottomBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: AppColors.whiteColor,
       body: _screens[_selectedIndex],
+      extendBody: true,
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 24.0, left: 36, right: 36),
+        padding: const EdgeInsets.only(bottom: 12.0, left: 36, right: 36),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(100),

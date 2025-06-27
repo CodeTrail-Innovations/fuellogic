@@ -9,5 +9,5 @@ class AppColors {
   static const successColor = Color(0xFF0ED440);
   static const greyColor = Color(0xFFCCD2E0);
   static const Color progressColor = Color(0xFF0096C7);
-  static const Color transparentColor = Colors.transparent;
+  static const Color transparentColor = Color(0x00000000);
 }
