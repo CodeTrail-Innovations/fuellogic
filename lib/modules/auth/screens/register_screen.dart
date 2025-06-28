@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:fuellogic/config/app_textstyle.dart';
 import 'package:fuellogic/config/extension/space_extension.dart';
@@ -15,6 +17,8 @@ class RegisterScreen extends StatelessWidget {
   final controller = Get.put(RegisterController());
   @override
   Widget build(BuildContext context) {
+    log("User Role: $userRole");
+
     return SafeArea(
       child: PopScope(
         canPop: false,
@@ -66,9 +70,26 @@ class RegisterScreen extends StatelessWidget {
                       16.vertical,
                       AppFeild(
                         isPasswordField: true,
-                        hintText: "Enter password",
+                        hintText: "*********",
                         controller: controller.passwordController,
                       ),
+                      userRole == UserRole.driver
+                          ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Enter Company id",
+                                style: AppTextStyles.regularStyle,
+                              ),
+                              16.vertical,
+                              AppFeild(
+                                isPasswordField: true,
+                                hintText: "eg., q2tM15S7VnYTfs",
+                                controller: controller.passwordController,
+                              ),
+                            ],
+                          )
+                          : SizedBox.shrink(),
                       Row(
                         children: [
                           Obx(
@@ -97,7 +118,7 @@ class RegisterScreen extends StatelessWidget {
                       24.vertical,
                       Obx(
                         () => AppButton(
-                          text: "Sign Up",
+                          text: "Register",
                           isLoading: controller.isLoading.value,
                           onPressed:
                               () => controller.handleSignUp(role: userRole!),
@@ -108,7 +129,7 @@ class RegisterScreen extends StatelessWidget {
                 ),
               ),
               InkWell(
-                onTap: () => controller.goToLoginScreen(),
+                onTap: () => controller.goToLoginScreen(userRole!),
                 borderRadius: BorderRadius.circular(12),
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 24.0),

@@ -48,7 +48,7 @@ class OrderCard extends StatelessWidget {
     }
 
     return InkWell(
-      onTap: () => Get.to(() => OrderDetailScreen()),
+      onTap: () => Get.to(() => OrderDetailScreen(status: status)),
       child: Container(
         padding: EdgeInsets.all(16),
         height: 150,

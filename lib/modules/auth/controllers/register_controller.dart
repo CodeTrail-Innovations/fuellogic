@@ -9,23 +9,28 @@ import 'package:fuellogic/utils/dialog_utils.dart';
 import 'package:get/get.dart';
 
 class RegisterController extends GetxController {
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final comapanyIdController = TextEditingController();
   RxBool isTermsAccepted = false.obs;
   final isLoading = false.obs;
   Map<String, dynamic>? currentUserData;
 
-  void goToLoginScreen() {
-    Get.toNamed(AppRouter.loginScreen);
+  void goToLoginScreen(UserRole role) {
+    Get.toNamed(AppRouter.loginScreen, arguments: role);
   }
 
   Future<void> handleSignUp({required UserRole role}) async {
     final name = nameController.text.trim();
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
+    final comapanyId = comapanyIdController.text.trim();
 
-    if (name.isEmpty || email.isEmpty || password.isEmpty) {
+    if (name.isEmpty ||
+        email.isEmpty ||
+        password.isEmpty ||
+        comapanyId.isEmpty) {
       DialogUtils.showAnimatedDialog(
         type: DialogType.error,
         title: 'Error',
@@ -52,6 +57,7 @@ class RegisterController extends GetxController {
         email: email,
         password: password,
         role: role,
+        comapanyId: comapanyId,
       );
 
       DialogUtils.showAnimatedDialog(

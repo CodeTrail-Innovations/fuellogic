@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:fuellogic/config/app_assets.dart';
 import 'package:fuellogic/config/app_textstyle.dart';
@@ -5,6 +7,8 @@ import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
 import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/modules/home/screens/components/order_status_label.dart';
+import 'package:fuellogic/modules/orders/controllers/order_detail_controller.dart';
+import 'package:get/get.dart';
 import 'package:svg_flutter/svg_flutter.dart';
 
 class OrderDetailScreen extends StatelessWidget {
@@ -13,6 +17,9 @@ class OrderDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(OrderDetailController(status: status));
+
+    log('OrderDetailScreen: $status', name: 'OrderDetailScreen');
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -63,7 +70,10 @@ class OrderDetailScreen extends StatelessWidget {
             16.vertical,
             Text("Status", style: AppTextStyles.regularStyle),
             16.vertical,
-            OrderStatusLabel(status: status ?? OrderStatus.onTheWay),
+            OrderStatusLabel(
+              status: status!,
+              onTap: () => controller.showStatusBottomSheet(context),
+            ),
             16.vertical,
             Text("Company", style: AppTextStyles.regularStyle),
             16.vertical,

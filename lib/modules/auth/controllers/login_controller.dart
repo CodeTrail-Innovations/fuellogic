@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/core/routes/app_router.dart';
 import 'package:fuellogic/modules/auth/repositories/implementations/login_repo_impl.dart';
 import 'package:fuellogic/utils/dialog_utils.dart';
@@ -11,13 +12,15 @@ class LoginController extends GetxController {
   final TextEditingController passwordController = TextEditingController();
 
   final isLoading = false.obs;
-  final LoginRepoImpl loginRepo = LoginRepoImpl();
 
-  void goToRegisterScreen() {
-    Get.toNamed(AppRouter.registerScreen);
+  void goToRegisterScreen(UserRole role) {
+    Get.toNamed(AppRouter.registerScreen, arguments: role);
   }
 
-  Future<void> handleSignIn({required String email, required String password}) async {
+  Future<void> handleSignIn({
+    required String email,
+    required String password,
+  }) async {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
 
@@ -31,6 +34,8 @@ class LoginController extends GetxController {
     }
 
     isLoading.value = true;
+    final loginRepo = LoginRepoImpl();
+
     try {
       await loginRepo.userSignIn(email: email, password: password);
     } catch (e) {

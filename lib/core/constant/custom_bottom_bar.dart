@@ -4,6 +4,8 @@ import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
 import 'package:fuellogic/modules/home/screens/home_screen.dart';
 import 'package:fuellogic/modules/orders/screens/all_orders_screen.dart';
+import 'package:fuellogic/modules/orders/screens/create_order_screen.dart';
+import 'package:fuellogic/modules/profile/screens/profile_screen.dart';
 import 'package:fuellogic/modules/setting/screens/setting_screen.dart';
 import 'package:svg_flutter/svg_flutter.dart';
 
@@ -34,13 +36,11 @@ class CustomBottomBarState extends State<CustomBottomBar> {
   ];
 
   final List<Widget> _screens = [
-    // Add your screens here
     HomeScreen(),
     AllOrdersScreen(),
-    // AddOrderScreen(),
+    CreateOrderScreen(),
     SettingScreen(),
-    // ProfileScreen(),
-    Placeholder(), Placeholder(), Placeholder(), Placeholder(), Placeholder(),
+    ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {

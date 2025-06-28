@@ -18,8 +18,6 @@ class LoginRepoImpl implements LoginRepository {
     required String password,
   }) async {
     try {
-      DialogUtils.showLoadingDialog(message: 'Signing in...');
-
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,

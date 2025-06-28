@@ -19,6 +19,7 @@ class RegisterRepoImpl implements RegisterRepository {
     required String email,
     required String password,
     required UserRole role,
+    required String comapanyId,
   }) async {
     try {
       UserCredential userCredential = await _auth
@@ -34,6 +35,7 @@ class RegisterRepoImpl implements RegisterRepository {
           'email': email,
           'displayName': name,
           'userRole': roleString,
+          'comapanyId': comapanyId,
           'createdAt': FieldValue.serverTimestamp(),
         });
 

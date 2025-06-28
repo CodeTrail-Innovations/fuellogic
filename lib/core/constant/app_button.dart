@@ -5,6 +5,7 @@ import 'package:fuellogic/core/constant/app_colors.dart';
 class AppButton extends StatelessWidget {
   final String text;
   final IconData? icon;
+  final IconData? suffixIcon;
   final VoidCallback onPressed;
   final bool isLoading;
   final double? btnRadius;
@@ -14,11 +15,13 @@ class AppButton extends StatelessWidget {
   final Color? borderColor;
   final double? borderWidth;
   final double height;
+  final bool isIconButton;
 
   const AppButton({
     super.key,
     required this.text,
     this.icon,
+    this.suffixIcon,
     required this.onPressed,
     this.isLoading = false,
     this.btnRadius,
@@ -28,6 +31,7 @@ class AppButton extends StatelessWidget {
     this.borderColor,
     this.borderWidth,
     this.height = 65,
+    this.isIconButton = false,
   });
 
   @override
@@ -84,6 +88,8 @@ class AppButton extends StatelessWidget {
                   ),
                 ),
               )
+            else if (isIconButton)
+              const SizedBox.shrink()
             else
               Text(
                 text,
@@ -95,6 +101,17 @@ class AppButton extends StatelessWidget {
                           : (textColor ?? Colors.white),
                 ),
               ),
+            if (suffixIcon != null && showIcon && !isLoading) ...[
+              const SizedBox(width: 8),
+              Icon(
+                suffixIcon,
+                size: 16,
+                color:
+                    isOutline
+                        ? (borderColor ?? (btnColor ?? AppColors.primaryColor))
+                        : (textColor ?? Colors.white),
+              ),
+            ],
           ],
         ),
       ),

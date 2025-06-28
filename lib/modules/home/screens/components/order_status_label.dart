@@ -5,8 +5,9 @@ import 'package:fuellogic/core/enums/enum.dart';
 
 class OrderStatusLabel extends StatelessWidget {
   final OrderStatus status;
+  final VoidCallback? onTap;
 
-  const OrderStatusLabel({super.key, required this.status});
+  const OrderStatusLabel({super.key, required this.status, this.onTap});
 
   Color _getStatusColor(BuildContext context) {
     switch (status) {
@@ -49,21 +50,24 @@ class OrderStatusLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: _getBackgroundColor(context),
-        border: Border.all(
-          color: _getStatusColor(context),
-          width: status == OrderStatus.onTheWay ? 1.0 : 0.0,
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: _getBackgroundColor(context),
+          border: Border.all(
+            color: _getStatusColor(context),
+            width: status == OrderStatus.onTheWay ? 1.0 : 0.0,
+          ),
         ),
-      ),
-      child: Text(
-        status.label,
-        style: AppTextStyles.captionStyle.copyWith(
-          color: _getTextColor(context),
-          fontWeight: FontWeight.w500,
+        child: Text(
+          status.label,
+          style: AppTextStyles.captionStyle.copyWith(
+            color: _getTextColor(context),
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
     );

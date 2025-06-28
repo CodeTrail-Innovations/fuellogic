@@ -8,6 +8,7 @@ class UserModel {
   final String photoURL;
   final Timestamp createdAt;
   final UserRole role;
+  final String companyId;
 
   static final Timestamp defaultCreatedAt =
       Timestamp.fromMillisecondsSinceEpoch(1704067200000);
@@ -17,6 +18,7 @@ class UserModel {
     this.email = '',
     this.displayName = '',
     this.photoURL = '',
+    this.companyId = '',
     this.role = UserRole.driver,
     Timestamp? createdAt,
   }) : createdAt = createdAt ?? defaultCreatedAt;
@@ -26,6 +28,7 @@ class UserModel {
       uid: json['uid'] ?? '',
       email: json['email'] ?? '',
       displayName: json['displayName'] ?? '',
+      companyId: json['companyId'] ?? '',
       photoURL: json['photoURL'] ?? '',
       createdAt: json['createdAt'] as Timestamp? ?? defaultCreatedAt,
       role: UserRoleExtension.fromApi(json['role'] ?? ''),
@@ -37,6 +40,7 @@ class UserModel {
       'uid': uid,
       'email': email,
       'displayName': displayName,
+      'companyId': companyId,
       'photoURL': photoURL,
       'createdAt': createdAt,
       'role': role.apiValue,
