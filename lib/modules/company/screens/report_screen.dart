@@ -1,41 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:fuellogic/config/app_textstyle.dart';
-import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
 import 'package:fuellogic/core/constant/app_fonts.dart';
+import 'package:fuellogic/modules/company/screens/components/order_report_card.dart';
 import 'package:fuellogic/modules/home/screens/components/order_card.dart';
 import 'package:fuellogic/modules/orders/controllers/all_orders_controller.dart';
+import 'package:fuellogic/modules/profile/controllers/profile_controller.dart';
 import 'package:fuellogic/widgets/custom_appbar.dart';
 import 'package:get/get.dart';
 
-class AllOrdersScreen extends StatelessWidget {
-  AllOrdersScreen({super.key});
-  final controller = Get.put(AllOrdersController());
+class ReportScreen extends StatelessWidget {
+  ReportScreen({super.key});
+  final controller = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColors.whiteColor,
-        appBar: CustomAppBar(),
-        body: SingleChildScrollView(
+    return Scaffold(
+      appBar: CustomAppBar(),
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        final userData = controller.userData.value;
+        if (userData == null) {
+          return const Center(child: Text('No user data available'));
+        }
+        return SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 20),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 16,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0),
-                child: GetBuilder<AllOrdersController>(
-                  builder: (controller) {
-                    return Text(
-                      "All orders(${controller.filteredOrders.length})",
-                      style: AppTextStyles.regularStyle.copyWith(
-                        color: AppColors.primaryColor,
-                      ),
-                    );
-                  },
-                ),
+              Row(
+                spacing: 16,
+                children: [
+                  Expanded(
+                    child: OrderReportCard(
+                      title: 'Total drivers',
+                      stats: userData.driver.length.toString(),
+                      forDelivered: true,
+                    ),
+                  ),
+                  Expanded(
+                    child: OrderReportCard(
+                      title: 'On the way',
+                      stats: '45',
+                      forDelivered: false,
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 16),
               GetBuilder<AllOrdersController>(
                 init: AllOrdersController(),
                 builder: (controller) {
@@ -80,7 +93,6 @@ class AllOrdersScreen extends StatelessWidget {
                   );
                 },
               ),
-              16.vertical,
               GetBuilder<AllOrdersController>(
                 builder: (controller) {
                   return Column(
@@ -98,8 +110,8 @@ class AllOrdersScreen extends StatelessWidget {
               ),
             ],
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }

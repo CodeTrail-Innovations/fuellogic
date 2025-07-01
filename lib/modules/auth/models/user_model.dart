@@ -9,6 +9,7 @@ class UserModel {
   final Timestamp createdAt;
   final UserRole role;
   final String companyId;
+  final List<Map<String, dynamic>> driver;
 
   static final Timestamp defaultCreatedAt =
       Timestamp.fromMillisecondsSinceEpoch(1704067200000);
@@ -20,6 +21,7 @@ class UserModel {
     this.photoURL = '',
     this.companyId = '',
     this.role = UserRole.driver,
+    this.driver = const [],
     Timestamp? createdAt,
   }) : createdAt = createdAt ?? defaultCreatedAt;
 
@@ -32,6 +34,10 @@ class UserModel {
       photoURL: json['photoURL'] ?? '',
       createdAt: json['createdAt'] as Timestamp? ?? defaultCreatedAt,
       role: UserRoleExtension.fromApi(json['role'] ?? ''),
+      driver:
+          (json['driver'] as List<dynamic>? ?? [])
+              .map((e) => Map<String, dynamic>.from(e as Map))
+              .toList(),
     );
   }
 
@@ -44,6 +50,7 @@ class UserModel {
       'photoURL': photoURL,
       'createdAt': createdAt,
       'role': role.apiValue,
+      'driver': driver,
     };
   }
 }

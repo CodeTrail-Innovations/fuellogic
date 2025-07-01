@@ -6,8 +6,11 @@ abstract class RegisterRepository {
     required String email,
     required String password,
     required UserRole role,
-    required String comapanyId,
+    required String companyId,
   });
 
   Future<Map<String, dynamic>?> getCurrentUserData();
+
+  
+  Future<bool> validateCompanyId(String companyId);
 }

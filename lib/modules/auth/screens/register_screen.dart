@@ -14,7 +14,9 @@ import 'package:get/get.dart';
 class RegisterScreen extends StatelessWidget {
   final UserRole? userRole;
   RegisterScreen({super.key}) : userRole = Get.arguments;
+
   final controller = Get.put(RegisterController());
+
   @override
   Widget build(BuildContext context) {
     log("User Role: $userRole");
@@ -58,14 +60,14 @@ class RegisterScreen extends StatelessWidget {
                         hintText: "e.g Dina Adam",
                         controller: controller.nameController,
                       ),
+                      16.vertical,
                       Text("Email", style: AppTextStyles.regularStyle),
                       16.vertical,
-
                       AppFeild(
                         hintText: "someone@mail.com",
                         controller: controller.emailController,
                       ),
-
+                      16.vertical,
                       Text("Password", style: AppTextStyles.regularStyle),
                       16.vertical,
                       AppFeild(
@@ -73,20 +75,58 @@ class RegisterScreen extends StatelessWidget {
                         hintText: "*********",
                         controller: controller.passwordController,
                       ),
+                      16.vertical,
                       userRole == UserRole.driver
                           ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Enter Company id",
+                                "Enter Company ID",
                                 style: AppTextStyles.regularStyle,
                               ),
                               16.vertical,
                               AppFeild(
-                                isPasswordField: true,
                                 hintText: "eg., q2tM15S7VnYTfs",
-                                controller: controller.passwordController,
+                                controller: controller.companyIdController,
                               ),
+
+                              Obx(
+                                () =>
+                                    controller.isValidatingCompany.value
+                                        ? Padding(
+                                          padding: const EdgeInsets.only(
+                                            top: 8.0,
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              SizedBox(
+                                                width: 16,
+                                                height: 16,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                      strokeWidth: 2,
+                                                      color:
+                                                          AppColors
+                                                              .primaryColor,
+                                                    ),
+                                              ),
+                                              8.horizontal,
+                                              Text(
+                                                "Validating company ID...",
+                                                style: AppTextStyles
+                                                    .captionStyle
+                                                    .copyWith(
+                                                      color:
+                                                          AppColors
+                                                              .primaryColor,
+                                                    ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                        : SizedBox.shrink(),
+                              ),
+                              16.vertical,
                             ],
                           )
                           : SizedBox.shrink(),

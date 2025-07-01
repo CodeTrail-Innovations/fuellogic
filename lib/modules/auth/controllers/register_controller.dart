@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:fuellogic/core/constant/custom_bottom_bar.dart';
 import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/core/routes/app_router.dart';
 import 'package:fuellogic/modules/auth/repositories/implementations/register_repo_impl.dart';
@@ -12,29 +11,62 @@ class RegisterController extends GetxController {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final comapanyIdController = TextEditingController();
+  final companyIdController = TextEditingController();
+
   RxBool isTermsAccepted = false.obs;
   final isLoading = false.obs;
+  final isValidatingCompany = false.obs;
+
   Map<String, dynamic>? currentUserData;
 
   void goToLoginScreen(UserRole role) {
     Get.toNamed(AppRouter.loginScreen, arguments: role);
   }
 
+  Future<void> validateCompanyId() async {
+    final companyId = companyIdController.text.trim();
+    if (companyId.isEmpty) return;
+
+    isValidatingCompany.value = true;
+    final registerRepo = RegisterRepoImpl();
+
+    try {
+      bool isValid = await registerRepo.validateCompanyId(companyId);
+      if (!isValid) {
+        DialogUtils.showAnimatedDialog(
+          type: DialogType.error,
+          title: 'Invalid Company ID',
+          message:
+              'The company ID you entered does not exist or is not valid. Please check with your company administrator.',
+        );
+      }
+    } catch (e) {
+      log('Error validating company ID: $e');
+    } finally {
+      isValidatingCompany.value = false;
+    }
+  }
+
   Future<void> handleSignUp({required UserRole role}) async {
     final name = nameController.text.trim();
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
-    final comapanyId = comapanyIdController.text.trim();
+    final companyId = companyIdController.text.trim();
 
-    if (name.isEmpty ||
-        email.isEmpty ||
-        password.isEmpty ||
-        comapanyId.isEmpty) {
+    if (name.isEmpty || email.isEmpty || password.isEmpty) {
       DialogUtils.showAnimatedDialog(
         type: DialogType.error,
         title: 'Error',
-        message: 'All fields are required',
+        message: 'Name, email, and password are required',
+      );
+      return;
+    }
+
+    if (role == UserRole.driver && companyId.isEmpty) {
+      DialogUtils.showAnimatedDialog(
+        type: DialogType.error,
+        title: 'Error',
+        message: 'Company ID is required for driver registration',
       );
       return;
     }
@@ -57,25 +89,12 @@ class RegisterController extends GetxController {
         email: email,
         password: password,
         role: role,
-        comapanyId: comapanyId,
+        companyId: companyId,
       );
-
-      DialogUtils.showAnimatedDialog(
-        type: DialogType.success,
-        title: 'Success',
-        message: 'Registration successful!',
-      );
-
-      Get.off(() => CustomBottomBar());
 
       await fetchCurrentUserData();
     } catch (e) {
       log('Error during sign-up: $e');
-      DialogUtils.showAnimatedDialog(
-        type: DialogType.error,
-        title: 'Registration Failed',
-        message: 'An unexpected error occurred. Please try again.',
-      );
     } finally {
       isLoading.value = false;
     }
@@ -85,7 +104,6 @@ class RegisterController extends GetxController {
     try {
       final registerRepo = RegisterRepoImpl();
       currentUserData = await registerRepo.getCurrentUserData();
-
       if (currentUserData != null) {
         log('User Data: $currentUserData');
       } else {
@@ -101,6 +119,7 @@ class RegisterController extends GetxController {
     nameController.dispose();
     emailController.dispose();
     passwordController.dispose();
+    companyIdController.dispose();
     super.onClose();
   }
 }
