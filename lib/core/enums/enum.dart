@@ -31,6 +31,66 @@ extension UserRoleExtension on UserRole {
   }
 }
 
+enum FuelType { solid, liquid, gaseous }
+
+extension FuelTypeExtension on FuelType {
+  String get fuellabel {
+    switch (this) {
+      case FuelType.solid:
+        return 'Solid';
+      case FuelType.liquid:
+        return 'Liquid';
+      case FuelType.gaseous:
+        return 'Gaseous';
+    }
+  }
+
+  String get apiValue {
+    return fuellabel;
+  }
+
+  static FuelType fromApi(String value) {
+    switch (value.toLowerCase()) {
+      case 'solid':
+        return FuelType.solid;
+      case 'liquid':
+        return FuelType.liquid;
+      case 'gaseous':
+        return FuelType.gaseous;
+      default:
+        return FuelType.gaseous;
+    }
+  }
+}
+
+enum FuelUnit { liters, gallons }
+
+extension FuelUnitExtension on FuelUnit {
+  String get fuelUnit {
+    switch (this) {
+      case FuelUnit.liters:
+        return 'Liters';
+      case FuelUnit.gallons:
+        return 'Gallons';
+    }
+  }
+
+  String get apiValue {
+    return fuelUnit;
+  }
+
+  static FuelUnit fromApi(String value) {
+    switch (value.toLowerCase()) {
+      case 'liters':
+        return FuelUnit.liters;
+      case 'gallons':
+        return FuelUnit.gallons;
+      default:
+        return FuelUnit.gallons;
+    }
+  }
+}
+
 enum OrderStatus { onTheWay, pending, approved, delivered }
 
 extension OrderStatusExtension on OrderStatus {

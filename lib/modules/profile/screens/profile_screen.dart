@@ -4,6 +4,7 @@ import 'package:fuellogic/config/app_textstyle.dart';
 import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/core/constant/app_button.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
+import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/modules/profile/controllers/profile_controller.dart';
 import 'package:fuellogic/modules/setting/screens/components/setting_card.dart';
 import 'package:get/get.dart';
@@ -86,15 +87,17 @@ class ProfileScreen extends StatelessWidget {
                           icon: AppAssets.clockIcon,
                         ),
                         16.vertical,
-                        SettingCard(
-                          onTap: () {
-                            controller.showCompanyKeyDialog(context);
-                          },
-                          title: 'Invite Driver',
-                          subTitle: "click here to see your ",
-                          forIcon: true,
-                          icon: AppAssets.inviteUserIcon,
-                        ),
+                        userData.role == UserRole.company
+                            ? SettingCard(
+                              onTap: () {
+                                controller.showCompanyKeyDialog(context);
+                              },
+                              title: 'Invite Driver',
+                              subTitle: "click here to see your ",
+                              forIcon: true,
+                              icon: AppAssets.inviteUserIcon,
+                            )
+                            : SizedBox.shrink(),
                       ],
                     ),
                   ),

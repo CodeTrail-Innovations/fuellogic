@@ -3,6 +3,7 @@ import 'package:fuellogic/config/app_textstyle.dart';
 import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
 import 'package:fuellogic/core/constant/app_field.dart';
+import 'package:fuellogic/core/enums/enum.dart';
 
 class CreateOrderScreen extends StatelessWidget {
   const CreateOrderScreen({super.key});
@@ -29,10 +30,39 @@ class CreateOrderScreen extends StatelessWidget {
                 hintText:
                     "Akshya Nagar 1st Block 1st Cross, Rammurthy nagar, Bangalore-560016",
               ),
+
               Text("Choose fuel type", style: AppTextStyles.regularStyle),
-              AppFeild(hintText: "gaseous fuels"),
-              Text("Choose company", style: AppTextStyles.regularStyle),
-              AppFeild(hintText: "Pakistan Petroleum Limited"),
+              StatefulBuilder(
+                builder: (context, setState) {
+                  FuelType selectedFuelType = FuelType.gaseous;
+                  return DropdownButtonFormField<FuelType>(
+                    value: selectedFuelType,
+                    decoration: InputDecoration(
+                      hintText: "Select fuel type",
+                      border: OutlineInputBorder(),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 16,
+                      ),
+                    ),
+                    items:
+                        FuelType.values.map((fuel) {
+                          return DropdownMenuItem<FuelType>(
+                            value: fuel,
+                            child: Text(fuel.fuellabel),
+                          );
+                        }).toList(),
+                    onChanged: (FuelType? newValue) {
+                      if (newValue != null) {
+                        setState(() {
+                          selectedFuelType = newValue;
+                        });
+                      }
+                    },
+                  );
+                },
+              ),
+
               Row(
                 spacing: 16,
                 children: [
@@ -45,7 +75,10 @@ class CreateOrderScreen extends StatelessWidget {
                           "Enter Quantity",
                           style: AppTextStyles.regularStyle,
                         ),
-                        AppFeild(hintText: "Pakistan Petroleum Limited"),
+                        AppFeild(
+                          hintText: "Pakistan Petroleum Limited",
+                          inputType: TextInputType.numberWithOptions(),
+                        ),
                       ],
                     ),
                   ),
@@ -55,7 +88,36 @@ class CreateOrderScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("Unit", style: AppTextStyles.regularStyle),
-                        AppFeild(hintText: "liters"),
+                        StatefulBuilder(
+                          builder: (context, setState) {
+                            FuelUnit selectedFuelUnit = FuelUnit.liters;
+                            return DropdownButtonFormField<FuelUnit>(
+                              value: selectedFuelUnit,
+                              decoration: InputDecoration(
+                                hintText: "Select fuel type",
+                                border: OutlineInputBorder(),
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 16,
+                                ),
+                              ),
+                              items:
+                                  FuelUnit.values.map((fuel) {
+                                    return DropdownMenuItem<FuelUnit>(
+                                      value: fuel,
+                                      child: Text(fuel.fuelUnit),
+                                    );
+                                  }).toList(),
+                              onChanged: (FuelUnit? newValue) {
+                                if (newValue != null) {
+                                  setState(() {
+                                    selectedFuelUnit = newValue;
+                                  });
+                                }
+                              },
+                            );
+                          },
+                        ),
                       ],
                     ),
                   ),

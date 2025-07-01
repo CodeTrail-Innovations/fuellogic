@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fuellogic/config/theme.dart';
 import 'package:fuellogic/core/routes/app_router.dart';
-import 'package:fuellogic/modules/company/screens/report_screen.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 import 'firebase_options.dart';
@@ -24,8 +23,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: appTheme,
       getPages: AppRouter.routes,
-      // initialRoute: AppRouter.splashScreen,
-      home: ReportScreen(),
+      initialRoute: AppRouter.splashScreen,
+      // home: ReportScreen(),
     );
   }
 }
