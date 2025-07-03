@@ -1,3 +1,5 @@
+
+
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
@@ -54,7 +56,7 @@ class AppFeild extends StatefulWidget {
     this.feildClr,
     this.radius = 12,
     this.isSearchField = false,
-    this.height = 70, // Changed default height to 70
+    this.height = 75,
     this.hintTextColor,
     this.fieldTextColor,
     this.suffixImage,
@@ -75,14 +77,13 @@ class AppFeildState extends State<AppFeild> {
 
     return Container(
       width: double.infinity,
-      height: widget.height, // Using the height parameter
       decoration: BoxDecoration(
         color:
             isSearchField
                 ? AppColors.transparentColor
                 : widget.feildClr ?? AppColors.transparentColor,
-        borderRadius: BorderRadius.all(
-          Radius.circular(isSearchField ? 100 : widget.radius),
+        borderRadius: BorderRadius.circular(
+          isSearchField ? 100 : widget.radius,
         ),
       ),
       child: TextFormField(
@@ -95,7 +96,7 @@ class AppFeildState extends State<AppFeild> {
         controller: widget.controller,
         keyboardType:
             widget.isRating
-                ? TextInputType.numberWithOptions(decimal: true)
+                ? const TextInputType.numberWithOptions(decimal: true)
                 : widget.inputType,
         key: widget.fieldKey,
         obscureText: widget.isPasswordField == true ? _obscureText : false,
@@ -116,27 +117,29 @@ class AppFeildState extends State<AppFeild> {
         inputFormatters:
             widget.isRating
                 ? [
-                  FilteringTextInputFormatter.allow(RegExp(r'^\d?\.?\d?')),
+                  FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,1}')),
                   _MaxValueInputFormatter(5.0),
                 ]
                 : null,
         decoration: InputDecoration(
-          contentPadding: const EdgeInsets.symmetric(
+          isDense: true,
+          contentPadding: EdgeInsets.symmetric(
             horizontal: 16,
-            vertical: 16,
+            vertical:
+                (widget.height - 24) / 2, 
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
               color:
                   isSearchField ? AppColors.whiteColor : AppColors.blackColor,
             ),
-            borderRadius: BorderRadius.all(
-              Radius.circular(isSearchField ? 100 : widget.radius),
+            borderRadius: BorderRadius.circular(
+              isSearchField ? 100 : widget.radius,
             ),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(isSearchField ? 100 : widget.radius),
+            borderRadius: BorderRadius.circular(
+              isSearchField ? 100 : widget.radius,
             ),
             borderSide: BorderSide(
               color:
