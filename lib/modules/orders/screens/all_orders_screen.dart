@@ -50,12 +50,13 @@ class AllOrdersScreen extends StatelessWidget {
                         return GestureDetector(
                           onTap: () => controller.selectFilter(index),
                           child: Container(
-                            margin: const EdgeInsets.only(right: 8),
+                            margin: EdgeInsets.only(left: 6),
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
+                              horizontal: 12,
                               vertical: 6,
                             ),
                             decoration: BoxDecoration(
+                              border: Border.all(color: AppColors.primaryColor),
                               color:
                                   controller.selectedIndex == index
                                       ? AppColors.primaryColor

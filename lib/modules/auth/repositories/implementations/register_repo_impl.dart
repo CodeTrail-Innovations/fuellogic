@@ -2,9 +2,10 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fuellogic/core/constant/custom_bottom_bar.dart';
 import 'package:fuellogic/core/enums/enum.dart';
+import 'package:fuellogic/modules/auth/models/user_model.dart';
 import 'package:fuellogic/modules/auth/repositories/interfaces/register_repo.dart';
+import 'package:fuellogic/modules/bottombar/screens/custom_bottom_bar.dart';
 import 'package:fuellogic/utils/dialog_utils.dart';
 import 'package:get/get.dart';
 
@@ -13,20 +14,31 @@ class RegisterRepoImpl implements RegisterRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
-  Future<bool> validateCompanyId(String companyId) async {
+  Future<bool> validateCompanyId(String companyUid) async {
+    log('[RegisterRepo] Validating company ID: $companyUid');
     try {
-      DocumentSnapshot companyDoc =
-          await _firestore.collection('users').doc(companyId).get();
-
-      if (companyDoc.exists) {
-        Map<String, dynamic> companyData =
-            companyDoc.data() as Map<String, dynamic>;
-        String userRole = companyData['userRole'] ?? '';
-        return userRole.toLowerCase() == 'company';
+      if (companyUid.isEmpty || companyUid.length < 8) {
+        log('Invalid company ID format');
+        return false;
       }
-      return false;
+
+      final querySnapshot =
+          await _firestore
+              .collection('users')
+              .where('role', isEqualTo: UserRole.company.value)
+              .where('uid', isEqualTo: companyUid)
+              .limit(1)
+              .get();
+
+      if (querySnapshot.docs.isEmpty) {
+        log('No company found with this ID');
+        return false;
+      }
+
+      log('Company validation successful');
+      return true;
     } catch (e) {
-      log('Error validating company ID: $e');
+      log('Error validating company UID: $e');
       return false;
     }
   }
@@ -37,6 +49,7 @@ class RegisterRepoImpl implements RegisterRepository {
     required String driverName,
     required String driverEmail,
   }) async {
+    log('[RegisterRepo] Adding driver to company: $companyId');
     try {
       Map<String, dynamic> driverInfo = {
         'uid': driverUid,
@@ -49,7 +62,7 @@ class RegisterRepoImpl implements RegisterRepository {
         'driver': FieldValue.arrayUnion([driverInfo]),
       });
 
-      log('Driver added to company driver list successfully');
+      log('Driver added to company successfully');
     } catch (e) {
       log('Error adding driver to company: $e');
       throw Exception(
@@ -66,6 +79,7 @@ class RegisterRepoImpl implements RegisterRepository {
     required UserRole role,
     required String companyId,
   }) async {
+    log('[RegisterRepo] Starting user signup for: $email');
     User? user;
 
     try {
@@ -84,22 +98,21 @@ class RegisterRepoImpl implements RegisterRepository {
       user = userCredential.user;
 
       if (user != null) {
-        String roleString = role.toString().split('.').last;
+        final userModel = UserModel(
+          uid: user.uid,
+          email: email,
+          displayName: name,
+          companyId: role == UserRole.driver ? companyId : '',
+          role: role,
+          photoURL: '',
+          driver: role == UserRole.company ? [] : [],
+          createdAt: Timestamp.now(),
+        );
 
-        Map<String, dynamic> userData = {
-          'uid': user.uid,
-          'email': email,
-          'displayName': name,
-          'userRole': roleString,
-          'companyId': role == UserRole.driver ? companyId : '',
-          'createdAt': FieldValue.serverTimestamp(),
-        };
-
-        if (role == UserRole.company) {
-          userData['driver'] = [];
-        }
-
-        await _firestore.collection('users').doc(user.uid).set(userData);
+        await _firestore
+            .collection('users')
+            .doc(user.uid)
+            .set(userModel.toJson());
 
         if (role == UserRole.driver && companyId.isNotEmpty) {
           try {
@@ -116,10 +129,6 @@ class RegisterRepoImpl implements RegisterRepository {
           }
         }
 
-        DocumentSnapshot doc =
-            await _firestore.collection('users').doc(user.uid).get();
-        log('Stored user data: ${doc.data()}');
-
         Get.off(() => CustomBottomBar());
         DialogUtils.showAnimatedDialog(
           type: DialogType.success,
@@ -129,7 +138,7 @@ class RegisterRepoImpl implements RegisterRepository {
         );
       }
     } catch (e) {
-      log('EXCEPTION: $e', stackTrace: e is Error ? e.stackTrace : null);
+      log('Registration error: $e');
 
       String errorMessage;
       if (e is FirebaseAuthException) {
@@ -161,15 +170,12 @@ class RegisterRepoImpl implements RegisterRepository {
         DocumentSnapshot userDoc =
             await _firestore.collection('users').doc(user.uid).get();
         if (userDoc.exists) {
-          return userDoc.data() as Map<String, dynamic>;
-        } else {
-          log('User document does not exist in Firestore');
-          return null;
+          return UserModel.fromJson(
+            userDoc.data() as Map<String, dynamic>,
+          ).toJson();
         }
-      } else {
-        log('No user is currently logged in');
-        return null;
       }
+      return null;
     } catch (e) {
       log('Error fetching user data: $e');
       return null;

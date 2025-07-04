@@ -37,7 +37,7 @@ class ReportScreen extends StatelessWidget {
                   Expanded(
                     child: OrderReportCard(
                       title: 'Total drivers',
-                      stats: userData.driver.length.toString(),
+                      stats: userData.driver!.length.toString(),
                       forDelivered: true,
                     ),
                   ),

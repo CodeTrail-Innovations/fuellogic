@@ -24,24 +24,28 @@ class RegisterController extends GetxController {
   }
 
   Future<void> validateCompanyId() async {
-    final companyId = companyIdController.text.trim();
-    if (companyId.isEmpty) return;
+    final companyUid = companyIdController.text.trim();
+    log('[RegisterController] Validating company ID: $companyUid');
+    if (companyUid.isEmpty) {
+      log('Company ID is empty - skipping validation');
+      return;
+    }
 
     isValidatingCompany.value = true;
     final registerRepo = RegisterRepoImpl();
 
     try {
-      bool isValid = await registerRepo.validateCompanyId(companyId);
+      bool isValid = await registerRepo.validateCompanyId(companyUid);
       if (!isValid) {
         DialogUtils.showAnimatedDialog(
           type: DialogType.error,
           title: 'Invalid Company ID',
           message:
-              'The company ID you entered does not exist or is not valid. Please check with your company administrator.',
+              'The company ID (UID) you entered is not valid. Please check with your company administrator.',
         );
       }
     } catch (e) {
-      log('Error validating company ID: $e');
+      log('Error validating company UID: $e');
     } finally {
       isValidatingCompany.value = false;
     }
@@ -52,6 +56,9 @@ class RegisterController extends GetxController {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
     final companyId = companyIdController.text.trim();
+
+    log('[RegisterController] Handling signup for role: ${role.value}');
+    log('Name: $name, Email: $email, CompanyID: $companyId');
 
     if (name.isEmpty || email.isEmpty || password.isEmpty) {
       DialogUtils.showAnimatedDialog(

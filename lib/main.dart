@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       theme: appTheme,
       getPages: AppRouter.routes,
       initialRoute: AppRouter.splashScreen,
-      // home: ReportScreen(),
+      // home: DashboardScreen(),
     );
   }
 }

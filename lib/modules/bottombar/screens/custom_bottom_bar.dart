@@ -1,16 +1,22 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:fuellogic/config/app_assets.dart';
 import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
+import 'package:fuellogic/modules/bottombar/controllers/bottombar_controller.dart';
+import 'package:fuellogic/modules/company/screens/dashboard_screen.dart';
 import 'package:fuellogic/modules/home/screens/home_screen.dart';
 import 'package:fuellogic/modules/orders/screens/all_orders_screen.dart';
 import 'package:fuellogic/modules/orders/screens/create_order_screen.dart';
 import 'package:fuellogic/modules/profile/screens/profile_screen.dart';
 import 'package:fuellogic/modules/setting/screens/setting_screen.dart';
+import 'package:get/get.dart';
 import 'package:svg_flutter/svg_flutter.dart';
 
 class CustomBottomBar extends StatefulWidget {
-  const CustomBottomBar({super.key});
+  CustomBottomBar({super.key});
+  final controller = Get.put(BottombarController());
 
   @override
   CustomBottomBarState createState() => CustomBottomBarState();
@@ -18,6 +24,7 @@ class CustomBottomBar extends StatefulWidget {
 
 class CustomBottomBarState extends State<CustomBottomBar> {
   int _selectedIndex = 0;
+  List<Widget> _screens = [];
 
   final List<String> _selectedIcons = [
     AppAssets.homeIconFilled,
@@ -35,13 +42,35 @@ class CustomBottomBarState extends State<CustomBottomBar> {
     AppAssets.prifileIconLinear,
   ];
 
-  final List<Widget> _screens = [
-    HomeScreen(),
-    AllOrdersScreen(),
-    CreateOrderScreen(),
-    SettingScreen(),
-    ProfileScreen(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    widget.controller.fetchCurrentUserData().then((_) {
+      final user = widget.controller.userData;
+      log('==============================');
+      log('check logs: ${user.value!.role.label}');
+      log('==============================');
+      setState(() {
+        _screens = [
+          user.value!.role.label == 'Company'
+              ? DashboardScreen()
+              : HomeScreen(),
+          AllOrdersScreen(),
+          CreateOrderScreen(),
+          SettingScreen(),
+          ProfileScreen(),
+        ];
+      });
+    });
+
+    _screens = [
+      HomeScreen(),
+      AllOrdersScreen(),
+      CreateOrderScreen(),
+      SettingScreen(),
+      ProfileScreen(),
+    ];
+  }
 
   void _onItemTapped(int index) {
     setState(() {

@@ -9,8 +9,9 @@ class UserModel {
   final Timestamp createdAt;
   final UserRole role;
   final String companyId;
-  final List<Map<String, dynamic>> driver;
+  final List<Map<String, dynamic>>? driver;
 
+  static const UserRole defaultRole = UserRole.driver;
   static final Timestamp defaultCreatedAt =
       Timestamp.fromMillisecondsSinceEpoch(1704067200000);
 
@@ -20,37 +21,82 @@ class UserModel {
     this.displayName = '',
     this.photoURL = '',
     this.companyId = '',
-    this.role = UserRole.driver,
-    this.driver = const [],
+    this.role = defaultRole,
+    this.driver,
     Timestamp? createdAt,
   }) : createdAt = createdAt ?? defaultCreatedAt;
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      uid: json['uid'] ?? '',
-      email: json['email'] ?? '',
-      displayName: json['displayName'] ?? '',
-      companyId: json['companyId'] ?? '',
-      photoURL: json['photoURL'] ?? '',
+      uid: json['uid']?.toString() ?? '',
+      email: json['email']?.toString() ?? '',
+      displayName: json['displayName']?.toString() ?? '',
+      companyId: json['companyId']?.toString() ?? '',
+      photoURL: json['photoURL']?.toString() ?? '',
       createdAt: json['createdAt'] as Timestamp? ?? defaultCreatedAt,
-      role: UserRoleExtension.fromApi(json['role'] ?? ''),
-      driver:
-          (json['driver'] as List<dynamic>? ?? [])
-              .map((e) => Map<String, dynamic>.from(e as Map))
-              .toList(),
+      role: _parseUserRole(json['role']),
+      driver: _parseDriverList(json['driver']),
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'uid': uid,
-      'email': email,
-      'displayName': displayName,
-      'companyId': companyId,
-      'photoURL': photoURL,
-      'createdAt': createdAt,
-      'role': role.apiValue,
-      'driver': driver,
-    };
+  Map<String, dynamic> toJson() => {
+    'uid': uid,
+    'email': email,
+    'displayName': displayName,
+    'companyId': companyId,
+    'photoURL': photoURL,
+    'createdAt': createdAt,
+    'role': role.value,
+    if (driver != null) 'driver': driver,
+  };
+
+  // Helper methods for parsing
+  static UserRole _parseUserRole(dynamic roleValue) {
+    try {
+      return UserRole.fromValue(roleValue?.toString() ?? '');
+    } catch (e) {
+      return defaultRole;
+    }
+  }
+
+  static List<Map<String, dynamic>>? _parseDriverList(dynamic driverValue) {
+    if (driverValue == null) return null;
+    if (driverValue is List) {
+      return driverValue
+          .whereType<Map<String, dynamic>>()
+          .map((e) => Map<String, dynamic>.from(e))
+          .toList();
+    }
+    return null;
+  }
+
+  // Copy with method for immutability
+  UserModel copyWith({
+    String? uid,
+    String? email,
+    String? displayName,
+    String? photoURL,
+    Timestamp? createdAt,
+    UserRole? role,
+    String? companyId,
+    List<Map<String, dynamic>>? driver,
+  }) {
+    return UserModel(
+      uid: uid ?? this.uid,
+      email: email ?? this.email,
+      displayName: displayName ?? this.displayName,
+      photoURL: photoURL ?? this.photoURL,
+      createdAt: createdAt ?? this.createdAt,
+      role: role ?? this.role,
+      companyId: companyId ?? this.companyId,
+      driver: driver ?? this.driver,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'UserModel(uid: $uid, email: $email, displayName: $displayName, '
+        'photoURL: $photoURL, createdAt: $createdAt, role: ${role.label}, '
+        'companyId: $companyId, driver: $driver)';
   }
 }

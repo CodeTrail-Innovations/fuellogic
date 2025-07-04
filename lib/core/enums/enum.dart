@@ -1,6 +1,10 @@
-enum UserRole { driver, company }
+enum UserRole {
+  driver('driver'),
+  company('company');
 
-extension UserRoleExtension on UserRole {
+  final String value;
+  const UserRole(this.value);
+
   String get label {
     switch (this) {
       case UserRole.driver:
@@ -23,10 +27,10 @@ extension UserRoleExtension on UserRole {
     return name;
   }
 
-  static UserRole fromApi(String value) {
+  static UserRole fromValue(String value) {
     return UserRole.values.firstWhere(
       (role) => role.name == value.toLowerCase(),
-      orElse: () => UserRole.driver,
+      // orElse: () => UserRole.driver,
     );
   }
 }

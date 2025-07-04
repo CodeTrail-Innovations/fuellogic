@@ -76,60 +76,54 @@ class RegisterScreen extends StatelessWidget {
                         controller: controller.passwordController,
                       ),
                       16.vertical,
-                      userRole == UserRole.driver
-                          ? Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Enter Company ID",
-                                style: AppTextStyles.regularStyle,
-                              ),
-                              16.vertical,
-                              AppFeild(
-                                hintText: "eg., q2tM15S7VnYTfs",
-                                controller: controller.companyIdController,
-                              ),
-
-                              Obx(
-                                () =>
-                                    controller.isValidatingCompany.value
-                                        ? Padding(
-                                          padding: const EdgeInsets.only(
-                                            top: 8.0,
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              SizedBox(
-                                                width: 16,
-                                                height: 16,
-                                                child:
-                                                    CircularProgressIndicator(
-                                                      strokeWidth: 2,
-                                                      color:
-                                                          AppColors
-                                                              .primaryColor,
-                                                    ),
+                      if (userRole == UserRole.driver) ...[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Enter Company ID",
+                              style: AppTextStyles.regularStyle,
+                            ),
+                            16.vertical,
+                            AppFeild(
+                              hintText: "eg., q2tM15S7VnYTfs",
+                              controller: controller.companyIdController,
+                            ),
+                            Obx(
+                              () =>
+                                  controller.isValidatingCompany.value
+                                      ? Padding(
+                                        padding: const EdgeInsets.only(
+                                          top: 8.0,
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            SizedBox(
+                                              width: 16,
+                                              height: 16,
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 2,
+                                                color: AppColors.primaryColor,
                                               ),
-                                              8.horizontal,
-                                              Text(
-                                                "Validating company ID...",
-                                                style: AppTextStyles
-                                                    .captionStyle
-                                                    .copyWith(
-                                                      color:
-                                                          AppColors
-                                                              .primaryColor,
-                                                    ),
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                        : SizedBox.shrink(),
-                              ),
-                              16.vertical,
-                            ],
-                          )
-                          : SizedBox.shrink(),
+                                            ),
+                                            8.horizontal,
+                                            Text(
+                                              "Validating company ID...",
+                                              style: AppTextStyles.captionStyle
+                                                  .copyWith(
+                                                    color:
+                                                        AppColors.primaryColor,
+                                                  ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                      : const SizedBox.shrink(),
+                            ),
+                            16.vertical,
+                          ],
+                        ),
+                      ],
                       Row(
                         children: [
                           Obx(
