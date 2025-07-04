@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fuellogic/core/enums/enum.dart';
-import 'package:fuellogic/modules/orders/models/create_order_modeL.dart';
+import 'package:fuellogic/modules/orders/models/order_model.dart';
 import 'package:get/get.dart';
 
 class CreateOrderController extends GetxController {
@@ -29,6 +29,7 @@ class CreateOrderController extends GetxController {
         quantity: quantityController.text,
         fuelUnit: fuelUnit.value,
         date: dateController.text,
+        orderStatus: OrderStatus.pending,
       );
 
       await _firebaseFirestore

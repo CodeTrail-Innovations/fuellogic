@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fuellogic/config/app_textstyle.dart';
 import 'package:fuellogic/core/constant/app_button.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
-import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/modules/company/screens/components/order_report_card.dart';
-import 'package:fuellogic/modules/home/screens/components/order_card.dart';
 import 'package:fuellogic/widgets/custom_appbar.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -57,10 +55,10 @@ class DashboardScreen extends StatelessWidget {
                 color: AppColors.primaryColor,
               ),
             ),
-            OrderCard(status: OrderStatus.pending),
-            OrderCard(status: OrderStatus.approved),
-            OrderCard(status: OrderStatus.onTheWay),
-            OrderCard(status: OrderStatus.delivered),
+            // OrderCard(status: OrderStatus.pending),
+            // OrderCard(status: OrderStatus.approved),
+            // OrderCard(status: OrderStatus.onTheWay),
+            // OrderCard(status: OrderStatus.delivered),
           ],
         ),
       ),

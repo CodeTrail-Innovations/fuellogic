@@ -1,9 +1,10 @@
+// ignore_for_file: unrelated_type_equality_checks
+
 import 'package:flutter/material.dart';
 import 'package:fuellogic/config/app_textstyle.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
 import 'package:fuellogic/core/constant/app_fonts.dart';
 import 'package:fuellogic/modules/company/screens/components/order_report_card.dart';
-import 'package:fuellogic/modules/home/screens/components/order_card.dart';
 import 'package:fuellogic/modules/orders/controllers/all_orders_controller.dart';
 import 'package:fuellogic/modules/profile/controllers/profile_controller.dart';
 import 'package:fuellogic/widgets/custom_appbar.dart';
@@ -93,21 +94,21 @@ class ReportScreen extends StatelessWidget {
                   );
                 },
               ),
-              GetBuilder<AllOrdersController>(
-                builder: (controller) {
-                  return Column(
-                    children:
-                        controller.filteredOrders
-                            .map(
-                              (order) => Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: OrderCard(status: order),
-                              ),
-                            )
-                            .toList(),
-                  );
-                },
-              ),
+              // GetBuilder<AllOrdersController>(
+              //   builder: (controller) {
+              //     return Column(
+              //       children:
+              //           controller.filteredOrders
+              //               .map(
+              //                 (order) => Padding(
+              //                   padding: const EdgeInsets.all(8.0),
+              //                   child: OrderCard(status: order),
+              //                 ),
+              //               )
+              //               .toList(),
+              //     );
+              //   },
+              // ),
             ],
           ),
         );

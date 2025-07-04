@@ -51,55 +51,58 @@ class CustomBottomBarState extends State<CustomBottomBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: AppColors.whiteColor,
-      body: _screens[_selectedIndex],
-      extendBody: true,
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 12.0, left: 36, right: 36),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(100),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withCustomOpacity(0.15),
-                blurRadius: 20,
-                offset: Offset(0, 4),
-              ),
-            ],
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(100),
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 10),
-              decoration: BoxDecoration(
-                color: AppColors.whiteColor,
-                borderRadius: BorderRadius.circular(24),
-                border: Border.all(
-                  color: Colors.grey.withCustomOpacity(0.2),
-                  width: 1,
+    return SafeArea(
+      top: false,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: AppColors.whiteColor,
+        body: _screens[_selectedIndex],
+        extendBody: true,
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.only(bottom: 12.0, left: 36, right: 36),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(100),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withCustomOpacity(0.15),
+                  blurRadius: 20,
+                  offset: Offset(0, 4),
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withCustomOpacity(0.1),
-                    offset: Offset(0, 4),
-                    blurRadius: 10,
-                    spreadRadius: 2,
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                  color: AppColors.whiteColor,
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(
+                    color: Colors.grey.withCustomOpacity(0.2),
+                    width: 1,
                   ),
-                  BoxShadow(
-                    color: Colors.white.withCustomOpacity(0.7),
-                    offset: Offset(-4, -4),
-                    blurRadius: 10,
-                    spreadRadius: 2,
-                  ),
-                ],
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: List.generate(_selectedIcons.length, (index) {
-                  return _buildNavItem(index);
-                }),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withCustomOpacity(0.1),
+                      offset: Offset(0, 4),
+                      blurRadius: 10,
+                      spreadRadius: 2,
+                    ),
+                    BoxShadow(
+                      color: Colors.white.withCustomOpacity(0.7),
+                      offset: Offset(-4, -4),
+                      blurRadius: 10,
+                      spreadRadius: 2,
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: List.generate(_selectedIcons.length, (index) {
+                    return _buildNavItem(index);
+                  }),
+                ),
               ),
             ),
           ),

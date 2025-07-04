@@ -4,18 +4,18 @@ import 'package:fuellogic/config/app_textstyle.dart';
 import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
 import 'package:fuellogic/core/enums/enum.dart';
-import 'package:fuellogic/modules/home/screens/components/order_status_label.dart';
-import 'package:fuellogic/modules/orders/screens/order_detail_screen.dart';
-import 'package:get/get.dart';
+import 'package:fuellogic/modules/orders/models/order_model.dart';
 import 'package:svg_flutter/svg.dart';
 
 class OrderCard extends StatelessWidget {
-  const OrderCard({super.key, required this.status});
+  const OrderCard({super.key, required this.order});
 
-  final OrderStatus status;
+  final OrderModel order;
 
   @override
   Widget build(BuildContext context) {
+    final OrderStatus status = order.orderStatus;
+
     final List<Color> colors;
     final List<double> stops;
 
@@ -27,30 +27,30 @@ class OrderCard extends StatelessWidget {
       case OrderStatus.onTheWay:
         colors = [
           AppColors.greyColor,
-          AppColors.primaryColor.withCustomOpacity(.2),
+          AppColors.primaryColor.withCustomOpacity(0.2),
         ];
         stops = [0.8, 1.0];
         break;
       case OrderStatus.approved:
         colors = [
           AppColors.greyColor,
-          AppColors.primaryColor.withCustomOpacity(.2),
+          AppColors.primaryColor.withCustomOpacity(0.2),
         ];
         stops = [0.35, 1.0];
         break;
       case OrderStatus.pending:
         colors = [
           AppColors.greyColor,
-          AppColors.primaryColor.withCustomOpacity(.2),
+          AppColors.primaryColor.withCustomOpacity(0.2),
         ];
         stops = [0.15, 1.0];
         break;
     }
 
     return InkWell(
-      onTap: () => Get.to(() => OrderDetailScreen(status: status)),
+      // onTap: () => Get.to(() => OrderDetailScreen(order: order)),
       child: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         height: 150,
         width: double.infinity,
         decoration: BoxDecoration(
@@ -72,7 +72,7 @@ class OrderCard extends StatelessWidget {
                     Text("From", style: AppTextStyles.regularStyle),
                     4.horizontal,
                     Text(
-                      "Location",
+                      order.location,
                       style: AppTextStyles.regularStyle.copyWith(
                         color: AppColors.primaryColor,
                       ),
@@ -85,15 +85,14 @@ class OrderCard extends StatelessWidget {
                   children: [
                     SvgPicture.asset(
                       AppAssets.clockIcon,
-                      fit: BoxFit.cover,
                       width: 18,
                       height: 18,
                     ),
                     6.horizontal,
                     Text(
-                      "Oct 26-29 6:00 PM",
+                      order.date,
                       style: AppTextStyles.regularStyle.copyWith(
-                        color: AppColors.mainColor.withCustomOpacity(.6),
+                        color: AppColors.mainColor.withCustomOpacity(0.6),
                       ),
                     ),
                   ],
@@ -107,8 +106,8 @@ class OrderCard extends StatelessWidget {
                 ),
               ],
             ),
-            Spacer(),
-            OrderStatusLabel(status: status),
+            const Spacer(),
+            // OrderStatusLabel(status: status),
           ],
         ),
       ),
