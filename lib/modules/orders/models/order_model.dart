@@ -4,40 +4,52 @@ import 'package:fuellogic/core/enums/enum.dart';
 
 class OrderModel {
   final String id;
+  final String companyId;
   final String location;
   final FuelType fuelType;
   final String quantity;
   final FuelUnit fuelUnit;
   final String date;
   final OrderStatus orderStatus;
+  final String driverId;
+  final String driverName;
 
   OrderModel({
     required this.id,
     required this.location,
+    required this.companyId,
     required this.fuelType,
     required this.quantity,
     required this.fuelUnit,
     required this.date,
     required this.orderStatus,
+    required this.driverId,
+    required this.driverName,
   });
 
   OrderModel copyWith({
     String? id,
     String? location,
+    String? companyId,
     FuelType? fuelType,
     String? quantity,
     FuelUnit? fuelUnit,
     String? date,
     OrderStatus? orderStatus,
+    String? driverId,
+    String? driverName,
   }) {
     return OrderModel(
       id: id ?? this.id,
       location: location ?? this.location,
+      companyId: companyId ?? this.companyId,
       fuelType: fuelType ?? this.fuelType,
       quantity: quantity ?? this.quantity,
       fuelUnit: fuelUnit ?? this.fuelUnit,
       date: date ?? this.date,
       orderStatus: orderStatus ?? this.orderStatus,
+      driverId: driverId ?? this.driverId,
+      driverName: driverName ?? this.driverName,
     );
   }
 
@@ -47,9 +59,12 @@ class OrderModel {
       'location': location,
       'fuelType': fuelType.name,
       'quantity': quantity,
+      'companyId': companyId,
       'fuelUnit': fuelUnit.name,
       'date': date,
       'orderStatus': orderStatus.name,
+      'driverId': driverId,
+      'driverName': driverName,
     };
   }
 
@@ -57,12 +72,15 @@ class OrderModel {
     try {
       return OrderModel(
         id: map['id'] as String,
+        companyId: map['companyId'] as String,
         location: map['location'] as String,
         fuelType: _parseFuelType(map['fuelType']),
         quantity: map['quantity'] as String,
         fuelUnit: _parseFuelUnit(map['fuelUnit']),
         date: map['date'] as String,
         orderStatus: _parseOrderStatus(map['orderStatus']),
+        driverId: map['driverId'] as String,
+        driverName: map['driverName'] as String,
       );
     } catch (e) {
       throw Exception('Error parsing OrderModel from map: $e. Map data: $map');
@@ -116,7 +134,7 @@ class OrderModel {
 
   @override
   String toString() {
-    return 'OrderModel(id: $id, location: $location, fuelType: $fuelType, quantity: $quantity, fuelUnit: $fuelUnit, date: $date, orderStatus: $orderStatus)';
+    return 'OrderModel(id: $id, location: $location, companyId: $companyId,  fuelType: $fuelType, quantity: $quantity, fuelUnit: $fuelUnit, date: $date, orderStatus: $orderStatus, driverId: $driverId, driverName: $driverName)';
   }
 
   @override
@@ -127,9 +145,12 @@ class OrderModel {
         other.location == location &&
         other.fuelType == fuelType &&
         other.quantity == quantity &&
+        other.companyId == companyId &&
         other.fuelUnit == fuelUnit &&
         other.date == date &&
-        other.orderStatus == orderStatus;
+        other.orderStatus == orderStatus &&
+        other.driverId == driverId &&
+        other.driverName == driverName;
   }
 
   @override
@@ -137,9 +158,12 @@ class OrderModel {
     return id.hashCode ^
         location.hashCode ^
         fuelType.hashCode ^
+        companyId.hashCode ^
         quantity.hashCode ^
         fuelUnit.hashCode ^
         date.hashCode ^
-        orderStatus.hashCode;
+        orderStatus.hashCode ^
+        driverId.hashCode ^
+        driverName.hashCode;
   }
 }

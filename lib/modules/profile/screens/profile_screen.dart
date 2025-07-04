@@ -26,6 +26,7 @@ class ProfileScreen extends StatelessWidget {
           if (userData == null) {
             return const Center(child: Text('No user data available'));
           }
+
           return Column(
             children: [
               Expanded(
@@ -86,6 +87,20 @@ class ProfileScreen extends StatelessWidget {
                           forIcon: true,
                           icon: AppAssets.clockIcon,
                         ),
+                        16.vertical,
+                        FutureBuilder<String?>(
+                          future: controller.fetchCompanyNameForDriver(),
+                          builder: (context, snapshot) {
+                            final companyName = snapshot.data ?? 'Loading...';
+                            return SettingCard(
+                              title: companyName,
+                              subTitle: "click here to see company details",
+                              forIcon: true,
+                              icon: AppAssets.clockIcon,
+                            );
+                          },
+                        ),
+
                         16.vertical,
                         userData.role == UserRole.company
                             ? SettingCard(

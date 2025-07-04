@@ -3,7 +3,9 @@ import 'package:fuellogic/config/app_assets.dart';
 import 'package:fuellogic/config/app_textstyle.dart';
 import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
+import 'package:fuellogic/core/constant/app_fonts.dart';
 import 'package:fuellogic/core/enums/enum.dart';
+import 'package:fuellogic/modules/home/screens/components/order_status_label.dart';
 import 'package:fuellogic/modules/orders/models/order_model.dart';
 import 'package:svg_flutter/svg.dart';
 
@@ -51,7 +53,6 @@ class OrderCard extends StatelessWidget {
       // onTap: () => Get.to(() => OrderDetailScreen(order: order)),
       child: Container(
         padding: const EdgeInsets.all(16),
-        height: 150,
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
@@ -62,52 +63,74 @@ class OrderCard extends StatelessWidget {
             end: Alignment.centerRight,
           ),
         ),
-        child: Row(
+        child: Column(
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Row(
               children: [
-                Row(
+                Column(
+                  spacing: 16,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("From", style: AppTextStyles.regularStyle),
-                    4.horizontal,
-                    Text(
-                      order.location,
-                      style: AppTextStyles.regularStyle.copyWith(
-                        color: AppColors.primaryColor,
-                      ),
+                    Row(
+                      children: [
+                        Text("From", style: AppTextStyles.regularStyle),
+                        4.horizontal,
+                        Text(
+                          order.location,
+                          style: AppTextStyles.regularStyle.copyWith(
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          AppAssets.clockIcon,
+                          width: 18,
+                          height: 18,
+                        ),
+                        6.horizontal,
+                        Text(
+                          order.date,
+                          style: AppTextStyles.regularStyle.copyWith(
+                            color: AppColors.mainColor.withCustomOpacity(0.6),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Image.network(
+                      height: 24,
+                      width: 24,
+                      fit: BoxFit.cover,
+                      "https://upload.wikimedia.org/wikipedia/en/thumb/e/e8/Shell_logo.svg/1200px-Shell_logo.svg.png",
                     ),
                   ],
                 ),
-                8.vertical,
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(
-                      AppAssets.clockIcon,
-                      width: 18,
-                      height: 18,
-                    ),
-                    6.horizontal,
-                    Text(
-                      order.date,
-                      style: AppTextStyles.regularStyle.copyWith(
-                        color: AppColors.mainColor.withCustomOpacity(0.6),
-                      ),
-                    ),
-                  ],
+                const Spacer(),
+                OrderStatusLabel(status: status),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              spacing: 4,
+              children: [
+                Text(
+                  "Order by:",
+                  style: AppTextStyles.paragraphStyle.copyWith(
+                    color: AppColors.primaryColor,
+                  ),
                 ),
-                16.vertical,
-                Image.network(
-                  height: 24,
-                  width: 24,
-                  fit: BoxFit.cover,
-                  "https://upload.wikimedia.org/wikipedia/en/thumb/e/e8/Shell_logo.svg/1200px-Shell_logo.svg.png",
+                Text(
+                  order.driverName,
+                  style: AppTextStyles.paragraphStyle.copyWith(
+                    color: AppColors.primaryColor,
+                    fontFamily: AppFonts.publicSansBoldItalic,
+                  ),
                 ),
               ],
             ),
-            const Spacer(),
-            // OrderStatusLabel(status: status),
           ],
         ),
       ),

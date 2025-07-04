@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fuellogic/config/app_textstyle.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
 import 'package:fuellogic/core/constant/app_fonts.dart';
+import 'package:fuellogic/modules/company/controllers/report_controller.dart';
 import 'package:fuellogic/modules/company/screens/components/order_report_card.dart';
 import 'package:fuellogic/modules/orders/controllers/all_orders_controller.dart';
 import 'package:fuellogic/modules/profile/controllers/profile_controller.dart';
@@ -13,6 +14,7 @@ import 'package:get/get.dart';
 class ReportScreen extends StatelessWidget {
   ReportScreen({super.key});
   final controller = Get.put(ProfileController());
+  final reportController = Get.put(ReportController());
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,7 @@ class ReportScreen extends StatelessWidget {
                   Expanded(
                     child: OrderReportCard(
                       title: 'On the way',
-                      stats: '45',
+                      stats: reportController.onTheWayOrdersCount.toString(),
                       forDelivered: false,
                     ),
                   ),

@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:fuellogic/config/app_textstyle.dart';
 import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
+import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/core/routes/app_router.dart';
 import 'package:fuellogic/modules/auth/models/user_model.dart';
 import 'package:get/get.dart';
@@ -43,6 +44,36 @@ class ProfileController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  Future<String?> fetchCompanyNameForDriver() async {
+    try {
+      final currentUser = auth.currentUser;
+      if (currentUser == null) return null;
+
+      final userDoc =
+          await firestore.collection('users').doc(currentUser.uid).get();
+      if (!userDoc.exists) return null;
+
+      final currentUserData = UserModel.fromJson(userDoc.data()!);
+
+      if (currentUserData.role == UserRole.driver) {
+        final companyId = currentUserData.companyId;
+
+        if (companyId.isEmpty) return null;
+
+        final companyDoc =
+            await firestore.collection('users').doc(companyId).get();
+
+        if (companyDoc.exists) {
+          final companyData = UserModel.fromJson(companyDoc.data()!);
+          return companyData.displayName;
+        }
+      }
+    } catch (e) {
+      log('Error fetching company name: $e');
+    }
+    return null;
   }
 
   void showCompanyKeyDialog(BuildContext context) {

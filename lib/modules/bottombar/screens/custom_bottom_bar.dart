@@ -25,45 +25,66 @@ class CustomBottomBar extends StatefulWidget {
 class CustomBottomBarState extends State<CustomBottomBar> {
   int _selectedIndex = 0;
   List<Widget> _screens = [];
-
-  final List<String> _selectedIcons = [
-    AppAssets.homeIconFilled,
-    AppAssets.orderIconFilled,
-    AppAssets.addOrderFilled,
-    AppAssets.settingIconFilled,
-    AppAssets.prifileIconFilled,
-  ];
-
-  final List<String> _unselectedIcons = [
-    AppAssets.homeIconLinear,
-    AppAssets.orderIconLinear,
-    AppAssets.addOrderLinear,
-    AppAssets.settingIconLinear,
-    AppAssets.prifileIconLinear,
-  ];
+  List<String> _selectedIcons = [];
+  List<String> _unselectedIcons = [];
 
   @override
   void initState() {
     super.initState();
+
     widget.controller.fetchCurrentUserData().then((_) {
-      final user = widget.controller.userData;
+      final userRole = widget.controller.userData.value?.role.label ?? '';
+
       log('==============================');
-      log('check logs: ${user.value!.role.label}');
+      log('check logs: $userRole');
       log('==============================');
-      setState(() {
+
+      final isCompany = userRole == 'Company';
+
+      if (isCompany) {
+         _screens = [DashboardScreen(), SettingScreen(), ProfileScreen()];
+
+        _selectedIcons = [
+          AppAssets.homeIconFilled,
+          AppAssets.settingIconFilled,
+          AppAssets.prifileIconFilled,
+        ];
+
+        _unselectedIcons = [
+          AppAssets.homeIconLinear,
+          AppAssets.settingIconLinear,
+          AppAssets.prifileIconLinear,
+        ];
+      } else {
         _screens = [
-          user.value!.role.label == 'Company'
-              ? DashboardScreen()
-              : HomeScreen(),
+          HomeScreen(),
           AllOrdersScreen(),
           CreateOrderScreen(),
           SettingScreen(),
           ProfileScreen(),
         ];
-      });
+
+        _selectedIcons = [
+          AppAssets.homeIconFilled,
+          AppAssets.orderIconFilled,
+          AppAssets.addOrderFilled,
+          AppAssets.settingIconFilled,
+          AppAssets.prifileIconFilled,
+        ];
+
+        _unselectedIcons = [
+          AppAssets.homeIconLinear,
+          AppAssets.orderIconLinear,
+          AppAssets.addOrderLinear,
+          AppAssets.settingIconLinear,
+          AppAssets.prifileIconLinear,
+        ];
+      }
+
+      setState(() {});
     });
 
-    _screens = [
+     _screens = [
       HomeScreen(),
       AllOrdersScreen(),
       CreateOrderScreen(),
@@ -103,7 +124,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(100),
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 10),
+                padding: const EdgeInsets.symmetric(vertical: 10),
                 decoration: BoxDecoration(
                   color: AppColors.whiteColor,
                   borderRadius: BorderRadius.circular(24),
@@ -141,18 +162,17 @@ class CustomBottomBarState extends State<CustomBottomBar> {
   }
 
   Widget _buildNavItem(int index) {
+    final bool isSelected = _selectedIndex == index;
+
     return GestureDetector(
       onTap: () => _onItemTapped(index),
       child: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color:
-              _selectedIndex == index
-                  ? AppColors.primaryColor
-                  : Colors.transparent,
+          color: isSelected ? AppColors.primaryColor : Colors.transparent,
           borderRadius: BorderRadius.circular(100),
           boxShadow:
-              _selectedIndex == index
+              isSelected
                   ? [
                     BoxShadow(
                       color: AppColors.primaryColor.withCustomOpacity(0.3),
@@ -164,14 +184,12 @@ class CustomBottomBarState extends State<CustomBottomBar> {
                   : [],
         ),
         child: SvgPicture.asset(
-          _selectedIndex == index
-              ? _selectedIcons[index]
-              : _unselectedIcons[index],
+          isSelected ? _selectedIcons[index] : _unselectedIcons[index],
           height: 24,
           width: 24,
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
-            _selectedIndex == index ? AppColors.whiteColor : Colors.grey,
+            isSelected ? AppColors.whiteColor : Colors.grey,
             BlendMode.srcIn,
           ),
         ),

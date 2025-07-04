@@ -94,6 +94,9 @@ flutter:
     - family: Public-SemiBold
       fonts:
         - asset: assets/fonts/PublicSans-SemiBold.otf
+    - family: PublicSans-BoldItalic
+      fonts:
+        - asset: assets/fonts/PublicSans-BoldItalic.otf
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
