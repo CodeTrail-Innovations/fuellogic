@@ -7,6 +7,8 @@ import 'package:fuellogic/core/constant/app_fonts.dart';
 import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/modules/home/screens/components/order_status_label.dart';
 import 'package:fuellogic/modules/orders/models/order_model.dart';
+import 'package:fuellogic/modules/orders/screens/order_detail_screen.dart';
+import 'package:get/get.dart';
 import 'package:svg_flutter/svg.dart';
 
 class OrderCard extends StatelessWidget {
@@ -50,7 +52,7 @@ class OrderCard extends StatelessWidget {
     }
 
     return InkWell(
-      // onTap: () => Get.to(() => OrderDetailScreen(order: order)),
+      onTap: () => Get.to(() => OrderDetailScreen(order: order)),
       child: Container(
         padding: const EdgeInsets.all(16),
         width: double.infinity,

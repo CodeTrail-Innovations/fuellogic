@@ -1,12 +1,10 @@
-// ignore_for_file: unrelated_type_equality_checks
-
 import 'package:flutter/material.dart';
-import 'package:fuellogic/config/app_textstyle.dart';
+import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
-import 'package:fuellogic/core/constant/app_fonts.dart';
+import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/modules/company/controllers/report_controller.dart';
 import 'package:fuellogic/modules/company/screens/components/order_report_card.dart';
-import 'package:fuellogic/modules/orders/controllers/all_orders_controller.dart';
+import 'package:fuellogic/modules/home/screens/components/order_card.dart';
 import 'package:fuellogic/modules/profile/controllers/profile_controller.dart';
 import 'package:fuellogic/widgets/custom_appbar.dart';
 import 'package:get/get.dart';
@@ -31,10 +29,9 @@ class ReportScreen extends StatelessWidget {
         return SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Column(
-            spacing: 16,
             children: [
+              SizedBox(height: 16),
               Row(
-                spacing: 16,
                 children: [
                   Expanded(
                     child: OrderReportCard(
@@ -43,6 +40,7 @@ class ReportScreen extends StatelessWidget {
                       forDelivered: true,
                     ),
                   ),
+                  SizedBox(width: 16),
                   Expanded(
                     child: OrderReportCard(
                       title: 'On the way',
@@ -52,65 +50,49 @@ class ReportScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              GetBuilder<AllOrdersController>(
-                init: AllOrdersController(),
-                builder: (controller) {
-                  return SizedBox(
-                    height: 40,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: List.generate(controller.orderFilter.length, (
-                          index,
-                        ) {
-                          return GestureDetector(
-                            onTap: () => controller.selectFilter(index),
-                            child: Container(
-                              margin: const EdgeInsets.only(right: 8),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 6,
-                              ),
-                              decoration: BoxDecoration(
+              16.vertical,
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children:
+                      OrderStatus.values.map((status) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                          child: FilterChip(
+                            label: Text(
+                              status.label,
+                              style: TextStyle(
                                 color:
-                                    controller.selectedIndex == index
-                                        ? AppColors.primaryColor
-                                        : Colors.transparent,
-                                borderRadius: BorderRadius.circular(24),
-                              ),
-                              child: Text(
-                                controller.orderFilter[index],
-                                style: (AppTextStyles.regularStyle).copyWith(
-                                  fontFamily: AppFonts.publicSansRegular,
-                                  color:
-                                      controller.selectedIndex == index
-                                          ? AppColors.whiteColor
-                                          : AppColors.primaryColor,
-                                ),
+                                    reportController.selectedStatus.value ==
+                                            status
+                                        ? Colors.white
+                                        : AppColors.primaryColor,
                               ),
                             ),
-                          );
-                        }),
-                      ),
-                    ),
-                  );
-                },
+                            selected:
+                                reportController.selectedStatus.value == status,
+                            selectedColor: AppColors.primaryColor,
+                            backgroundColor: AppColors.primaryColor
+                                .withCustomOpacity(.2),
+                            checkmarkColor: Colors.white,
+                            showCheckmark: true,
+                            onSelected: (selected) {
+                              reportController.selectedStatus.value =
+                                  selected ? status : null;
+                            },
+                          ),
+                        );
+                      }).toList(),
+                ),
               ),
-              // GetBuilder<AllOrdersController>(
-              //   builder: (controller) {
-              //     return Column(
-              //       children:
-              //           controller.filteredOrders
-              //               .map(
-              //                 (order) => Padding(
-              //                   padding: const EdgeInsets.all(8.0),
-              //                   child: OrderCard(status: order),
-              //                 ),
-              //               )
-              //               .toList(),
-              //     );
-              //   },
-              // ),
+              SizedBox(height: 16),
+              // Filtered orders list
+              ...reportController.filteredOrders.map(
+                (order) => Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: OrderCard(order: order),
+                ),
+              ),
             ],
           ),
         );

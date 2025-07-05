@@ -50,8 +50,7 @@ class UserModel {
     if (driver != null) 'driver': driver,
   };
 
-  // Helper methods for parsing
-  static UserRole _parseUserRole(dynamic roleValue) {
+   static UserRole _parseUserRole(dynamic roleValue) {
     try {
       return UserRole.fromValue(roleValue?.toString() ?? '');
     } catch (e) {
@@ -70,8 +69,7 @@ class UserModel {
     return null;
   }
 
-  // Copy with method for immutability
-  UserModel copyWith({
+   UserModel copyWith({
     String? uid,
     String? email,
     String? displayName,

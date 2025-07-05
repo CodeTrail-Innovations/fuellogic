@@ -32,30 +32,28 @@ class LoginScreen extends StatelessWidget {
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Column(
+                    spacing: 16,
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      24.vertical,
+                      16.vertical,
                       Text(
                         "Welcome Back",
                         style: AppTextStyles.extraLargeStyle.copyWith(
                           color: AppColors.primaryColor,
                         ),
                       ),
-                      16.vertical,
                       Text(
                         "You know the drills",
                         style: AppTextStyles.regularStyle,
                       ),
-                      24.vertical,
-                      Text("Email", style: AppTextStyles.regularStyle),
                       16.vertical,
+                      Text("Email", style: AppTextStyles.regularStyle),
                       AppFeild(
                         hintText: "someone@mail.com",
                         controller: controller.emailController,
                       ),
                       Text("Password", style: AppTextStyles.regularStyle),
-                      16.vertical,
                       AppFeild(
                         isPasswordField: true,
                         hintText: "********",
@@ -68,7 +66,7 @@ class LoginScreen extends StatelessWidget {
                           style: AppTextStyles.regularStyle,
                         ),
                       ),
-                      24.vertical,
+                      16.vertical,
                       Obx(
                         () => AppButton(
                           text: "Login",

@@ -33,10 +33,11 @@ class RegisterScreen extends StatelessWidget {
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Column(
+                    spacing: 16,
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      24.vertical,
+                      16.vertical,
                       Row(
                         children: [
                           Text("Join ", style: AppTextStyles.extraLargeStyle),
@@ -48,34 +49,26 @@ class RegisterScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      16.vertical,
                       Text(
                         "Fill in your details to get fuel better!",
                         style: AppTextStyles.regularStyle,
                       ),
-                      24.vertical,
                       Text("Full Name", style: AppTextStyles.regularStyle),
-                      16.vertical,
                       AppFeild(
                         hintText: "e.g Dina Adam",
                         controller: controller.nameController,
                       ),
-                      16.vertical,
                       Text("Email", style: AppTextStyles.regularStyle),
-                      16.vertical,
                       AppFeild(
                         hintText: "someone@mail.com",
                         controller: controller.emailController,
                       ),
-                      16.vertical,
                       Text("Password", style: AppTextStyles.regularStyle),
-                      16.vertical,
                       AppFeild(
                         isPasswordField: true,
                         hintText: "*********",
                         controller: controller.passwordController,
                       ),
-                      16.vertical,
                       if (userRole == UserRole.driver) ...[
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,7 +142,6 @@ class RegisterScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      24.vertical,
                       Obx(
                         () => AppButton(
                           text: "Register",

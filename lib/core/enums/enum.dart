@@ -14,31 +14,24 @@ enum UserRole {
     }
   }
 
-  String get iconPath {
-    switch (this) {
-      case UserRole.driver:
-        return 'assets/icons/driver.svg';
-      case UserRole.company:
-        return 'assets/icons/company.svg';
-    }
-  }
-
-  String get apiValue {
-    return name;
-  }
+  String get apiValue => value;
 
   static UserRole fromValue(String value) {
     return UserRole.values.firstWhere(
-      (role) => role.name == value.toLowerCase(),
-      // orElse: () => UserRole.driver,
-    );
+      (role) => role.value == value.toLowerCase(),
+     );
   }
 }
 
-enum FuelType { solid, liquid, gaseous }
+enum FuelType {
+  solid('solid'),
+  liquid('liquid'),
+  gaseous('gaseous');
 
-extension FuelTypeExtension on FuelType {
-  String get fuellabel {
+  final String value;
+  const FuelType(this.value);
+
+  String get label {
     switch (this) {
       case FuelType.solid:
         return 'Solid';
@@ -49,28 +42,23 @@ extension FuelTypeExtension on FuelType {
     }
   }
 
-  String get apiValue {
-    return fuellabel;
-  }
+  String get apiValue => value;
 
-  static FuelType fromApi(String value) {
-    switch (value.toLowerCase()) {
-      case 'solid':
-        return FuelType.solid;
-      case 'liquid':
-        return FuelType.liquid;
-      case 'gaseous':
-        return FuelType.gaseous;
-      default:
-        return FuelType.gaseous;
-    }
+  static FuelType fromValue(String value) {
+    return FuelType.values.firstWhere(
+      (fuel) => fuel.value == value.toLowerCase(),
+     );
   }
 }
 
-enum FuelUnit { liters, gallons }
+enum FuelUnit {
+  liters('liters'),
+  gallons('gallons');
 
-extension FuelUnitExtension on FuelUnit {
-  String get fuelUnit {
+  final String value;
+  const FuelUnit(this.value);
+
+  String get label {
     switch (this) {
       case FuelUnit.liters:
         return 'Liters';
@@ -79,25 +67,24 @@ extension FuelUnitExtension on FuelUnit {
     }
   }
 
-  String get apiValue {
-    return fuelUnit;
-  }
+  String get apiValue => value;
 
-  static FuelUnit fromApi(String value) {
-    switch (value.toLowerCase()) {
-      case 'liters':
-        return FuelUnit.liters;
-      case 'gallons':
-        return FuelUnit.gallons;
-      default:
-        return FuelUnit.gallons;
-    }
+  static FuelUnit fromValue(String value) {
+    return FuelUnit.values.firstWhere(
+      (unit) => unit.value == value.toLowerCase(),
+     );
   }
 }
 
-enum OrderStatus { onTheWay, pending, approved, delivered }
+enum OrderStatus {
+  onTheWay('ontheway'),
+  pending('pending'),
+  approved('approved'),
+  delivered('delivered');
 
-extension OrderStatusExtension on OrderStatus {
+  final String value;
+  const OrderStatus(this.value);
+
   String get label {
     switch (this) {
       case OrderStatus.onTheWay:
@@ -111,24 +98,12 @@ extension OrderStatusExtension on OrderStatus {
     }
   }
 
-  String get apiValue {
-    return name;
-  }
+  String get apiValue => value;
 
-  static OrderStatus fromApi(String value) {
-    switch (value.toLowerCase()) {
-      case 'pending':
-        return OrderStatus.pending;
-      case 'approved':
-        return OrderStatus.approved;
-      case 'delivered':
-        return OrderStatus.delivered;
-      case 'ontheway':
-      case 'on_the_way':
-      case 'on-the-way':
-        return OrderStatus.onTheWay;
-      default:
-        return OrderStatus.onTheWay;
-    }
+  static OrderStatus fromValue(String value) {
+    final formatted = value.toLowerCase().replaceAll(RegExp(r'[^a-z]'), '');
+    return OrderStatus.values.firstWhere(
+      (status) => status.value == formatted,
+     );
   }
 }

@@ -11,6 +11,7 @@ class ReportController extends GetxController {
 
   final Rx<UserModel?> userData = Rx<UserModel?>(null);
   final RxList<OrderModel> ordersList = <OrderModel>[].obs;
+  final Rx<OrderStatus?> selectedStatus = Rx<OrderStatus?>(null);
   final RxBool isLoading = false.obs;
 
   @override
@@ -29,6 +30,15 @@ class ReportController extends GetxController {
       ordersList
           .where((order) => order.orderStatus == OrderStatus.onTheWay)
           .length;
+
+  List<OrderModel> get filteredOrders {
+    if (selectedStatus.value == null) {
+      return ordersList;
+    }
+    return ordersList
+        .where((order) => order.orderStatus == selectedStatus.value)
+        .toList();
+  }
 
   Future<void> fetchCurrentUserData() async {
     try {
@@ -51,10 +61,9 @@ class ReportController extends GetxController {
     }
   }
 
-  Future<void> fetchCurrentUserOrders() async {
+   Future<void> fetchCurrentUserOrders() async {
     try {
       isLoading.value = true;
-
       final user = auth.currentUser;
       if (user != null) {
         final querySnapshot =
@@ -65,13 +74,38 @@ class ReportController extends GetxController {
 
         final fetchedOrders =
             querySnapshot.docs
-                .map((doc) => OrderModel.fromMap(doc.data()))
+                .map((doc) => OrderModel.fromJson(doc.data()))
                 .toList();
 
         ordersList.assignAll(fetchedOrders);
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to load orders: $e');
+      Get.snackbar('Error', 'Failed to load company orders: $e');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+   Future<void> fetchCurrentUserDriverOrders() async {
+    try {
+      isLoading.value = true;
+      final user = auth.currentUser;
+      if (user != null) {
+        final querySnapshot =
+            await firestore
+                .collection("orders")
+                .where("driverId", isEqualTo: user.uid)
+                .get();
+
+        final fetchedOrders =
+            querySnapshot.docs
+                .map((doc) => OrderModel.fromJson(doc.data()))
+                .toList();
+
+        ordersList.assignAll(fetchedOrders);
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to load your orders: $e');
     } finally {
       isLoading.value = false;
     }

@@ -42,7 +42,24 @@ class CreateOrderScreen extends StatelessWidget {
                     value: controller.fuelType.value,
                     decoration: InputDecoration(
                       hintText: "Select fuel type",
-                      border: OutlineInputBorder(),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(
+                          color: AppColors.blackColor.withCustomOpacity(0.2),
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(
+                          color: AppColors.blackColor.withCustomOpacity(0.2),
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(
+                          color: AppColors.blackColor.withCustomOpacity(0.2),
+                        ),
+                      ),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 12,
                         vertical: 16,
@@ -52,7 +69,7 @@ class CreateOrderScreen extends StatelessWidget {
                         FuelType.values.map((fuel) {
                           return DropdownMenuItem<FuelType>(
                             value: fuel,
-                            child: Text(fuel.fuellabel),
+                            child: Text(fuel.value),
                           );
                         }).toList(),
                     onChanged: (FuelType? newValue) {
@@ -77,6 +94,7 @@ class CreateOrderScreen extends StatelessWidget {
                           style: AppTextStyles.regularStyle,
                         ),
                         AppFeild(
+                          height: 55,
                           controller: controller.quantityController,
                           hintText: "Pakistan Petroleum Limited",
                           inputType: TextInputType.numberWithOptions(),
@@ -95,8 +113,28 @@ class CreateOrderScreen extends StatelessWidget {
                             return DropdownButtonFormField<FuelUnit>(
                               value: controller.fuelUnit.value,
                               decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                  borderSide: BorderSide(
+                                    color: AppColors.blackColor
+                                        .withCustomOpacity(0.2),
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                  borderSide: BorderSide(
+                                    color: AppColors.blackColor
+                                        .withCustomOpacity(0.2),
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                  borderSide: BorderSide(
+                                    color: AppColors.blackColor
+                                        .withCustomOpacity(0.2),
+                                  ),
+                                ),
                                 hintText: "Select fuel type",
-                                border: OutlineInputBorder(),
                                 contentPadding: const EdgeInsets.symmetric(
                                   horizontal: 12,
                                   vertical: 16,
@@ -106,7 +144,7 @@ class CreateOrderScreen extends StatelessWidget {
                                   FuelUnit.values.map((fuel) {
                                     return DropdownMenuItem<FuelUnit>(
                                       value: fuel,
-                                      child: Text(fuel.fuelUnit),
+                                      child: Text(fuel.value),
                                     );
                                   }).toList(),
                               onChanged: (FuelUnit? newValue) {

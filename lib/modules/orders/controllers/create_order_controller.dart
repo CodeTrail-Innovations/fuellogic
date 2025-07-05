@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -52,17 +50,6 @@ class CreateOrderController extends GetxController {
         return;
       }
 
-      // Log all parameters before creating the order
-      log('location: ${locationController.text}');
-      log('fuelType: ${fuelType.value}');
-      log('quantity: ${quantityController.text}');
-      log('fuelUnit: ${fuelUnit.value}');
-      log('date: ${dateController.text}');
-      log('userData: ${userData.value}');
-      log('companyId: ${userData.value?.companyId}');
-      log('driverId: ${_firebaseAuth.currentUser?.uid}');
-      log('driverName: ${userData.value?.displayName}');
-
       final order = OrderModel(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         location: locationController.text,
@@ -79,7 +66,7 @@ class CreateOrderController extends GetxController {
       await _firebaseFirestore
           .collection('orders')
           .doc(order.id)
-          .set(order.toMap());
+          .set(order.toJson());
 
       Get.snackbar(
         'Success',

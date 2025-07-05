@@ -7,7 +7,6 @@ import 'package:fuellogic/core/constant/app_colors.dart';
 import 'package:fuellogic/modules/bottombar/controllers/bottombar_controller.dart';
 import 'package:fuellogic/modules/company/screens/dashboard_screen.dart';
 import 'package:fuellogic/modules/home/screens/home_screen.dart';
-import 'package:fuellogic/modules/orders/screens/all_orders_screen.dart';
 import 'package:fuellogic/modules/orders/screens/create_order_screen.dart';
 import 'package:fuellogic/modules/profile/screens/profile_screen.dart';
 import 'package:fuellogic/modules/setting/screens/setting_screen.dart';
@@ -42,7 +41,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
       final isCompany = userRole == 'Company';
 
       if (isCompany) {
-         _screens = [DashboardScreen(), SettingScreen(), ProfileScreen()];
+        _screens = [DashboardScreen(), SettingScreen(), ProfileScreen()];
 
         _selectedIcons = [
           AppAssets.homeIconFilled,
@@ -58,7 +57,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
       } else {
         _screens = [
           HomeScreen(),
-          AllOrdersScreen(),
+          // AllOrdersScreen(),
           CreateOrderScreen(),
           SettingScreen(),
           ProfileScreen(),
@@ -66,7 +65,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
 
         _selectedIcons = [
           AppAssets.homeIconFilled,
-          AppAssets.orderIconFilled,
+          // AppAssets.orderIconFilled,
           AppAssets.addOrderFilled,
           AppAssets.settingIconFilled,
           AppAssets.prifileIconFilled,
@@ -74,7 +73,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
 
         _unselectedIcons = [
           AppAssets.homeIconLinear,
-          AppAssets.orderIconLinear,
+          // AppAssets.orderIconLinear,
           AppAssets.addOrderLinear,
           AppAssets.settingIconLinear,
           AppAssets.prifileIconLinear,
@@ -84,9 +83,9 @@ class CustomBottomBarState extends State<CustomBottomBar> {
       setState(() {});
     });
 
-     _screens = [
+    _screens = [
       HomeScreen(),
-      AllOrdersScreen(),
+      // AllOrdersScreen(),
       CreateOrderScreen(),
       SettingScreen(),
       ProfileScreen(),
