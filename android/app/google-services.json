@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:487311368374:android:25e648045956ba29b34617",
+        "mobilesdk_app_id": "1:487311368374:android:f830e077b8042515b34617",
         "android_client_info": {
-          "package_name": "com.example.fuellogic"
+          "package_name": "com.codetrail.fuelogic"
         }
       },
       "oauth_client": [],

@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCF6xzE-VRggEeuqz6UlEY6WLM8iWj1ZtM',
-    appId: '1:487311368374:android:25e648045956ba29b34617',
+    appId: '1:487311368374:android:f830e077b8042515b34617',
     messagingSenderId: '487311368374',
     projectId: 'testproject-3e376',
     storageBucket: 'testproject-3e376.firebasestorage.app',
@@ -59,10 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAG9pW4yBLexAiMSFOdu5Lz9yhHcQxXZM8',
-    appId: '1:487311368374:ios:ed7792d7c91253a9b34617',
+    appId: '1:487311368374:ios:a6fc83f2783dd99fb34617',
     messagingSenderId: '487311368374',
     projectId: 'testproject-3e376',
     storageBucket: 'testproject-3e376.firebasestorage.app',
-    iosBundleId: 'com.example.fuellogic',
+    iosBundleId: 'com.codetrail.fuelogic',
   );
+
 }
