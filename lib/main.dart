@@ -22,8 +22,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: appTheme,
-      getPages: AppRouter.routes,
-      initialRoute: AppRouter.splashScreen,
+      getPages: AppRoutes.routes,
+      initialRoute: AppRoutes.splashScreen,
       // home: DashboardScreen(),
     );
   }

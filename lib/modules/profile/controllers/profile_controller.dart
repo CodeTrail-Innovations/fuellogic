@@ -235,7 +235,7 @@ class ProfileController extends GetxController {
   void logout() async {
     try {
       await auth.signOut();
-      Get.offAllNamed(AppRouter.splashScreen);
+      Get.offAllNamed(AppRoutes.splashScreen);
     } catch (e) {
       log('Error logging out: $e');
     }

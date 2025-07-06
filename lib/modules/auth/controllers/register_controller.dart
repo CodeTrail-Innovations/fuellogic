@@ -20,7 +20,7 @@ class RegisterController extends GetxController {
   Map<String, dynamic>? currentUserData;
 
   void goToLoginScreen(UserRole role) {
-    Get.toNamed(AppRouter.loginScreen, arguments: role);
+    Get.toNamed(AppRoutes.loginScreen, arguments: role);
   }
 
   Future<void> validateCompanyId() async {

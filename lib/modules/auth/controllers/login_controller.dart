@@ -14,7 +14,7 @@ class LoginController extends GetxController {
   final isLoading = false.obs;
 
   void goToRegisterScreen(UserRole role) {
-    Get.toNamed(AppRouter.registerScreen, arguments: role);
+    Get.toNamed(AppRoutes.registerScreen, arguments: role);
   }
 
   Future<void> handleSignIn({

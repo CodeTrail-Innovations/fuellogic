@@ -4,6 +4,6 @@ import 'package:get/get.dart';
 
 class AuthController extends GetxController {
   void goToRegisterScreen(UserRole userRole) {
-    Get.toNamed(AppRouter.registerScreen, arguments: userRole);
+    Get.toNamed(AppRoutes.registerScreen, arguments: userRole);
   }
 }
