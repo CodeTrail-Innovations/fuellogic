@@ -5,6 +5,8 @@ import 'package:fuellogic/modules/auth/models/user_model.dart';
 import 'package:fuellogic/modules/orders/models/order_model.dart';
 import 'package:get/get.dart';
 
+import '../../../data_manager/models/user_model.dart';
+
 class OrderHistoryController extends GetxController {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final FirebaseAuth auth = FirebaseAuth.instance;

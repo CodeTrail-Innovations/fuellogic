@@ -5,6 +5,8 @@ import 'package:fuellogic/modules/auth/models/user_model.dart';
 import 'package:fuellogic/modules/orders/models/order_model.dart';
 import 'package:get/get.dart';
 
+import '../../../data_manager/models/user_model.dart';
+
 class ReportController extends GetxController {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -50,7 +52,7 @@ class ReportController extends GetxController {
         if (userDoc.exists) {
           final userData = userDoc.data();
           if (userData != null) {
-            this.userData.value = UserModel.fromJson(userData);
+            this.userData.value = UserModel.fromMap(userData);
           }
         }
       }

@@ -3,10 +3,13 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
-import 'package:fuellogic/modules/bottombar/screens/custom_bottom_bar.dart';
+import 'package:fuellogic/core/routes/app_router.dart';
 import 'package:fuellogic/modules/auth/screens/auth_screen.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../../data_manager/models/user_model.dart';
+import '../../../helper/services/auth_service.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -23,15 +26,47 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _checkUserStatus() async {
-    await Future.delayed(const Duration(seconds: 1));
-    User? user = FirebaseAuth.instance.currentUser;
+    await Future.delayed(const Duration(seconds: 2));
+    // Get.offAllNamed(AppRoutes.welcome);
 
-    log("DEBUG: User is ${user != null ? 'LOGGED IN' : 'NULL'}");
+    navigation();
 
+    // User? user = FirebaseAuth.instance.currentUser;
+    //
+    // log("DEBUG: User is ${user != null ? 'LOGGED IN' : 'NULL'}");
+    //
+    // if (user != null) {
+    //   Get.off(() => CompanyMainScreen());
+    // } else {
+    //   Get.off(() => AuthScreen());
+    // }
+  }
+
+
+  Future<void> navigation() async {
+    // await Future.delayed(Duration(seconds: 1));
+    final authService = Get.find<AuthService>();
+    await authService.loadSession();
+
+    final user = await authService.getCurrentUser();
     if (user != null) {
-      Get.off(() => CustomBottomBar());
+      _navigateBasedOnRole(user);
     } else {
-      Get.off(() => AuthScreen());
+      Get.offAllNamed(AppRoutes.welcome);
+    }
+  }
+
+  void _navigateBasedOnRole(UserModel user) {
+    switch (user.role) {
+      case 'admin':
+        Get.offAllNamed(AppRoutes.adminMainScreen);
+        break;
+      case 'company':
+        Get.offAllNamed(AppRoutes.companyMainScreen);
+        break;
+      default:
+        Get.offAllNamed(AppRoutes.welcome);
+        break;
     }
   }
 
@@ -45,7 +80,7 @@ class _SplashScreenState extends State<SplashScreen> {
           spacing: 16,
           children: [
             Text(
-              'Fuellogic',
+              'Fuelogic',
               style: GoogleFonts.racingSansOne(
                 textStyle: TextStyle(
                   fontSize: 36,

@@ -52,11 +52,11 @@ class AuthService extends GetxService {
       case 'admin':
         Get.offAllNamed(AppRoutes.adminMainScreen);
         break;
-      case 'user':
-        Get.offAllNamed(AppRoutes.userMainScreen);
+      case 'company':
+        Get.offAllNamed(AppRoutes.companyMainScreen);
         break;
       default:
-        Get.offAllNamed(AppRoutes.home);
+        Get.offAllNamed(AppRoutes.welcome);
         break;
     }
   }
@@ -64,7 +64,7 @@ class AuthService extends GetxService {
   Future<void> signOut() async {
     await _sessionManager.signOut();
     currentUser.value = null;
-    Get.offAllNamed(AppRoutes.home);
+    Get.offAllNamed(AppRoutes.welcome);
   }
 
   Future<UserModel?> signInWithEmailAndPassword(String email, String password) async {

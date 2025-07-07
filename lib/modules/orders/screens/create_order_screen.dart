@@ -29,7 +29,7 @@ class CreateOrderScreen extends StatelessWidget {
                 ),
               ),
               Text("Choose location", style: AppTextStyles.regularStyle),
-              AppFeild(
+              AppField(
                 controller: controller.locationController,
                 hintText:
                     "Akshya Nagar 1st Block 1st Cross, Rammurthy nagar, Bangalore-560016",
@@ -93,7 +93,7 @@ class CreateOrderScreen extends StatelessWidget {
                           "Enter Quantity",
                           style: AppTextStyles.regularStyle,
                         ),
-                        AppFeild(
+                        AppField(
                           height: 55,
                           controller: controller.quantityController,
                           hintText: "Pakistan Petroleum Limited",
@@ -175,7 +175,7 @@ class CreateOrderScreen extends StatelessWidget {
                   }
                 },
                 child: AbsorbPointer(
-                  child: AppFeild(
+                  child: AppField(
                     hintText: "Select date",
                     controller: controller.dateController,
                   ),

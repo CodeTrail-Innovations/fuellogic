@@ -9,17 +9,20 @@ import 'package:fuellogic/core/constant/app_field.dart';
 import 'package:fuellogic/core/constant/app_fonts.dart';
 import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/modules/auth/controllers/login_controller.dart';
+import 'package:fuellogic/modules/auth/controllers/register_controller.dart';
 import 'package:get/get.dart';
 
 class LoginScreen extends StatelessWidget {
-  final UserRole? userRole;
+  // final UserRole? userRole;
 
-  LoginScreen({super.key}) : userRole = Get.arguments;
-  final controller = Get.put(LoginController());
+  LoginScreen({super.key});
+      // : userRole = Get.arguments
+  // final controller = Get.put(LoginController());
+  final controller = Get.put(RegisterController());
 
   @override
   Widget build(BuildContext context) {
-    log("User Role: $userRole");
+    // log("User Role: $userRole");
     return SafeArea(
       child: PopScope(
         canPop: false,
@@ -49,15 +52,17 @@ class LoginScreen extends StatelessWidget {
                       ),
                       16.vertical,
                       Text("Email", style: AppTextStyles.regularStyle),
-                      AppFeild(
+                      AppField(
                         hintText: "someone@mail.com",
                         controller: controller.emailController,
+                        validator: controller.validateEmail,
                       ),
                       Text("Password", style: AppTextStyles.regularStyle),
-                      AppFeild(
+                      AppField(
                         isPasswordField: true,
                         hintText: "********",
                         controller: controller.passwordController,
+                        validator: controller.validateConfirmPassword,
                       ),
                       Align(
                         alignment: Alignment.centerRight,
@@ -72,9 +77,9 @@ class LoginScreen extends StatelessWidget {
                           text: "Login",
                           isLoading: controller.isLoading.value,
                           onPressed: () {
-                            controller.handleSignIn(
-                              email: controller.emailController.text,
-                              password: controller.passwordController.text,
+                            controller.login(
+                              // email: controller.emailController.text,
+                              // password: controller.passwordController.text,
                             );
                           },
                         ),
@@ -84,7 +89,7 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               InkWell(
-                onTap: () => controller.goToRegisterScreen(userRole!),
+                onTap: () => controller.goToRegisterScreen(),
                 borderRadius: BorderRadius.circular(12),
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 24.0),

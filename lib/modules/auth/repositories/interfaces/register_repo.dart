@@ -5,7 +5,7 @@ abstract class RegisterRepository {
     required String name,
     required String email,
     required String password,
-    required UserRole role,
+    required String role,
     required String companyId,
   });
 

@@ -10,10 +10,12 @@ class UserModel {
   final String? organization;
   final String? phoneNumber;
   final String? address;
+  final String? deviceToken;
+  final String? companyId;
   final bool? isVerified;
-  final String? city;
-  final String? nameLower;
-  final List<String>? nameKeywords;
+  // final String? city;
+  final String? companyLower;
+  final List<String>? companyKeywords;
 
   UserModel({
     required this.uid,
@@ -25,9 +27,11 @@ class UserModel {
     this.phoneNumber,
     this.address,
     this.isVerified,
-    this.city,
-    this.nameLower,
-    this.nameKeywords,
+    this.deviceToken,
+    this.companyId,
+    // this.city,
+    this.companyLower,
+    this.companyKeywords,
   });
 
   /// 🔹 For Firestore
@@ -41,11 +45,13 @@ class UserModel {
       organization: map['organization'] as String?,
       phoneNumber: map['phoneNumber'] as String?,
       address: map['address'] as String?,
+      deviceToken: map['deviceToken'] as String?,
+      companyId: map['companyId'] as String?,
       isVerified: map['isVerified'] as bool?,
-      city: map['city'] as String?,
-      nameLower: map['nameLower'] as String?,
-      nameKeywords: map['nameKeywords'] != null
-          ? List<String>.from(map['nameKeywords'])
+      // city: map['city'] as String?,
+      companyLower: map['companyLower'] as String?,
+      companyKeywords: map['companyKeywords'] != null
+          ? List<String>.from(map['companyKeywords'])
           : null,
     );
   }
@@ -60,9 +66,11 @@ class UserModel {
       if (organization != null) 'organization': organization,
       if (phoneNumber != null) 'phoneNumber': phoneNumber,
       if (address != null) 'address': address,
-      if (city != null) 'city': city,
-      if (nameLower != null) 'nameLower': nameLower,
-      if (nameKeywords != null) 'nameKeywords': nameKeywords,
+      if (deviceToken != null) 'deviceToken': deviceToken,
+      if (companyId != null) 'companyId': companyId,
+      // if (city != null) 'city': city,
+      if (companyLower != null) 'companyLower': companyLower,
+      if (companyKeywords != null) 'companyKeywords': companyKeywords,
       if (isVerified != null) 'isVerified': isVerified,
     };
   }
@@ -71,7 +79,23 @@ class UserModel {
   factory UserModel.fromJson(String source) =>
       UserModel.fromMap(json.decode(source));
 
-  String toJson() => json.encode(toMap());
+  // String toJson() => json.encode(toMap());
+  String toJson() => json.encode({
+    'uid': uid,
+    'name': name,
+    'email': email,
+    'role': role,
+    'createdAt': createdAt.toIso8601String(), // ✅ now serializable
+    if (organization != null) 'organization': organization,
+    if (phoneNumber != null) 'phoneNumber': phoneNumber,
+    if (address != null) 'address': address,
+    if (deviceToken != null) 'deviceToken': deviceToken,
+    if (companyId != null) 'companyId': companyId,
+    if (companyLower != null) 'companyLower': companyLower,
+    if (companyKeywords != null) 'companyKeywords': companyKeywords,
+    if (isVerified != null) 'isVerified': isVerified,
+  });
+
 
   /// 🔄 Optional: CopyWith
   UserModel copyWith({
@@ -83,9 +107,11 @@ class UserModel {
     String? organization,
     String? phoneNumber,
     String? address,
-    String? city,
-    String? nameLower,
-    List<String>? nameKeywords,
+    String? deviceToken,
+    String? companyId,
+    // String? city,
+    String? companyLower,
+    List<String>? companyKeywords,
     bool? isVerified
   }) {
     return UserModel(
@@ -97,9 +123,11 @@ class UserModel {
       organization: organization ?? this.organization,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       address: address ?? this.address,
-      city: city ?? this.city,
-      nameLower: nameLower ?? this.nameLower,
-      nameKeywords: nameKeywords ?? this.nameKeywords,
+      deviceToken: deviceToken ?? this.deviceToken,
+      companyId: companyId ?? this.companyId,
+      // city: city ?? this.city,
+      companyLower: companyLower ?? this.companyLower,
+      companyKeywords: companyKeywords ?? this.companyKeywords,
         isVerified:isVerified ?? this.isVerified
     );
   }

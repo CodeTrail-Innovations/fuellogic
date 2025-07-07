@@ -61,7 +61,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                         24.vertical,
                         Text(
-                          userData.displayName,
+                          userData.name,
                           style: AppTextStyles.regularStyle,
                         ),
                         8.vertical,
@@ -75,7 +75,7 @@ class ProfileScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: Text(
-                            userData.role.name,
+                            userData.role,
                             style: AppTextStyles.paragraphStyle.copyWith(
                               color: AppColors.primaryColor,
                             ),

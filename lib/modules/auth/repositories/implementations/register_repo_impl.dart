@@ -5,9 +5,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/modules/auth/models/user_model.dart';
 import 'package:fuellogic/modules/auth/repositories/interfaces/register_repo.dart';
-import 'package:fuellogic/modules/bottombar/screens/custom_bottom_bar.dart';
 import 'package:fuellogic/utils/dialog_utils.dart';
 import 'package:get/get.dart';
+
+import '../../../../data_manager/models/user_model.dart';
+import '../../../bottombar/screens/company_main_screen.dart';
 
 class RegisterRepoImpl implements RegisterRepository {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -76,7 +78,7 @@ class RegisterRepoImpl implements RegisterRepository {
     required String name,
     required String email,
     required String password,
-    required UserRole role,
+    required String role,
     required String companyId,
   }) async {
     log('[RegisterRepo] Starting user signup for: $email');
@@ -101,18 +103,18 @@ class RegisterRepoImpl implements RegisterRepository {
         final userModel = UserModel(
           uid: user.uid,
           email: email,
-          displayName: name,
+          name: name,
           companyId: role == UserRole.driver ? companyId : '',
           role: role,
-          photoURL: '',
-          driver: role == UserRole.company ? [] : [],
-          createdAt: Timestamp.now(),
+          // photoURL: '',
+
+          createdAt: DateTime.now(),
         );
 
         await _firestore
             .collection('users')
             .doc(user.uid)
-            .set(userModel.toJson());
+            .set(userModel.toMap());
 
         if (role == UserRole.driver && companyId.isNotEmpty) {
           try {
@@ -129,7 +131,7 @@ class RegisterRepoImpl implements RegisterRepository {
           }
         }
 
-        Get.off(() => CustomBottomBar());
+        Get.off(() => CompanyMainScreen());
         DialogUtils.showAnimatedDialog(
           type: DialogType.success,
           title: 'Success',
@@ -169,11 +171,9 @@ class RegisterRepoImpl implements RegisterRepository {
       if (user != null) {
         DocumentSnapshot userDoc =
             await _firestore.collection('users').doc(user.uid).get();
-        if (userDoc.exists) {
-          return UserModel.fromJson(
-            userDoc.data() as Map<String, dynamic>,
-          ).toJson();
-        }
+        // if (userDoc.exists) {
+        //   return UserModel.fromJson(userDoc.);
+        // }
       }
       return null;
     } catch (e) {

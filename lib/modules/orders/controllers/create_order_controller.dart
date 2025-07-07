@@ -6,6 +6,8 @@ import 'package:fuellogic/modules/auth/models/user_model.dart';
 import 'package:fuellogic/modules/orders/models/order_model.dart';
 import 'package:get/get.dart';
 
+import '../../../data_manager/models/user_model.dart';
+
 class CreateOrderController extends GetxController {
   final locationController = TextEditingController();
   final quantityController = TextEditingController();
@@ -32,7 +34,7 @@ class CreateOrderController extends GetxController {
         if (userDoc.exists) {
           final userData = userDoc.data();
           if (userData != null) {
-            this.userData.value = UserModel.fromJson(userData);
+            this.userData.value = UserModel.fromMap(userData);
           }
         }
       }
@@ -58,9 +60,9 @@ class CreateOrderController extends GetxController {
         fuelUnit: fuelUnit.value,
         date: dateController.text,
         orderStatus: OrderStatus.pending,
-        companyId: userData.value!.companyId,
+        companyId: userData.value!.companyId ?? '',
         driverId: _firebaseAuth.currentUser!.uid,
-        driverName: userData.value!.displayName,
+        driverName: userData.value!.name,
       );
 
       await _firebaseFirestore

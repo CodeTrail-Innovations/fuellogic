@@ -1,7 +1,8 @@
-// data/repositories/oms_repository/order_management_repository.dart
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../modules/orders/models/order_model.dart';
 import '../../models/customer_model.dart';
 import '../../models/order_model.dart';
 
@@ -22,14 +23,14 @@ class OrderManagementRepository {
   Future<void> saveOrder(OrderModel order) async {
     await _firestore
         .collection('orders')
-        .doc(order.orderId)
+        .doc(order.id)
         .set(order.toJson());
   }
 
   Future<void> updateOrder(OrderModel order) async {
     await _firestore
         .collection('orders')
-        .doc(order.orderId)
+        .doc(order.id)
         .update(order.toJson());
   }
 
@@ -120,11 +121,11 @@ class OrderManagementRepository {
 
 
   Future<void> updateOrderStatus(OrderModel order) async {
-    await _ordersCollection.doc(order.orderId).update(order.toJson());
+    await _ordersCollection.doc(order.id).update(order.toJson());
   }
 
-  Future<void> deleteOrder(String orderId) async {
-    await _ordersCollection.doc(orderId).delete();
+  Future<void> deleteOrder(String id) async {
+    await _ordersCollection.doc(id).delete();
   }
 
 

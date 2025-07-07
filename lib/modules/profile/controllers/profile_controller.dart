@@ -9,8 +9,11 @@ import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
 import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/core/routes/app_router.dart';
+import 'package:fuellogic/helper/services/auth_service.dart';
 import 'package:fuellogic/modules/auth/models/user_model.dart';
 import 'package:get/get.dart';
+
+import '../../../data_manager/models/user_model.dart';
 
 class ProfileController extends GetxController {
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -30,12 +33,16 @@ class ProfileController extends GetxController {
       isLoading.value = true;
       final user = auth.currentUser;
       if (user != null) {
-        final userDoc = await firestore.collection('users').doc(user.uid).get();
+        debugPrint('user value');
+        debugPrint('user value: $user');
+        final userDoc = await firestore.collection('companies').doc(user.uid).get();
 
         if (userDoc.exists) {
           final userData = userDoc.data();
           if (userData != null) {
-            this.userData.value = UserModel.fromJson(userData);
+            debugPrint('2222');
+            debugPrint('$userData');
+            this.userData.value = UserModel.fromMap(userData);
           }
         }
       }
@@ -55,19 +62,19 @@ class ProfileController extends GetxController {
           await firestore.collection('users').doc(currentUser.uid).get();
       if (!userDoc.exists) return null;
 
-      final currentUserData = UserModel.fromJson(userDoc.data()!);
+      final currentUserData = UserModel.fromMap(userDoc.data()!);
 
-      if (currentUserData.role == UserRole.driver) {
+      if (currentUserData.role == 'driver') {
         final companyId = currentUserData.companyId;
 
-        if (companyId.isEmpty) return null;
+        if (companyId!.isEmpty) return null;
 
         final companyDoc =
             await firestore.collection('users').doc(companyId).get();
 
         if (companyDoc.exists) {
-          final companyData = UserModel.fromJson(companyDoc.data()!);
-          return companyData.displayName;
+          final companyData = UserModel.fromMap(companyDoc.data()!);
+          return companyData.name;
         }
       }
     } catch (e) {
@@ -234,8 +241,7 @@ class ProfileController extends GetxController {
 
   void logout() async {
     try {
-      await auth.signOut();
-      Get.offAllNamed(AppRoutes.splashScreen);
+      AuthService().signOut();
     } catch (e) {
       log('Error logging out: $e');
     }

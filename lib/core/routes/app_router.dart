@@ -1,6 +1,8 @@
 import 'package:fuellogic/modules/auth/screens/login_screen.dart';
 import 'package:fuellogic/modules/auth/screens/register_screen.dart';
 import 'package:fuellogic/modules/auth/screens/splash_screen.dart';
+import 'package:fuellogic/modules/bottombar/screens/company_main_screen.dart';
+import 'package:fuellogic/modules/welcome_screen/screen/welcome_screen.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:get/get_navigation/src/routes/transitions_type.dart';
 
@@ -9,7 +11,7 @@ class AppRoutes {
   static const loginScreen = "/loginScreen";
   static const registerScreen = "/registerScreen";
 
-  static const String home = '/home';
+  static const String welcome = '/welcome';
 
   static const String addOrderScreen = '/orders/add-order';
   static const String allOrders = '/orders/all';
@@ -17,7 +19,7 @@ class AppRoutes {
   static const String customerOrders = '/customer/orders';
 
   static const String adminMainScreen = '/admin/main-screen';
-  static const String userMainScreen = '/user/main-screen';
+  static const String companyMainScreen = '/company/main-screen';
 
   static const String itemDetailsScreen = '/user/items/item-details';
 
@@ -32,6 +34,11 @@ class AppRoutes {
       page: () => SplashScreen(),
       transition: Transition.fadeIn,
     ),
+     GetPage(
+       name: welcome,
+       page: () => WelcomeScreen(),
+       transition: Transition.fadeIn,
+     ),
     GetPage(
       name: loginScreen,
       page: () => LoginScreen(),
@@ -42,5 +49,11 @@ class AppRoutes {
       page: () => RegisterScreen(),
       transition: Transition.fadeIn,
     ),
+
+     GetPage(
+       name: companyMainScreen,
+       page: () => CompanyMainScreen(),
+       transition: Transition.fadeIn,
+     ),
   ];
 }

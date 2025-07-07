@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fuellogic/config/app_assets.dart';
 import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
-import 'package:fuellogic/modules/bottombar/controllers/bottombar_controller.dart';
+
 import 'package:fuellogic/modules/company/screens/dashboard_screen.dart';
 import 'package:fuellogic/modules/home/screens/home_screen.dart';
 import 'package:fuellogic/modules/orders/screens/create_order_screen.dart';
@@ -13,15 +13,17 @@ import 'package:fuellogic/modules/setting/screens/setting_screen.dart';
 import 'package:get/get.dart';
 import 'package:svg_flutter/svg_flutter.dart';
 
-class CustomBottomBar extends StatefulWidget {
-  CustomBottomBar({super.key});
-  final controller = Get.put(BottombarController());
+import '../controllers/company_main_controller.dart';
+
+class CompanyMainScreen extends StatefulWidget {
+  CompanyMainScreen({super.key});
+  final controller = Get.put(CompanyMainController());
 
   @override
-  CustomBottomBarState createState() => CustomBottomBarState();
+  CompanyMainScreenState createState() => CompanyMainScreenState();
 }
 
-class CustomBottomBarState extends State<CustomBottomBar> {
+class CompanyMainScreenState extends State<CompanyMainScreen> {
   int _selectedIndex = 0;
   List<Widget> _screens = [];
   List<String> _selectedIcons = [];
@@ -31,57 +33,59 @@ class CustomBottomBarState extends State<CustomBottomBar> {
   void initState() {
     super.initState();
 
-    widget.controller.fetchCurrentUserData().then((_) {
-      final userRole = widget.controller.userData.value?.role.label ?? '';
-
-      log('==============================');
-      log('check logs: $userRole');
-      log('==============================');
-
-      final isCompany = userRole == 'Company';
-
-      if (isCompany) {
-        _screens = [DashboardScreen(), SettingScreen(), ProfileScreen()];
-
-        _selectedIcons = [
-          AppAssets.homeIconFilled,
-          AppAssets.settingIconFilled,
-          AppAssets.prifileIconFilled,
-        ];
-
-        _unselectedIcons = [
-          AppAssets.homeIconLinear,
-          AppAssets.settingIconLinear,
-          AppAssets.prifileIconLinear,
-        ];
-      } else {
-        _screens = [
-          HomeScreen(),
-          // AllOrdersScreen(),
-          CreateOrderScreen(),
-          SettingScreen(),
-          ProfileScreen(),
-        ];
-
-        _selectedIcons = [
-          AppAssets.homeIconFilled,
-          // AppAssets.orderIconFilled,
-          AppAssets.addOrderFilled,
-          AppAssets.settingIconFilled,
-          AppAssets.prifileIconFilled,
-        ];
-
-        _unselectedIcons = [
-          AppAssets.homeIconLinear,
-          // AppAssets.orderIconLinear,
-          AppAssets.addOrderLinear,
-          AppAssets.settingIconLinear,
-          AppAssets.prifileIconLinear,
-        ];
-      }
-
-      setState(() {});
-    });
+    // widget.controller.fetchCurrentUserData().then((_) {
+    //   final userRole = widget.controller.userData.value?.role ?? '';
+    //
+    //   log('==============================');
+    //   log('check logs: $userRole');
+    //   log('==============================');
+    //
+    //   final isCompany = userRole == 'company';
+    //
+    //   if (isCompany) {
+    //     _screens = [DashboardScreen(), CreateOrderScreen(), SettingScreen(), ProfileScreen()];
+    //
+    //     _selectedIcons = [
+    //       AppAssets.homeIconFilled,
+    //       AppAssets.addOrderFilled,
+    //       AppAssets.settingIconFilled,
+    //       AppAssets.prifileIconFilled,
+    //     ];
+    //
+    //     _unselectedIcons = [
+    //       AppAssets.homeIconLinear,
+    //       AppAssets.addOrderLinear,
+    //       AppAssets.settingIconLinear,
+    //       AppAssets.prifileIconLinear,
+    //     ];
+    //   } else {
+    //     _screens = [
+    //       HomeScreen(),
+    //       // AllOrdersScreen(),
+    //       CreateOrderScreen(),
+    //       SettingScreen(),
+    //       ProfileScreen(),
+    //     ];
+    //
+    //     _selectedIcons = [
+    //       AppAssets.homeIconFilled,
+    //       // AppAssets.orderIconFilled,
+    //       AppAssets.addOrderFilled,
+    //       AppAssets.settingIconFilled,
+    //       AppAssets.prifileIconFilled,
+    //     ];
+    //
+    //     _unselectedIcons = [
+    //       AppAssets.homeIconLinear,
+    //       // AppAssets.orderIconLinear,
+    //       AppAssets.addOrderLinear,
+    //       AppAssets.settingIconLinear,
+    //       AppAssets.prifileIconLinear,
+    //     ];
+    //   }
+    //
+    //   setState(() {});
+    // });
 
     _screens = [
       HomeScreen(),

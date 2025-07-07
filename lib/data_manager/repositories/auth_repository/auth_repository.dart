@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 
+import '../../../helper/services/snackbar_service.dart';
 import '../../models/user_model.dart';
 import '../../session/user_session_manager.dart';
 
@@ -17,17 +21,19 @@ class AuthRepository {
     switch (role.toLowerCase()) {
       case 'admin':
         return 'admins';
-      case 'user':
-        return 'users';
+      case 'company':
+        return 'companies';
+      case 'driver':
+        return 'drivers';
       default:
-        return 'users';
+        return 'companies';
     }
   }
 
   Future<UserModel?> getUserById(String uid) async {
     try {
       // Try each collection since we don't know the user's role
-      final collections = ['users', 'admins'];
+      final collections = ['companies', 'admins', 'drivers'];
 
       for (final collection in collections) {
         final doc = await _firestore.collection(collection).doc(uid).get();
@@ -64,6 +70,12 @@ class AuthRepository {
         password: password,
       );
 
+      final fcmToken = await _getFcmToken();
+      if (fcmToken == null) {
+        debugPrint('Failed to get FCM token');
+        SnackbarService.showError('Failed to get FCM token');
+      }
+
       if (userCredential.user != null) {
         final now = DateTime.now();
         final userData = {
@@ -72,6 +84,8 @@ class AuthRepository {
           'name': name,
           'role': role,
           'createdAt': now,
+          'companyId': userCredential.user!.uid,
+          'deviceToken':fcmToken ?? '',
           ...?additionalData,
         };
 
@@ -195,5 +209,10 @@ class AuthRepository {
     }
   }
 
+
+  Future<String?> _getFcmToken() async {
+    await Firebase.initializeApp();
+    return FirebaseMessaging.instance.getToken();
+  }
 
 }

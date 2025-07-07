@@ -10,16 +10,16 @@ import 'package:get/get.dart';
 import 'package:svg_flutter/svg_flutter.dart';
 
 class OrderHistoryScreen extends StatelessWidget {
-  final UserRole role;
+  final String role;
   OrderHistoryScreen({super.key, required this.role});
 
   final controller = Get.put(ReportController());
 
   @override
   Widget build(BuildContext context) {
-    if (role == UserRole.company) {
+    if (role == 'company') {
       controller.fetchCurrentUserOrders();
-    } else if (role == UserRole.driver) {
+    } else if (role == 'driver') {
       controller.fetchCurrentUserDriverOrders();
     }
 

@@ -10,7 +10,7 @@ import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
 import 'package:svg_flutter/svg.dart';
 
-class AppFeild extends StatefulWidget {
+class AppField extends StatefulWidget {
   final TextEditingController? controller;
   final Key? fieldKey;
   final bool? isPasswordField;
@@ -35,8 +35,9 @@ class AppFeild extends StatefulWidget {
   final String? suffixImage;
   final VoidCallback? onSuffixTap;
   final bool isRating;
+  final TextCapitalization capitalization;
 
-  const AppFeild({
+  const AppField({
     super.key,
     this.controller,
     this.isPasswordField,
@@ -62,13 +63,14 @@ class AppFeild extends StatefulWidget {
     this.suffixImage,
     this.onSuffixTap,
     this.isRating = false,
+    this.capitalization = TextCapitalization.none,
   });
 
   @override
-  AppFeildState createState() => AppFeildState();
+  AppFieldState createState() => AppFieldState();
 }
 
-class AppFeildState extends State<AppFeild> {
+class AppFieldState extends State<AppField> {
   bool _obscureText = true;
 
   @override
@@ -77,6 +79,7 @@ class AppFeildState extends State<AppFeild> {
 
     return Container(
       width: double.infinity,
+      height: 50,
       decoration: BoxDecoration(
         color:
             isSearchField
@@ -86,136 +89,140 @@ class AppFeildState extends State<AppFeild> {
           isSearchField ? 100 : widget.radius,
         ),
       ),
-      child: TextFormField(
-        style: AppTextStyles.paragraphStyle.copyWith(
-          color:
-              isSearchField
-                  ? AppColors.whiteColor
-                  : widget.fieldTextColor ?? AppColors.blackColor,
-        ),
-        controller: widget.controller,
-        keyboardType:
-            widget.isRating
-                ? const TextInputType.numberWithOptions(decimal: true)
-                : widget.inputType,
-        key: widget.fieldKey,
-        obscureText: widget.isPasswordField == true ? _obscureText : false,
-        onSaved: widget.onSaved,
-        validator: (value) {
-          if (widget.validator != null) {
-            return widget.validator!(value);
-          }
-          if (widget.isRating && value != null && value.isNotEmpty) {
-            final rating = double.tryParse(value);
-            if (rating == null || rating > 5 || rating < 0) {
-              return 'Rating must be between 0 and 5';
-            }
-          }
-          return null;
-        },
-        onFieldSubmitted: widget.onFieldSubmitted,
-        inputFormatters:
-            widget.isRating
-                ? [
-                  FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,1}')),
-                  _MaxValueInputFormatter(5.0),
-                ]
-                : null,
-        decoration: InputDecoration(
-          isDense: true,
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical:
-                (widget.height - 24) / 2, 
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color:
-                  isSearchField ? AppColors.whiteColor : AppColors.blackColor,
-            ),
-            borderRadius: BorderRadius.circular(
-              isSearchField ? 100 : widget.radius,
-            ),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(
-              isSearchField ? 100 : widget.radius,
-            ),
-            borderSide: BorderSide(
-              color:
-                  isSearchField
-                      ? AppColors.whiteColor
-                      : widget.feildSideClr
-                      ? AppColors.blackColor
-                      : AppColors.blackColor.withCustomOpacity(.2),
-            ),
-          ),
-          border: InputBorder.none,
-          hintText: widget.hintText,
-          hintStyle: TextStyle(
+      child: Center(
+        child: TextFormField(
+          style: AppTextStyles.paragraphStyle.copyWith(
             color:
                 isSearchField
-                    ? AppColors.whiteColor.withCustomOpacity(0.8)
-                    : widget.hintTextColor ??
-                        AppColors.blackColor.withCustomOpacity(.35),
-            fontSize: 15,
-            fontWeight: FontWeight.w500,
+                    ? AppColors.whiteColor
+                    : widget.fieldTextColor ?? AppColors.blackColor,
           ),
-          prefixIcon:
-              isSearchField || widget.prefixImage != null
-                  ? Padding(
-                    padding: const EdgeInsets.all(12.0).copyWith(left: 16),
-                    child: SvgPicture.asset(
-                      AppAssets.searchIcon,
-                      width: widget.iconSize ?? 24,
-                      height: widget.iconSize ?? 24,
-                      fit: BoxFit.contain,
-                      colorFilter:
-                          widget.prefixImage != null
-                              ? ColorFilter.mode(
-                                widget.iconColor ?? AppColors.blackColor,
-                                BlendMode.srcIn,
-                              )
-                              : null,
-                      color:
-                          isSearchField
-                              ? AppColors.whiteColor
-                              : widget.iconColor,
-                    ),
-                  )
+          controller: widget.controller,
+          keyboardType:
+              widget.isRating
+                  ? const TextInputType.numberWithOptions(decimal: true)
+                  : widget.inputType,
+          key: widget.fieldKey,
+          obscureText: widget.isPasswordField == true ? _obscureText : false,
+          onSaved: widget.onSaved,
+          textCapitalization: widget.capitalization,
+          validator: (value) {
+            if (widget.validator != null) {
+              return widget.validator!(value);
+            }
+            if (widget.isRating && value != null && value.isNotEmpty) {
+              final rating = double.tryParse(value);
+              if (rating == null || rating > 5 || rating < 0) {
+                return 'Rating must be between 0 and 5';
+              }
+            }
+            return null;
+          },
+          onFieldSubmitted: widget.onFieldSubmitted,
+          inputFormatters:
+              widget.isRating
+                  ? [
+                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,1}')),
+                    _MaxValueInputFormatter(5.0),
+                  ]
                   : null,
-          suffixIcon:
-              widget.isPasswordField == true
-                  ? GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _obscureText = !_obscureText;
-                      });
-                    },
-                    child: Icon(
-                      _obscureText ? Icons.visibility_off : Icons.visibility,
-                      size: widget.iconSize,
-                      color:
-                          _obscureText
-                              ? AppColors.mainColor
-                              : AppColors.blackColor,
-                    ),
-                  )
-                  : widget.suffixImage != null
-                  ? GestureDetector(
-                    onTap: widget.onSuffixTap,
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0).copyWith(right: 16),
+          decoration: InputDecoration(
+            isDense: true,
+            contentPadding: EdgeInsets.all(16),
+            // EdgeInsets.symmetric(
+            //   horizontal: 16,
+            //   // vertical:
+            //   //     (widget.height - 24) / 2,
+            // ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color:
+                    isSearchField ? AppColors.whiteColor : AppColors.blackColor,
+              ),
+              borderRadius: BorderRadius.circular(
+                isSearchField ? 100 : widget.radius,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(
+                isSearchField ? 100 : widget.radius,
+              ),
+              borderSide: BorderSide(
+                color:
+                    isSearchField
+                        ? AppColors.whiteColor
+                        : widget.feildSideClr
+                        ? AppColors.blackColor
+                        : AppColors.blackColor.withCustomOpacity(.2),
+              ),
+            ),
+            border: InputBorder.none,
+            hintText: widget.hintText,
+            hintStyle: TextStyle(
+              color:
+                  isSearchField
+                      ? AppColors.whiteColor.withCustomOpacity(0.8)
+                      : widget.hintTextColor ??
+                          AppColors.blackColor.withCustomOpacity(.35),
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+            ),
+            prefixIcon:
+                isSearchField || widget.prefixImage != null
+                    ? Padding(
+                      padding: const EdgeInsets.all(12.0).copyWith(left: 16),
                       child: SvgPicture.asset(
-                        widget.suffixImage!,
+                        AppAssets.searchIcon,
                         width: widget.iconSize ?? 24,
                         height: widget.iconSize ?? 24,
                         fit: BoxFit.contain,
-                        color: isSearchField ? AppColors.whiteColor : null,
+                        colorFilter:
+                            widget.prefixImage != null
+                                ? ColorFilter.mode(
+                                  widget.iconColor ?? AppColors.blackColor,
+                                  BlendMode.srcIn,
+                                )
+                                : null,
+                        color:
+                            isSearchField
+                                ? AppColors.whiteColor
+                                : widget.iconColor,
                       ),
-                    ),
-                  )
-                  : null,
+                    )
+                    : null,
+            suffixIcon:
+                widget.isPasswordField == true
+                    ? GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _obscureText = !_obscureText;
+                        });
+                      },
+                      child: Icon(
+                        _obscureText ? Icons.visibility_off : Icons.visibility,
+                        size: widget.iconSize,
+                        color:
+                            _obscureText
+                                ? AppColors.mainColor
+                                : AppColors.blackColor,
+                      ),
+                    )
+                    : widget.suffixImage != null
+                    ? GestureDetector(
+                      onTap: widget.onSuffixTap,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0).copyWith(right: 16),
+                        child: SvgPicture.asset(
+                          widget.suffixImage!,
+                          width: widget.iconSize ?? 24,
+                          height: widget.iconSize ?? 24,
+                          fit: BoxFit.contain,
+                          color: isSearchField ? AppColors.whiteColor : null,
+                        ),
+                      ),
+                    )
+                    : null,
+          ),
         ),
       ),
     );
