@@ -4,51 +4,15 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fuellogic/modules/auth/models/user_model.dart';
-import 'package:fuellogic/modules/company/repositories/company_repository.dart';
 import 'package:get/get.dart';
 
 import '../../../data_manager/models/user_model.dart';
 
-class CompanyMainController extends GetxController {
+class BottombarController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final Rx<UserModel?> userData = Rx<UserModel?>(null);
   final RxBool isLoading = false.obs;
-  final _companyRepository = CompanyRepository();
-
-
-  @override
-  Future<void> onInit() async {
-    super.onInit();
-    isLoading.value = true;
-    // repo.ordersByCustomer(customerId.value)
-    //     .listen((list) {
-    //   orders.assignAll(list);
-    //   _calculateStats(list);
-    // });
-
-    _companyRepository.getCompanyProfile().listen((companyProfile){
-      userData.value = companyProfile;
-    });
-
-    // try {
-    //   // 🔸 ensure _userId is loaded
-    //   _userStream = _companyRepository.getCompanyProfile();
-    //
-    //   _userSubscription = _userStream!.listen((user) {
-    //     userData.value = user;
-    //     _logUserData(user);
-    //   }, onError: (e) {
-    //     log('Error listening to user stream: $e');
-    //     Get.snackbar('Error', 'Failed to fetch company profile');
-    //   });
-    // } catch (e, stackTrace) {
-    //   log('Error initializing controller: $e', stackTrace: stackTrace);
-    //   Get.snackbar('Error', 'Something went wrong');
-    // } finally {
-    //   isLoading.value = false;
-    // }
-  }
 
   Future<void> fetchCurrentUserData() async {
     try {
@@ -81,7 +45,6 @@ class CompanyMainController extends GetxController {
         return;
       }
 
-      // final currentUser = UserModel.fromJson(userDataMap);
       final currentUser = UserModel.fromMap(userDataMap);
       userData.value = currentUser;
 

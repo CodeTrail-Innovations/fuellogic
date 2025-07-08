@@ -40,7 +40,7 @@ class LoginRepoImpl implements LoginRepository {
             message: 'Login successful!',
           );
 
-          Get.off(CompanyMainScreen());
+          Get.off(CustomBottomBar());
 
           if (!Get.isRegistered<HomeRepository>()) {
             Get.put(() => HomeRepositoryImpl());

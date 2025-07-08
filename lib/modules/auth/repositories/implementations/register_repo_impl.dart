@@ -131,7 +131,7 @@ class RegisterRepoImpl implements RegisterRepository {
           }
         }
 
-        Get.off(() => CompanyMainScreen());
+        Get.off(() => CustomBottomBar());
         DialogUtils.showAnimatedDialog(
           type: DialogType.success,
           title: 'Success',

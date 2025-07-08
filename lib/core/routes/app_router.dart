@@ -52,7 +52,7 @@ class AppRoutes {
 
      GetPage(
        name: companyMainScreen,
-       page: () => CompanyMainScreen(),
+       page: () => CustomBottomBar(),
        transition: Transition.fadeIn,
      ),
   ];

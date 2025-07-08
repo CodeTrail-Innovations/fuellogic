@@ -15,15 +15,15 @@ import 'package:svg_flutter/svg_flutter.dart';
 
 import '../controllers/company_main_controller.dart';
 
-class CompanyMainScreen extends StatefulWidget {
-  CompanyMainScreen({super.key});
-  final controller = Get.put(CompanyMainController());
+class CustomBottomBar extends StatefulWidget {
+  CustomBottomBar({super.key});
+  final controller = Get.put(BottombarController());
 
   @override
-  CompanyMainScreenState createState() => CompanyMainScreenState();
+  CustomBottomBarState createState() => CustomBottomBarState();
 }
 
-class CompanyMainScreenState extends State<CompanyMainScreen> {
+class CustomBottomBarState extends State<CustomBottomBar> {
   int _selectedIndex = 0;
   List<Widget> _screens = [];
   List<String> _selectedIcons = [];
@@ -33,59 +33,57 @@ class CompanyMainScreenState extends State<CompanyMainScreen> {
   void initState() {
     super.initState();
 
-    // widget.controller.fetchCurrentUserData().then((_) {
-    //   final userRole = widget.controller.userData.value?.role ?? '';
-    //
-    //   log('==============================');
-    //   log('check logs: $userRole');
-    //   log('==============================');
-    //
-    //   final isCompany = userRole == 'company';
-    //
-    //   if (isCompany) {
-    //     _screens = [DashboardScreen(), CreateOrderScreen(), SettingScreen(), ProfileScreen()];
-    //
-    //     _selectedIcons = [
-    //       AppAssets.homeIconFilled,
-    //       AppAssets.addOrderFilled,
-    //       AppAssets.settingIconFilled,
-    //       AppAssets.prifileIconFilled,
-    //     ];
-    //
-    //     _unselectedIcons = [
-    //       AppAssets.homeIconLinear,
-    //       AppAssets.addOrderLinear,
-    //       AppAssets.settingIconLinear,
-    //       AppAssets.prifileIconLinear,
-    //     ];
-    //   } else {
-    //     _screens = [
-    //       HomeScreen(),
-    //       // AllOrdersScreen(),
-    //       CreateOrderScreen(),
-    //       SettingScreen(),
-    //       ProfileScreen(),
-    //     ];
-    //
-    //     _selectedIcons = [
-    //       AppAssets.homeIconFilled,
-    //       // AppAssets.orderIconFilled,
-    //       AppAssets.addOrderFilled,
-    //       AppAssets.settingIconFilled,
-    //       AppAssets.prifileIconFilled,
-    //     ];
-    //
-    //     _unselectedIcons = [
-    //       AppAssets.homeIconLinear,
-    //       // AppAssets.orderIconLinear,
-    //       AppAssets.addOrderLinear,
-    //       AppAssets.settingIconLinear,
-    //       AppAssets.prifileIconLinear,
-    //     ];
-    //   }
-    //
-    //   setState(() {});
-    // });
+    widget.controller.fetchCurrentUserData().then((_) {
+      final userRole = widget.controller.userData.value?.role ?? '';
+
+      log('==============================');
+      log('check logs: $userRole');
+      log('==============================');
+
+      final isCompany = userRole == 'company';
+
+      if (isCompany) {
+        _screens = [DashboardScreen(), SettingScreen(), ProfileScreen()];
+
+        _selectedIcons = [
+          AppAssets.homeIconFilled,
+          AppAssets.settingIconFilled,
+          AppAssets.prifileIconFilled,
+        ];
+
+        _unselectedIcons = [
+          AppAssets.homeIconLinear,
+          AppAssets.settingIconLinear,
+          AppAssets.prifileIconLinear,
+        ];
+      } else {
+        _screens = [
+          HomeScreen(),
+          // AllOrdersScreen(),
+          CreateOrderScreen(),
+          SettingScreen(),
+          ProfileScreen(),
+        ];
+
+        _selectedIcons = [
+          AppAssets.homeIconFilled,
+          // AppAssets.orderIconFilled,
+          AppAssets.addOrderFilled,
+          AppAssets.settingIconFilled,
+          AppAssets.prifileIconFilled,
+        ];
+
+        _unselectedIcons = [
+          AppAssets.homeIconLinear,
+          // AppAssets.orderIconLinear,
+          AppAssets.addOrderLinear,
+          AppAssets.settingIconLinear,
+          AppAssets.prifileIconLinear,
+        ];
+      }
+
+      setState(() {});
+    });
 
     _screens = [
       HomeScreen(),
