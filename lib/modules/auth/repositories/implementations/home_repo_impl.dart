@@ -8,6 +8,7 @@ class HomeRepositoryImpl implements HomeRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
+
   Future<Map<String, dynamic>> fetchCurrentUserData() async {
     try {
       final User? user = _auth.currentUser;
