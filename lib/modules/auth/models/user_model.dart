@@ -10,10 +10,14 @@ class UserModel {
   final UserRole role;
   final String companyId;
   final List<Map<String, dynamic>>? driver;
+  final bool isVerified;
+  final String phoneNumber;
+  final String address;
 
   static const UserRole defaultRole = UserRole.driver;
   static final Timestamp defaultCreatedAt =
       Timestamp.fromMillisecondsSinceEpoch(1704067200000);
+  static const bool defaultIsVerified = false;
 
   UserModel({
     this.uid = '',
@@ -23,6 +27,9 @@ class UserModel {
     this.companyId = '',
     this.role = defaultRole,
     this.driver,
+    this.isVerified = defaultIsVerified,
+    this.phoneNumber = '',
+    this.address = '',
     Timestamp? createdAt,
   }) : createdAt = createdAt ?? defaultCreatedAt;
 
@@ -36,6 +43,9 @@ class UserModel {
       createdAt: json['createdAt'] as Timestamp? ?? defaultCreatedAt,
       role: _parseUserRole(json['role']),
       driver: _parseDriverList(json['driver']),
+      isVerified: json['isVerified'] as bool? ?? defaultIsVerified,
+      phoneNumber: json['phoneNumber']?.toString() ?? '',
+      address: json['address']?.toString() ?? '',
     );
   }
 
@@ -47,10 +57,13 @@ class UserModel {
     'photoURL': photoURL,
     'createdAt': createdAt,
     'role': role.value,
+    'isVerified': isVerified,
+    'phoneNumber': phoneNumber,
+    'address': address,
     if (driver != null) 'driver': driver,
   };
 
-   static UserRole _parseUserRole(dynamic roleValue) {
+  static UserRole _parseUserRole(dynamic roleValue) {
     try {
       return UserRole.fromValue(roleValue?.toString() ?? '');
     } catch (e) {
@@ -69,7 +82,7 @@ class UserModel {
     return null;
   }
 
-   UserModel copyWith({
+  UserModel copyWith({
     String? uid,
     String? email,
     String? displayName,
@@ -78,6 +91,9 @@ class UserModel {
     UserRole? role,
     String? companyId,
     List<Map<String, dynamic>>? driver,
+    bool? isVerified,
+    String? phoneNumber,
+    String? address,
   }) {
     return UserModel(
       uid: uid ?? this.uid,
@@ -88,6 +104,9 @@ class UserModel {
       role: role ?? this.role,
       companyId: companyId ?? this.companyId,
       driver: driver ?? this.driver,
+      isVerified: isVerified ?? this.isVerified,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      address: address ?? this.address,
     );
   }
 
@@ -95,6 +114,7 @@ class UserModel {
   String toString() {
     return 'UserModel(uid: $uid, email: $email, displayName: $displayName, '
         'photoURL: $photoURL, createdAt: $createdAt, role: ${role.label}, '
-        'companyId: $companyId, driver: $driver)';
+        'companyId: $companyId, driver: $driver, isVerified: $isVerified, '
+        'phoneNumber: $phoneNumber,  address: $address)';
   }
 }

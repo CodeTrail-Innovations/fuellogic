@@ -3,6 +3,7 @@ import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
 import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/modules/company/controllers/report_controller.dart';
+import 'package:fuellogic/modules/company/screens/all_driver_screen.dart';
 import 'package:fuellogic/modules/company/screens/components/order_report_card.dart';
 import 'package:fuellogic/modules/home/screens/components/order_card.dart';
 import 'package:fuellogic/modules/profile/controllers/profile_controller.dart';
@@ -16,83 +17,88 @@ class ReportScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(),
-      body: Obx(() {
-        if (controller.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        final userData = controller.userData.value;
-        if (userData == null) {
-          return const Center(child: Text('No user data available'));
-        }
-        return SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-                    child: OrderReportCard(
-                      title: 'Total drivers',
-                      stats: userData.driver!.length.toString(),
-                      forDelivered: true,
+    return SafeArea(
+      child: Scaffold(
+        appBar: CustomAppBar(),
+        body: Obx(() {
+          if (controller.isLoading.value) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          final userData = controller.userData.value;
+          if (userData == null) {
+            return const Center(child: Text('No user data available'));
+          }
+          return SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: OrderReportCard(
+                        ontap: () => Get.to(() => AllDriverScreen()),
+                        title: 'Total drivers',
+                        stats: userData.driver!.length.toString(),
+                        forDelivered: true,
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 16),
-                  Expanded(
-                    child: OrderReportCard(
-                      title: 'On the way',
-                      stats: reportController.onTheWayOrdersCount.toString(),
-                      forDelivered: false,
+                    SizedBox(width: 16),
+                    Expanded(
+                      child: OrderReportCard(
+                        title: 'On the way',
+                        stats: reportController.onTheWayOrdersCount.toString(),
+                        forDelivered: false,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              16.vertical,
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children:
-                      OrderStatus.values.map((status) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                          child: FilterChip(
-                            label: Text(
-                              status.label,
-                              style: TextStyle(
-                                color:
-                                    reportController.selectedStatus.value ==
-                                            status
-                                        ? Colors.white
-                                        : AppColors.primaryColor,
-                              ),
-                            ),
-                            selected:
-                                reportController.selectedStatus.value == status,
-                            selectedColor: AppColors.primaryColor,
-                            backgroundColor: AppColors.primaryColor
-                                .withCustomOpacity(.1),
-                            checkmarkColor: Colors.white,
-                            showCheckmark: true,
-                            onSelected: (selected) {
-                              reportController.selectedStatus.value =
-                                  selected ? status : null;
-                            },
-                          ),
-                        );
-                      }).toList(),
+                  ],
                 ),
-              ),
-              20.vertical,
-              ...reportController.filteredOrders.map(
-                (order) => OrderCard(order: order),
-              ),
-            ],
-          ),
-        );
-      }),
+                16.vertical,
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children:
+                        OrderStatus.values.map((status) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 4.0,
+                            ),
+                            child: FilterChip(
+                              label: Text(
+                                status.label,
+                                style: TextStyle(
+                                  color:
+                                      reportController.selectedStatus.value ==
+                                              status
+                                          ? Colors.white
+                                          : AppColors.primaryColor,
+                                ),
+                              ),
+                              selected:
+                                  reportController.selectedStatus.value ==
+                                  status,
+                              selectedColor: AppColors.primaryColor,
+                              backgroundColor: AppColors.primaryColor
+                                  .withCustomOpacity(.1),
+                              checkmarkColor: Colors.white,
+                              showCheckmark: true,
+                              onSelected: (selected) {
+                                reportController.selectedStatus.value =
+                                    selected ? status : null;
+                              },
+                            ),
+                          );
+                        }).toList(),
+                  ),
+                ),
+                20.vertical,
+                ...reportController.filteredOrders.map(
+                  (order) => OrderCard(order: order),
+                ),
+              ],
+            ),
+          );
+        }),
+      ),
     );
   }
 }

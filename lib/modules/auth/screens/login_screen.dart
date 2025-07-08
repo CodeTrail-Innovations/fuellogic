@@ -21,95 +21,92 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     log("User Role: $userRole");
     return SafeArea(
-      child: PopScope(
-        canPop: false,
-        child: Scaffold(
-          resizeToAvoidBottomInset: true,
-          backgroundColor: AppColors.whiteColor,
-          body: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Column(
-                    spacing: 16,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      16.vertical,
-                      Text(
-                        "Welcome Back",
-                        style: AppTextStyles.extraLargeStyle.copyWith(
-                          color: AppColors.primaryColor,
-                        ),
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        backgroundColor: AppColors.whiteColor,
+        body: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  spacing: 12,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    8.vertical,
+                    Text(
+                      "Welcome Back",
+                      style: AppTextStyles.extraLargeStyle.copyWith(
+                        color: AppColors.primaryColor,
                       ),
-                      Text(
-                        "You know the drills",
+                    ),
+                    Text(
+                      "You know the drills",
+                      style: AppTextStyles.regularStyle,
+                    ),
+                    8.vertical,
+                    Text("Email", style: AppTextStyles.regularStyle),
+                    AppFeild(
+                      hintText: "someone@mail.com",
+                      controller: controller.emailController,
+                    ),
+                    Text("Password", style: AppTextStyles.regularStyle),
+                    AppFeild(
+                      isPasswordField: true,
+                      hintText: "********",
+                      controller: controller.passwordController,
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        "Forgot password?",
                         style: AppTextStyles.regularStyle,
                       ),
-                      16.vertical,
-                      Text("Email", style: AppTextStyles.regularStyle),
-                      AppFeild(
-                        hintText: "someone@mail.com",
-                        controller: controller.emailController,
+                    ),
+                    8.vertical,
+                    Obx(
+                      () => AppButton(
+                        text: "Login",
+                        isLoading: controller.isLoading.value,
+                        onPressed: () {
+                          controller.handleSignIn(
+                            email: controller.emailController.text,
+                            password: controller.passwordController.text,
+                          );
+                        },
                       ),
-                      Text("Password", style: AppTextStyles.regularStyle),
-                      AppFeild(
-                        isPasswordField: true,
-                        hintText: "********",
-                        controller: controller.passwordController,
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          "Forgot password?",
-                          style: AppTextStyles.regularStyle,
-                        ),
-                      ),
-                      16.vertical,
-                      Obx(
-                        () => AppButton(
-                          text: "Login",
-                          isLoading: controller.isLoading.value,
-                          onPressed: () {
-                            controller.handleSignIn(
-                              email: controller.emailController.text,
-                              password: controller.passwordController.text,
-                            );
-                          },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () => controller.goToRegisterScreen(userRole!),
+              borderRadius: BorderRadius.circular(12),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 24.0),
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    text: 'Don\'t have an account? ',
+                    style: AppTextStyles.regularStyle.copyWith(
+                      color: AppColors.mainColor,
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: 'Create Account',
+                        style: AppTextStyles.regularStyle.copyWith(
+                          color: AppColors.primaryColor,
+                          fontFamily: AppFonts.publicSansBold,
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
-              InkWell(
-                onTap: () => controller.goToRegisterScreen(userRole!),
-                borderRadius: BorderRadius.circular(12),
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 24.0),
-                  child: RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                      text: 'Don\'t have an account? ',
-                      style: AppTextStyles.regularStyle.copyWith(
-                        color: AppColors.mainColor,
-                      ),
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: 'Create Account',
-                          style: AppTextStyles.regularStyle.copyWith(
-                            color: AppColors.primaryColor,
-                            fontFamily: AppFonts.publicSansBold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

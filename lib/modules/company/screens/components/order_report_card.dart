@@ -9,63 +9,68 @@ class OrderReportCard extends StatelessWidget {
   final String title;
   final String stats;
   final bool forDelivered;
+  final VoidCallback? ontap;
   const OrderReportCard({
     super.key,
     required this.title,
     required this.stats,
     required this.forDelivered,
+    this.ontap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        border: Border.all(
-          width: 2,
+    return InkWell(
+      onTap: ontap,
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          border: Border.all(
+            width: 2,
+            color:
+                forDelivered == true
+                    ? AppColors.progressColor.withCustomOpacity(.5)
+                    : AppColors.primaryColor.withCustomOpacity(.5),
+          ),
+          borderRadius: BorderRadius.circular(24),
           color:
               forDelivered == true
-                  ? AppColors.progressColor.withCustomOpacity(.5)
-                  : AppColors.primaryColor.withCustomOpacity(.5),
+                  ? AppColors.progressColor.withCustomOpacity(.2)
+                  : AppColors.primaryColor.withCustomOpacity(.2),
         ),
-        borderRadius: BorderRadius.circular(24),
-        color:
-            forDelivered == true
-                ? AppColors.progressColor.withCustomOpacity(.2)
-                : AppColors.primaryColor.withCustomOpacity(.2),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: AppTextStyles.regularStyle.copyWith(
-              color:
-                  forDelivered == true
-                      ? AppColors.progressColor
-                      : AppColors.primaryColor,
-            ),
-          ),
-          16.vertical,
-          Row(
-            spacing: 24,
-            children: [
-              Text(stats, style: AppTextStyles.extraLargeStyle),
-              SvgPicture.asset(
-                forDelivered == true
-                    ? AppAssets.orderIconFilled
-                    : AppAssets.orderIconLinear,
-                colorFilter: ColorFilter.mode(
-                  forDelivered == true
-                      ? AppColors.progressColor
-                      : AppColors.primaryColor,
-                  BlendMode.srcIn,
-                ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: AppTextStyles.regularStyle.copyWith(
+                color:
+                    forDelivered == true
+                        ? AppColors.progressColor
+                        : AppColors.primaryColor,
               ),
-            ],
-          ),
-        ],
+            ),
+            16.vertical,
+            Row(
+              spacing: 24,
+              children: [
+                Text(stats, style: AppTextStyles.extraLargeStyle),
+                SvgPicture.asset(
+                  forDelivered == true
+                      ? AppAssets.orderIconFilled
+                      : AppAssets.orderIconLinear,
+                  colorFilter: ColorFilter.mode(
+                    forDelivered == true
+                        ? AppColors.progressColor
+                        : AppColors.primaryColor,
+                    BlendMode.srcIn,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

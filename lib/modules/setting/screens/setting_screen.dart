@@ -3,6 +3,8 @@ import 'package:fuellogic/config/app_assets.dart';
 import 'package:fuellogic/config/app_textstyle.dart';
 import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
+import 'package:fuellogic/modules/profile/screens/company_profile_screen.dart';
+import 'package:get/get.dart';
 
 import 'components/setting_card.dart';
 
@@ -28,6 +30,7 @@ class SettingScreen extends StatelessWidget {
                 ),
               ),
               SettingCard(
+                onTap: () => Get.to(() => CompanyProfileScreen()),
                 title: 'Profile',
                 subTitle: "Profile picture, name",
                 forIcon: false,

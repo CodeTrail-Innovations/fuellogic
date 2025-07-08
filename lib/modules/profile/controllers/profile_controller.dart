@@ -13,6 +13,10 @@ import 'package:fuellogic/modules/auth/models/user_model.dart';
 import 'package:get/get.dart';
 
 class ProfileController extends GetxController {
+  final TextEditingController displayNameController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -22,6 +26,7 @@ class ProfileController extends GetxController {
   @override
   void onInit() {
     fetchCurrentUserData();
+    fetchCompanyNameForDriver();
     super.onInit();
   }
 
@@ -74,6 +79,34 @@ class ProfileController extends GetxController {
       log('Error fetching company name: $e');
     }
     return null;
+  }
+
+  Future<void> saveProfileChanges() async {
+    try {
+      isLoading.value = true;
+      final user = auth.currentUser;
+      if (user != null) {
+        final updateData = {
+          'displayName': displayNameController.text,
+          'phoneNumber': phoneNumberController.text,
+          'address': addressController.text,
+          'updatedAt': FieldValue.serverTimestamp(),
+        };
+
+        log('Attempting to update with: $updateData');
+
+        await firestore.collection('users').doc(user.uid).update(updateData);
+
+        log('Update successful');
+        await fetchCurrentUserData();
+        Get.snackbar('Success', 'Profile updated successfully');
+      }
+    } catch (e) {
+      log('Update error: $e');
+      Get.snackbar('Error', 'Failed to update profile: $e');
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   void showCompanyKeyDialog(BuildContext context) {

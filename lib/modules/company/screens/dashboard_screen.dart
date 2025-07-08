@@ -21,56 +21,58 @@ class DashboardScreen extends StatelessWidget {
         return const Center(child: CircularProgressIndicator());
       }
 
-      return Scaffold(
-        appBar: CustomAppBar(),
-        body: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          children: [
-            Text(
-              "Your company stats",
-              style: AppTextStyles.regularStyle.copyWith(
-                color: AppColors.primaryColor,
-              ),
-            ),
-            16.vertical,
-            Row(
-              spacing: 16,
-              children: [
-                Expanded(
-                  child: OrderReportCard(
-                    title: 'Delivered',
-                    stats: controller.deliveredOrdersCount.toString(),
-                    forDelivered: true,
-                  ),
+      return SafeArea(
+        child: Scaffold(
+          appBar: CustomAppBar(),
+          body: ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            children: [
+              Text(
+                "Your company stats",
+                style: AppTextStyles.regularStyle.copyWith(
+                  color: AppColors.primaryColor,
                 ),
-                Expanded(
-                  child: OrderReportCard(
-                    title: 'On the way',
-                    stats: controller.onTheWayOrdersCount.toString(),
-                    forDelivered: false,
-                  ),
-                ),
-              ],
-            ),
-            16.vertical,
-            AppButton(
-              text: "View report",
-              onPressed: () {
-                Get.to(() => ReportScreen());
-              },
-              isIconButton: true,
-              icon: Icons.arrow_forward,
-            ),
-            24.vertical,
-            Text(
-              "Recent Orders",
-              style: AppTextStyles.regularStyle.copyWith(
-                color: AppColors.primaryColor,
               ),
-            ),
-            20.vertical,
-            ...controller.ordersList.map((order) => OrderCard(order: order)),
-          ],
+              16.vertical,
+              Row(
+                spacing: 16,
+                children: [
+                  Expanded(
+                    child: OrderReportCard(
+                      title: 'Delivered',
+                      stats: controller.deliveredOrdersCount.toString(),
+                      forDelivered: true,
+                    ),
+                  ),
+                  Expanded(
+                    child: OrderReportCard(
+                      title: 'On the way',
+                      stats: controller.onTheWayOrdersCount.toString(),
+                      forDelivered: false,
+                    ),
+                  ),
+                ],
+              ),
+              16.vertical,
+              AppButton(
+                text: "View report",
+                onPressed: () {
+                  Get.to(() => ReportScreen());
+                },
+                isIconButton: true,
+                icon: Icons.arrow_forward,
+              ),
+              24.vertical,
+              Text(
+                "Recent Orders",
+                style: AppTextStyles.regularStyle.copyWith(
+                  color: AppColors.primaryColor,
+                ),
+              ),
+              20.vertical,
+              ...controller.ordersList.map((order) => OrderCard(order: order)),
+            ],
+          ),
         ),
       );
     });

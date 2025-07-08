@@ -12,12 +12,14 @@ class ReportController extends GetxController {
   final Rx<UserModel?> userData = Rx<UserModel?>(null);
   final RxList<OrderModel> ordersList = <OrderModel>[].obs;
   final Rx<OrderStatus?> selectedStatus = Rx<OrderStatus?>(null);
+  final RxList<UserModel> driversList = <UserModel>[].obs;
   final RxBool isLoading = false.obs;
 
   @override
   void onInit() {
     fetchCurrentUserData();
     fetchCurrentUserOrders();
+    fetchCompanyDrivers();
     super.onInit();
   }
 
@@ -61,7 +63,7 @@ class ReportController extends GetxController {
     }
   }
 
-   Future<void> fetchCurrentUserOrders() async {
+  Future<void> fetchCurrentUserOrders() async {
     try {
       isLoading.value = true;
       final user = auth.currentUser;
@@ -86,7 +88,7 @@ class ReportController extends GetxController {
     }
   }
 
-   Future<void> fetchCurrentUserDriverOrders() async {
+  Future<void> fetchCurrentUserDriverOrders() async {
     try {
       isLoading.value = true;
       final user = auth.currentUser;
@@ -106,6 +108,44 @@ class ReportController extends GetxController {
       }
     } catch (e) {
       Get.snackbar('Error', 'Failed to load your orders: $e');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> fetchCompanyDrivers() async {
+    try {
+      isLoading.value = true;
+      final user = auth.currentUser;
+      if (user != null) {
+        final userDoc = await firestore.collection('users').doc(user.uid).get();
+
+        if (userDoc.exists) {
+          final userData = UserModel.fromJson(userDoc.data()!);
+          final drivers = userData.driver;
+
+          if (drivers != null && drivers.isNotEmpty) {
+            final driverDocs = await Future.wait(
+              drivers.map(
+                (driver) =>
+                    firestore
+                        .collection('users')
+                        .doc(driver['uid']?.toString())
+                        .get(),
+              ),
+            );
+
+            driversList.assignAll(
+              driverDocs
+                  .where((doc) => doc.exists)
+                  .map((doc) => UserModel.fromJson(doc.data()!))
+                  .toList(),
+            );
+          }
+        }
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to fetch drivers: $e');
     } finally {
       isLoading.value = false;
     }

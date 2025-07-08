@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuellogic/config/app_assets.dart';
 import 'package:fuellogic/config/app_textstyle.dart';
-import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
 import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/modules/company/controllers/report_controller.dart';
@@ -24,66 +23,67 @@ class OrderHistoryScreen extends StatelessWidget {
       controller.fetchCurrentUserDriverOrders();
     }
 
-    return Scaffold(
-      appBar: CustomAppBar(),
-      body: Obx(() {
-        if (controller.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
-        }
+    return SafeArea(
+      child: Scaffold(
+        appBar: CustomAppBar(),
+        body: Obx(() {
+          if (controller.isLoading.value) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-        final deliveredOrders =
-            controller.ordersList
-                .where((order) => order.orderStatus == OrderStatus.delivered)
-                .toList();
+          final deliveredOrders =
+              controller.ordersList
+                  .where((order) => order.orderStatus == OrderStatus.delivered)
+                  .toList();
 
-        if (deliveredOrders.isEmpty) {
-          return Center(
-            child: Text(
-              "No delivered orders found",
-              style: AppTextStyles.regularStyle.copyWith(
-                color: AppColors.primaryColor,
-              ),
-            ),
-          );
-        }
-
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            spacing: 16,
-            children: [
-              Row(
-                spacing: 6,
-                children: [
-                  SvgPicture.asset(
-                    AppAssets.orderIconFilled,
-                    colorFilter: ColorFilter.mode(
-                      AppColors.progressColor,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                  Text(
-                    "Delivered orders",
-                    style: AppTextStyles.regularStyle.copyWith(
-                      color: AppColors.progressColor,
-                    ),
-                  ),
-                ],
-              ),
-              4.vertical,
-              Expanded(
-                child: ListView.builder(
-                  itemCount: deliveredOrders.length,
-                  itemBuilder: (context, index) {
-                    final order = deliveredOrders[index];
-                    return OrderCard(order: order);
-                  },
+          if (deliveredOrders.isEmpty) {
+            return Center(
+              child: Text(
+                "No delivered orders found",
+                style: AppTextStyles.regularStyle.copyWith(
+                  color: AppColors.primaryColor,
                 ),
               ),
-            ],
-          ),
-        );
-      }),
+            );
+          }
+
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              spacing: 16,
+              children: [
+                Row(
+                  spacing: 6,
+                  children: [
+                    SvgPicture.asset(
+                      AppAssets.orderIconFilled,
+                      colorFilter: ColorFilter.mode(
+                        AppColors.progressColor,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                    Text(
+                      "Delivered orders",
+                      style: AppTextStyles.regularStyle.copyWith(
+                        color: AppColors.progressColor,
+                      ),
+                    ),
+                  ],
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: deliveredOrders.length,
+                    itemBuilder: (context, index) {
+                      final order = deliveredOrders[index];
+                      return OrderCard(order: order);
+                    },
+                  ),
+                ),
+              ],
+            ),
+          );
+        }),
+      ),
     );
   }
 }

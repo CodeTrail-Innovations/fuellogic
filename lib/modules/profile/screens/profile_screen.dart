@@ -7,6 +7,7 @@ import 'package:fuellogic/core/constant/app_colors.dart';
 import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/modules/orders/screens/order_history_screen.dart';
 import 'package:fuellogic/modules/profile/controllers/profile_controller.dart';
+import 'package:fuellogic/modules/profile/screens/company_profile_screen.dart';
 import 'package:fuellogic/modules/setting/screens/components/setting_card.dart';
 import 'package:get/get.dart';
 import 'package:svg_flutter/svg_flutter.dart';
@@ -47,16 +48,19 @@ class ProfileScreen extends StatelessWidget {
                               ),
                             ),
                             Spacer(),
-                            SvgPicture.asset(AppAssets.editProfileIcon),
+                            InkWell(
+                              onTap: () => Get.to(() => CompanyProfileScreen()),
+                              child: SvgPicture.asset(
+                                AppAssets.editProfileIcon,
+                              ),
+                            ),
                           ],
                         ),
                         24.vertical,
                         Center(
                           child: CircleAvatar(
-                            backgroundImage: NetworkImage(
-                              "https://t3.ftcdn.net/jpg/02/99/04/20/360_F_299042079_vGBD7wIlSeNl7vOevWHiL93G4koMM967.jpg",
-                            ),
                             radius: 75,
+                            child: Icon(Icons.person, size: 50),
                           ),
                         ),
                         24.vertical,
