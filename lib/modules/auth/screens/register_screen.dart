@@ -63,60 +63,81 @@ class RegisterScreen extends StatelessWidget {
                         hintText: "someone@mail.com",
                         controller: controller.emailController,
                       ),
-                      Text("Password", style: AppTextStyles.regularStyle),
-                      AppFeild(
-                        isPasswordField: true,
-                        hintText: "*********",
-                        controller: controller.passwordController,
-                      ),
-                      if (userRole == UserRole.driver) ...[
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                      if (userRole == UserRole.driver)
+                        Row(
                           children: [
-                            Text(
-                              "Enter Company ID",
-                              style: AppTextStyles.regularStyle,
+                            Expanded(
+                              child: Column(
+                                spacing: 16,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Password",
+                                    style: AppTextStyles.regularStyle,
+                                  ),
+
+                                  AppFeild(
+                                    isPasswordField: true,
+                                    hintText: "*********",
+                                    controller: controller.passwordController,
+                                  ),
+                                ],
+                              ),
                             ),
-                            16.vertical,
-                            AppFeild(
-                              hintText: "eg., q2tM15S7VnYTfs",
-                              controller: controller.companyIdController,
+                            16.horizontal,
+                            Expanded(
+                              child: Column(
+                                spacing: 16,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Company ID",
+                                    style: AppTextStyles.regularStyle,
+                                  ),
+                                  AppFeild(
+                                    hintText: "eg., q2tM15S7VnYTfs",
+                                    controller: controller.companyIdController,
+                                  ),
+                                ],
+                              ),
                             ),
-                            Obx(
-                              () =>
-                                  controller.isValidatingCompany.value
-                                      ? Padding(
-                                        padding: const EdgeInsets.only(
-                                          top: 8.0,
+                          ],
+                        )
+                      else
+                        AppFeild(
+                          isPasswordField: true,
+                          hintText: "*********",
+                          controller: controller.passwordController,
+                        ),
+                      if (userRole == UserRole.driver)
+                        Obx(
+                          () =>
+                              controller.isValidatingCompany.value
+                                  ? Padding(
+                                    padding: const EdgeInsets.only(top: 8.0),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 16,
+                                          height: 16,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                            color: AppColors.primaryColor,
+                                          ),
                                         ),
-                                        child: Row(
-                                          children: [
-                                            SizedBox(
-                                              width: 16,
-                                              height: 16,
-                                              child: CircularProgressIndicator(
-                                                strokeWidth: 2,
+                                        8.horizontal,
+                                        Text(
+                                          "Validating company ID...",
+                                          style: AppTextStyles.captionStyle
+                                              .copyWith(
                                                 color: AppColors.primaryColor,
                                               ),
-                                            ),
-                                            8.horizontal,
-                                            Text(
-                                              "Validating company ID...",
-                                              style: AppTextStyles.captionStyle
-                                                  .copyWith(
-                                                    color:
-                                                        AppColors.primaryColor,
-                                                  ),
-                                            ),
-                                          ],
                                         ),
-                                      )
-                                      : const SizedBox.shrink(),
-                            ),
-                            16.vertical,
-                          ],
+                                      ],
+                                    ),
+                                  )
+                                  : const SizedBox.shrink(),
                         ),
-                      ],
                       Row(
                         children: [
                           Obx(

@@ -25,26 +25,29 @@ class OrderCard extends StatelessWidget {
 
     switch (status) {
       case OrderStatus.delivered:
-        colors = [AppColors.greyColor, AppColors.greyColor];
+        colors = [
+          AppColors.greyColor.withCustomOpacity(.7),
+          AppColors.greyColor.withCustomOpacity(.5),
+        ];
         stops = [0.0, 1.0];
         break;
       case OrderStatus.onTheWay:
         colors = [
-          AppColors.greyColor,
+          AppColors.greyColor.withCustomOpacity(.5),
           AppColors.primaryColor.withCustomOpacity(0.2),
         ];
         stops = [0.8, 1.0];
         break;
       case OrderStatus.approved:
         colors = [
-          AppColors.greyColor,
+          AppColors.greyColor.withCustomOpacity(.5),
           AppColors.primaryColor.withCustomOpacity(0.2),
         ];
         stops = [0.35, 1.0];
         break;
       case OrderStatus.pending:
         colors = [
-          AppColors.greyColor,
+          AppColors.greyColor.withCustomOpacity(.5),
           AppColors.primaryColor.withCustomOpacity(0.2),
         ];
         stops = [0.15, 1.0];
@@ -54,6 +57,7 @@ class OrderCard extends StatelessWidget {
     return InkWell(
       onTap: () => Get.to(() => OrderDetailScreen(order: order)),
       child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 10).copyWith(bottom: 12),
         padding: const EdgeInsets.all(16),
         width: double.infinity,
         decoration: BoxDecoration(
@@ -125,7 +129,9 @@ class OrderCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  order.driverName,
+                  (order.driverName == null || order.driverName!.isEmpty)
+                      ? "Company"
+                      : order.driverName!,
                   style: AppTextStyles.paragraphStyle.copyWith(
                     color: AppColors.primaryColor,
                     fontFamily: AppFonts.publicSansBoldItalic,

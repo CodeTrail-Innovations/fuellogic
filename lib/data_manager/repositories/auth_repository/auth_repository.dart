@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -46,7 +48,7 @@ class AuthRepository {
       }
       return null;
     } catch (e) {
-      print('Error getting user by ID: $e');
+      log('Error getting user by ID: $e');
       return null;
     }
   }
@@ -97,7 +99,7 @@ class AuthRepository {
       }
       return null;
     } catch (e) {
-      print('Error signing up: $e');
+      log('Error signing up: $e');
       return null;
     }
   }
@@ -121,7 +123,7 @@ class AuthRepository {
       }
       return null;
     } catch (e) {
-      print('Error signing in: $e');
+      log('Error signing in: $e');
       return null;
     }
   }
@@ -131,7 +133,7 @@ class AuthRepository {
       await _auth.signOut();
       await _sessionManager.clearSession();
     } catch (e) {
-      print('Error signing out: $e');
+      log('Error signing out: $e');
     }
   }
 
@@ -180,7 +182,7 @@ class AuthRepository {
       }
       return null;
     } catch (e) {
-      print('Error getting user data: $e');
+      log('Error getting user data: $e');
       return null;
     }
   }
@@ -190,7 +192,7 @@ class AuthRepository {
       final adminCodes = await _firestore.collection('admin_codes').get();
       return adminCodes.docs.any((doc) => doc.data()['code'] == code);
     } catch (e) {
-      print('Error verifying admin code: $e');
+      log('Error verifying admin code: $e');
       return false;
     }
   }

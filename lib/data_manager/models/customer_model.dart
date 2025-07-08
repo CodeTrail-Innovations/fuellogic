@@ -1,6 +1,3 @@
-// models/customer_model.dart
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Customer {
   final String customerId;
   final String name;
@@ -18,7 +15,6 @@ class Customer {
     required this.region,
     required this.nameLower,
     required this.nameKeywords,
-
   });
 
   factory Customer.fromJson(Map<String, dynamic> json) => Customer(
@@ -28,10 +24,10 @@ class Customer {
     city: json['city'] as String,
     region: json['region'] as String,
     nameLower: json['nameLower'] as String,
-    nameKeywords: (json['nameKeywords'] as List<dynamic>)
-        .map((e) => e as String)
-        .toList(),
-
+    nameKeywords:
+        (json['nameKeywords'] as List<dynamic>)
+            .map((e) => e as String)
+            .toList(),
   );
 
   Map<String, dynamic> toJson() => {
@@ -40,7 +36,7 @@ class Customer {
     'address': address,
     'city': city,
     'region': region,
-    'nameLower':    nameLower,
+    'nameLower': nameLower,
     'nameKeywords': nameKeywords,
   };
 }

@@ -28,6 +28,7 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                16.vertical,
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0),
                   child: Text(
@@ -37,7 +38,8 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+
+                16.vertical,
                 SizedBox(
                   height: 40,
                   child: SingleChildScrollView(
@@ -81,10 +83,13 @@ class HomeScreen extends StatelessWidget {
                 16.vertical,
                 controller.filteredOrders.isEmpty
                     ? Center(
-                      child: Text(
-                        "No orders found.",
-                        style: AppTextStyles.regularStyle.copyWith(
-                          color: AppColors.primaryColor,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 50.0),
+                        child: Text(
+                          "No orders found.",
+                          style: AppTextStyles.regularStyle.copyWith(
+                            color: AppColors.primaryColor,
+                          ),
                         ),
                       ),
                     )

@@ -41,23 +41,8 @@ class CustomBottomBarState extends State<CustomBottomBar> {
       final isCompany = userRole == 'Company';
 
       if (isCompany) {
-        _screens = [DashboardScreen(), SettingScreen(), ProfileScreen()];
-
-        _selectedIcons = [
-          AppAssets.homeIconFilled,
-          AppAssets.settingIconFilled,
-          AppAssets.prifileIconFilled,
-        ];
-
-        _unselectedIcons = [
-          AppAssets.homeIconLinear,
-          AppAssets.settingIconLinear,
-          AppAssets.prifileIconLinear,
-        ];
-      } else {
         _screens = [
-          HomeScreen(),
-          // AllOrdersScreen(),
+          DashboardScreen(),
           CreateOrderScreen(),
           SettingScreen(),
           ProfileScreen(),
@@ -65,7 +50,6 @@ class CustomBottomBarState extends State<CustomBottomBar> {
 
         _selectedIcons = [
           AppAssets.homeIconFilled,
-          // AppAssets.orderIconFilled,
           AppAssets.addOrderFilled,
           AppAssets.settingIconFilled,
           AppAssets.prifileIconFilled,
@@ -73,7 +57,27 @@ class CustomBottomBarState extends State<CustomBottomBar> {
 
         _unselectedIcons = [
           AppAssets.homeIconLinear,
-          // AppAssets.orderIconLinear,
+          AppAssets.addOrderLinear,
+          AppAssets.settingIconLinear,
+          AppAssets.prifileIconLinear,
+        ];
+      } else {
+        _screens = [
+          HomeScreen(),
+          CreateOrderScreen(),
+          SettingScreen(),
+          ProfileScreen(),
+        ];
+
+        _selectedIcons = [
+          AppAssets.homeIconFilled,
+          AppAssets.addOrderFilled,
+          AppAssets.settingIconFilled,
+          AppAssets.prifileIconFilled,
+        ];
+
+        _unselectedIcons = [
+          AppAssets.homeIconLinear,
           AppAssets.addOrderLinear,
           AppAssets.settingIconLinear,
           AppAssets.prifileIconLinear,
@@ -85,7 +89,6 @@ class CustomBottomBarState extends State<CustomBottomBar> {
 
     _screens = [
       HomeScreen(),
-      // AllOrdersScreen(),
       CreateOrderScreen(),
       SettingScreen(),
       ProfileScreen(),

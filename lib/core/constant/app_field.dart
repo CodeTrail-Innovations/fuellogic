@@ -1,5 +1,3 @@
-
-
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
@@ -35,6 +33,7 @@ class AppFeild extends StatefulWidget {
   final String? suffixImage;
   final VoidCallback? onSuffixTap;
   final bool isRating;
+  final bool isTextarea;
 
   const AppFeild({
     super.key,
@@ -62,6 +61,7 @@ class AppFeild extends StatefulWidget {
     this.suffixImage,
     this.onSuffixTap,
     this.isRating = false,
+    this.isTextarea = false,
   });
 
   @override
@@ -95,7 +95,9 @@ class AppFeildState extends State<AppFeild> {
         ),
         controller: widget.controller,
         keyboardType:
-            widget.isRating
+            widget.isTextarea
+                ? TextInputType.multiline
+                : widget.isRating
                 ? const TextInputType.numberWithOptions(decimal: true)
                 : widget.inputType,
         key: widget.fieldKey,
@@ -121,12 +123,13 @@ class AppFeildState extends State<AppFeild> {
                   _MaxValueInputFormatter(5.0),
                 ]
                 : null,
+        minLines: widget.isTextarea ? 3 : 1,
+        maxLines: widget.isTextarea ? null : 1,
         decoration: InputDecoration(
           isDense: true,
           contentPadding: EdgeInsets.symmetric(
             horizontal: 16,
-            vertical:
-                (widget.height - 24) / 2, 
+            vertical: (widget.height - 24) / 2,
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(

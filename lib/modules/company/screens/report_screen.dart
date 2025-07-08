@@ -73,7 +73,7 @@ class ReportScreen extends StatelessWidget {
                                 reportController.selectedStatus.value == status,
                             selectedColor: AppColors.primaryColor,
                             backgroundColor: AppColors.primaryColor
-                                .withCustomOpacity(.2),
+                                .withCustomOpacity(.1),
                             checkmarkColor: Colors.white,
                             showCheckmark: true,
                             onSelected: (selected) {
@@ -85,13 +85,9 @@ class ReportScreen extends StatelessWidget {
                       }).toList(),
                 ),
               ),
-              SizedBox(height: 16),
-              // Filtered orders list
+              20.vertical,
               ...reportController.filteredOrders.map(
-                (order) => Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: OrderCard(order: order),
-                ),
+                (order) => OrderCard(order: order),
               ),
             ],
           ),

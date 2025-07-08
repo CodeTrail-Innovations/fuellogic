@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../models/user_model.dart';
 
 class UserSessionManager {
@@ -24,8 +27,8 @@ class UserSessionManager {
 
   Future<void> saveSession(UserModel user) async {
     _currentUser = user;
-    print('saving user session: $user');
-    print('saving user session: ${user.name}');
+    log('saving user session: $user');
+    log('saving user session: ${user.name}');
     await _prefs.setString(_roleKey, user.role.toString());
     await _prefs.setString(_uidKey, user.uid);
   }
@@ -37,22 +40,22 @@ class UserSessionManager {
   }
 
   Future<void> loadSession() async {
-    print('loading user session');
+    log('loading user session');
     final role = _prefs.getString(_roleKey);
     final uid = _prefs.getString(_uidKey);
 
-    print('loading user session: $role');
-    print('loading user session: $uid');
+    log('loading user session: $role');
+    log('loading user session: $uid');
 
     if (role != null && uid != null) {
       // We'll load the user data through the repository later
       _currentUser = UserModel(
-          uid: uid,
-          role: role,
-          name: '',
-          email: '',
-          phoneNumber: '',
-          createdAt: DateTime.now(),
+        uid: uid,
+        role: role,
+        name: '',
+        email: '',
+        phoneNumber: '',
+        createdAt: DateTime.now(),
       );
     }
   }

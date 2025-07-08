@@ -68,13 +68,8 @@ class DashboardScreen extends StatelessWidget {
                 color: AppColors.primaryColor,
               ),
             ),
-            16.vertical,
-            ...controller.ordersList.map(
-              (order) => Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: OrderCard(order: order),
-              ),
-            ),
+            20.vertical,
+            ...controller.ordersList.map((order) => OrderCard(order: order)),
           ],
         ),
       );

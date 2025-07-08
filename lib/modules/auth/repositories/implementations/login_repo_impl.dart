@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:fuellogic/modules/bottombar/screens/custom_bottom_bar.dart';
 import 'package:fuellogic/modules/auth/repositories/implementations/home_repo_impl.dart';
 import 'package:fuellogic/modules/auth/repositories/interfaces/home_repo.dart';
 import 'package:fuellogic/modules/auth/repositories/interfaces/login_repo.dart';
+import 'package:fuellogic/modules/bottombar/screens/custom_bottom_bar.dart';
 import 'package:fuellogic/utils/dialog_utils.dart';
 import 'package:get/get.dart';
 
@@ -38,7 +38,7 @@ class LoginRepoImpl implements LoginRepository {
             message: 'Login successful!',
           );
 
-          Get.off(CustomBottomBar());
+          Get.off(() => CustomBottomBar());
 
           if (!Get.isRegistered<HomeRepository>()) {
             Get.put(() => HomeRepositoryImpl());

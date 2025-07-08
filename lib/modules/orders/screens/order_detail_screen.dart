@@ -42,10 +42,10 @@ class OrderDetailScreen extends StatelessWidget {
             Row(
               spacing: 16,
               children: [
-                SvgPicture.asset(AppAssets.mapIcon),
+                Icon(Icons.article, size: 20, color: AppColors.primaryColor),
                 Expanded(
                   child: Text(
-                    order.location,
+                    order.description,
                     style: AppTextStyles.paragraphStyle.copyWith(
                       color: AppColors.primaryColor,
                     ),
@@ -57,10 +57,10 @@ class OrderDetailScreen extends StatelessWidget {
             Row(
               spacing: 16,
               children: [
-                Image.asset(AppAssets.gasStationIcon, height: 20, width: 20),
+                SvgPicture.asset(AppAssets.mapIcon),
                 Expanded(
                   child: Text(
-                    order.fuelType.name.capitalizeFirst ?? '',
+                    order.location,
                     style: AppTextStyles.paragraphStyle.copyWith(
                       color: AppColors.primaryColor,
                     ),

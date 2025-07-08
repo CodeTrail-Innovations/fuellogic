@@ -10,6 +10,7 @@ class CreateOrderController extends GetxController {
   final locationController = TextEditingController();
   final quantityController = TextEditingController();
   final dateController = TextEditingController();
+  final descriptionController = TextEditingController();
   final fuelType = FuelType.gaseous.obs;
   final fuelUnit = FuelUnit.liters.obs;
 
@@ -45,22 +46,34 @@ class CreateOrderController extends GetxController {
     try {
       if (locationController.text.isEmpty ||
           quantityController.text.isEmpty ||
+          descriptionController.text.isEmpty ||
           dateController.text.isEmpty) {
         Get.snackbar("Error", "Please fill all fields");
         return;
       }
 
+      if (userData.value == null) {
+        Get.snackbar("Error", "User data not available");
+        return;
+      }
+
+      final currentUser = userData.value!;
       final order = OrderModel(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         location: locationController.text,
-        fuelType: fuelType.value,
+        description: descriptionController.text,
         quantity: quantityController.text,
-        fuelUnit: fuelUnit.value,
         date: dateController.text,
         orderStatus: OrderStatus.pending,
-        companyId: userData.value!.companyId,
-        driverId: _firebaseAuth.currentUser!.uid,
-        driverName: userData.value!.displayName,
+        companyId: currentUser.uid,
+        driverId:
+            currentUser.role == UserRole.company
+                ? null
+                : _firebaseAuth.currentUser?.uid,
+        driverName:
+            currentUser.role == UserRole.company
+                ? null
+                : currentUser.displayName,
       );
 
       await _firebaseFirestore

@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel {
@@ -30,7 +31,6 @@ class UserModel {
     this.nameKeywords,
   });
 
-  /// 🔹 For Firestore
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       uid: map['uid'] as String,
@@ -44,9 +44,10 @@ class UserModel {
       isVerified: map['isVerified'] as bool?,
       city: map['city'] as String?,
       nameLower: map['nameLower'] as String?,
-      nameKeywords: map['nameKeywords'] != null
-          ? List<String>.from(map['nameKeywords'])
-          : null,
+      nameKeywords:
+          map['nameKeywords'] != null
+              ? List<String>.from(map['nameKeywords'])
+              : null,
     );
   }
 
@@ -86,7 +87,7 @@ class UserModel {
     String? city,
     String? nameLower,
     List<String>? nameKeywords,
-    bool? isVerified
+    bool? isVerified,
   }) {
     return UserModel(
       uid: uid ?? this.uid,
@@ -100,7 +101,7 @@ class UserModel {
       city: city ?? this.city,
       nameLower: nameLower ?? this.nameLower,
       nameKeywords: nameKeywords ?? this.nameKeywords,
-        isVerified:isVerified ?? this.isVerified
+      isVerified: isVerified ?? this.isVerified,
     );
   }
 }

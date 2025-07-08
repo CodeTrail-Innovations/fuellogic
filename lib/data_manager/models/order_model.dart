@@ -1,4 +1,3 @@
-// models/order_model.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'customer_model.dart';
 
@@ -71,9 +70,10 @@ class OrderModel {
     customer: Customer.fromJson(json['customer']),
     orderType: json['orderType'] as String,
     orderDate: (json['orderDate'] as Timestamp).toDate(),
-    items: (json['items'] as List)
-        .map((e) => OrderItem.fromJson(e as Map<String, dynamic>))
-        .toList(),
+    items:
+        (json['items'] as List)
+            .map((e) => OrderItem.fromJson(e as Map<String, dynamic>))
+            .toList(),
     total: (json['total'] as num).toDouble(),
     challanSerial: json['challanSerial'] as String?,
     region: json['region'] as String?,
@@ -130,5 +130,4 @@ class OrderModel {
       paymentStatus: paymentStatus ?? this.paymentStatus,
     );
   }
-
 }
