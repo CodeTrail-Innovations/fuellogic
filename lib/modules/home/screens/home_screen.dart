@@ -24,92 +24,90 @@ class HomeScreen extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
 
-          return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                16.vertical,
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0),
-                  child: Text(
-                    "All orders(${controller.filteredOrders.length})",
-                    style: AppTextStyles.regularStyle.copyWith(
-                      color: AppColors.primaryColor,
+          return Column(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: Text(
+                      "All orders(${controller.filteredOrders.length})",
+                      style: AppTextStyles.regularStyle.copyWith(
+                        color: AppColors.primaryColor,
+                      ),
                     ),
                   ),
-                ),
-
-                16.vertical,
-                SizedBox(
-                  height: 40,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: List.generate(controller.orderFilter.length, (
-                        index,
-                      ) {
-                        return GestureDetector(
-                          onTap: () => controller.selectFilter(index),
-                          child: Container(
-                            margin: EdgeInsets.only(left: 6),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: AppColors.primaryColor),
-                              color:
-                                  controller.selectedIndex == index
-                                      ? AppColors.primaryColor
-                                      : Colors.transparent,
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            child: Text(
-                              controller.orderFilter[index],
-                              style: (AppTextStyles.regularStyle).copyWith(
-                                fontFamily: AppFonts.publicSansRegular,
+                  16.vertical,
+                  SizedBox(
+                    height: 40,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: List.generate(controller.orderFilter.length, (
+                          index,
+                        ) {
+                          return GestureDetector(
+                            onTap: () => controller.selectFilter(index),
+                            child: Container(
+                              margin: EdgeInsets.only(left: 6),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 6,
+                              ),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: AppColors.primaryColor,
+                                ),
                                 color:
                                     controller.selectedIndex == index
-                                        ? AppColors.whiteColor
-                                        : AppColors.primaryColor,
+                                        ? AppColors.primaryColor
+                                        : Colors.transparent,
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                              child: Text(
+                                controller.orderFilter[index],
+                                style: (AppTextStyles.regularStyle).copyWith(
+                                  fontFamily: AppFonts.publicSansRegular,
+                                  color:
+                                      controller.selectedIndex == index
+                                          ? AppColors.whiteColor
+                                          : AppColors.primaryColor,
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                      ),
+                    ),
+                  ),
+                  16.vertical,
+                ],
+              ),
+
+              Expanded(
+                child:
+                    controller.filteredOrders.isEmpty
+                        ? Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 50.0),
+                            child: Text(
+                              "No orders found.",
+                              style: AppTextStyles.regularStyle.copyWith(
+                                color: AppColors.primaryColor,
                               ),
                             ),
                           ),
-                        );
-                      }),
-                    ),
-                  ),
-                ),
-                16.vertical,
-                controller.filteredOrders.isEmpty
-                    ? Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 50.0),
-                        child: Text(
-                          "No orders found.",
-                          style: AppTextStyles.regularStyle.copyWith(
-                            color: AppColors.primaryColor,
-                          ),
+                        )
+                        : ListView.builder(
+                          itemCount: controller.filteredOrders.length,
+                          itemBuilder: (context, index) {
+                            final order = controller.filteredOrders[index];
+                            return OrderCard(order: order);
+                          },
                         ),
-                      ),
-                    )
-                    : SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.6,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: controller.filteredOrders.length,
-                        itemBuilder: (context, index) {
-                          final order = controller.filteredOrders[index];
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: OrderCard(order: order),
-                          );
-                        },
-                      ),
-                    ),
-              ],
-            ),
+              ),
+            ],
           );
         }),
       ),

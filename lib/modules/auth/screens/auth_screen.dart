@@ -13,45 +13,52 @@ class AuthScreen extends StatelessWidget {
   final controller = Get.put(AuthController());
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: Column(
-          spacing: 16,
-          children: [
-            Spacer(),
-            Text(
-              'Fuellogic',
-              style: GoogleFonts.racingSansOne(
-                textStyle: TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primaryColor,
+    return SafeArea(
+      top: false,
+      child: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            spacing: 16,
+            children: [
+              Spacer(),
+              Text(
+                'Fuellogic',
+                style: GoogleFonts.racingSansOne(
+                  textStyle: TextStyle(
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primaryColor,
+                  ),
                 ),
               ),
-            ),
-            Text(
-              'Smart Fueling for Smart Lives.',
-              style: GoogleFonts.racingSansOne(
-                textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              Text(
+                'Smart Fueling for Smart Lives.',
+                style: GoogleFonts.racingSansOne(
+                  textStyle: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-            ),
-            Spacer(),
-            AppButton(
-              height: 55,
-              btnRadius: 100,
-              text: 'Company',
-              onPressed: () => controller.goToRegisterScreen(UserRole.company),
-            ),
-            AppButton(
-              height: 55,
-              btnRadius: 100,
-              text: 'Driver',
-              isOutline: true,
-              onPressed: () => controller.goToRegisterScreen(UserRole.driver),
-            ),
-            24.vertical,
-          ],
+              Spacer(),
+              AppButton(
+                height: 55,
+                btnRadius: 100,
+                text: 'Company',
+                onPressed:
+                    () => controller.goToRegisterScreen(UserRole.company),
+              ),
+              AppButton(
+                height: 55,
+                btnRadius: 100,
+                text: 'Driver',
+                isOutline: true,
+                onPressed: () => controller.goToRegisterScreen(UserRole.driver),
+              ),
+              8.vertical,
+            ],
+          ),
         ),
       ),
     );

@@ -3,8 +3,9 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
-import 'package:fuellogic/modules/bottombar/screens/custom_bottom_bar.dart';
 import 'package:fuellogic/modules/auth/screens/auth_screen.dart';
+import 'package:fuellogic/modules/bottombar/controllers/bottombar_controller.dart';
+import 'package:fuellogic/modules/bottombar/screens/custom_bottom_bar.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -16,6 +17,9 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final _auth = FirebaseAuth.instance;
+  final _bottomBarController = Get.put(BottombarController());
+
   @override
   void initState() {
     super.initState();
@@ -24,13 +28,21 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void _checkUserStatus() async {
     await Future.delayed(const Duration(seconds: 1));
-    User? user = FirebaseAuth.instance.currentUser;
 
-    log("DEBUG: User is ${user != null ? 'LOGGED IN' : 'NULL'}");
+    try {
+      User? user = _auth.currentUser;
+      log("DEBUG: User is ${user != null ? 'LOGGED IN' : 'NULL'}");
 
-    if (user != null) {
-      Get.off(() => CustomBottomBar());
-    } else {
+      if (user != null) {
+        await _bottomBarController.fetchCurrentUserData();
+
+        Get.off(() => CustomBottomBar());
+      } else {
+        Get.off(() => AuthScreen());
+      }
+    } catch (e) {
+      log("Error during splash screen navigation: $e");
+
       Get.off(() => AuthScreen());
     }
   }

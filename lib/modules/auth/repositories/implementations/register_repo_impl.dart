@@ -102,7 +102,7 @@ class RegisterRepoImpl implements RegisterRepository {
           uid: user.uid,
           email: email,
           displayName: name,
-          companyId: role == UserRole.driver ? companyId : '',
+          companyId: role == UserRole.driver ? companyId : user.uid,
           role: role,
           photoURL: '',
           driver: role == UserRole.company ? [] : [],

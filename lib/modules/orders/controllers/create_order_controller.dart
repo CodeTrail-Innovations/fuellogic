@@ -13,6 +13,7 @@ class CreateOrderController extends GetxController {
   final descriptionController = TextEditingController();
   final fuelType = FuelType.gaseous.obs;
   final fuelUnit = FuelUnit.liters.obs;
+  final isLoading = false.obs;
 
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -43,6 +44,7 @@ class CreateOrderController extends GetxController {
   }
 
   Future<void> createOrder() async {
+    isLoading.value = true;
     try {
       if (locationController.text.isEmpty ||
           quantityController.text.isEmpty ||
@@ -92,6 +94,8 @@ class CreateOrderController extends GetxController {
         'Failed to create order: $e',
         snackPosition: SnackPosition.BOTTOM,
       );
+    } finally {
+      isLoading.value = false;
     }
   }
 

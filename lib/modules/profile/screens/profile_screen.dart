@@ -7,10 +7,8 @@ import 'package:fuellogic/core/constant/app_colors.dart';
 import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/modules/orders/screens/order_history_screen.dart';
 import 'package:fuellogic/modules/profile/controllers/profile_controller.dart';
-import 'package:fuellogic/modules/profile/screens/company_profile_screen.dart';
 import 'package:fuellogic/modules/setting/screens/components/setting_card.dart';
 import 'package:get/get.dart';
-import 'package:svg_flutter/svg_flutter.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
@@ -39,28 +37,23 @@ class ProfileScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         24.vertical,
-                        Row(
-                          children: [
-                            Text(
-                              "Profile",
-                              style: AppTextStyles.largeStyle.copyWith(
-                                color: AppColors.primaryColor,
-                              ),
-                            ),
-                            Spacer(),
-                            InkWell(
-                              onTap: () => Get.to(() => CompanyProfileScreen()),
-                              child: SvgPicture.asset(
-                                AppAssets.editProfileIcon,
-                              ),
-                            ),
-                          ],
+                        Text(
+                          "Profile",
+                          style: AppTextStyles.largeStyle.copyWith(
+                            color: AppColors.primaryColor,
+                          ),
                         ),
+
                         24.vertical,
                         Center(
                           child: CircleAvatar(
+                            backgroundColor: AppColors.primaryColor,
                             radius: 75,
-                            child: Icon(Icons.person, size: 50),
+                            child: Icon(
+                              size: 50,
+                              Icons.person,
+                              color: AppColors.whiteColor,
+                            ),
                           ),
                         ),
                         24.vertical,

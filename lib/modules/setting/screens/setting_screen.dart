@@ -36,12 +36,12 @@ class SettingScreen extends StatelessWidget {
                 forIcon: false,
                 icon: '',
               ),
-              SettingCard(
-                title: 'Notifications',
-                subTitle: "preferences, notifications types",
-                forIcon: true,
-                icon: AppAssets.notificationIcon,
-              ),
+              // SettingCard(
+              //   title: 'Notifications',
+              //   subTitle: "preferences, notifications types",
+              //   forIcon: true,
+              //   icon: AppAssets.notificationIcon,
+              // ),
               SettingCard(
                 title: 'Legal',
                 subTitle: "Privacy policy, terms of use",

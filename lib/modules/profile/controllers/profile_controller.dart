@@ -41,6 +41,9 @@ class ProfileController extends GetxController {
           final userData = userDoc.data();
           if (userData != null) {
             this.userData.value = UserModel.fromJson(userData);
+             displayNameController.text = this.userData.value?.displayName ?? '';
+            phoneNumberController.text = this.userData.value?.phoneNumber ?? '';
+            addressController.text = this.userData.value?.address ?? '';
           }
         }
       }
@@ -82,8 +85,8 @@ class ProfileController extends GetxController {
   }
 
   Future<void> saveProfileChanges() async {
+    isLoading.value = true;
     try {
-      isLoading.value = true;
       final user = auth.currentUser;
       if (user != null) {
         final updateData = {

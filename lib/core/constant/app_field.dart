@@ -34,6 +34,7 @@ class AppFeild extends StatefulWidget {
   final VoidCallback? onSuffixTap;
   final bool isRating;
   final bool isTextarea;
+  final bool enabled; // New parameter for enabling/disabling the field
 
   const AppFeild({
     super.key,
@@ -62,6 +63,7 @@ class AppFeild extends StatefulWidget {
     this.onSuffixTap,
     this.isRating = false,
     this.isTextarea = false,
+    this.enabled = true, // Default to enabled
   });
 
   @override
@@ -74,6 +76,7 @@ class AppFeildState extends State<AppFeild> {
   @override
   Widget build(BuildContext context) {
     final isSearchField = widget.isSearchField;
+    final enabled = widget.enabled; // Get the enabled state
 
     return Container(
       width: double.infinity,
@@ -87,6 +90,7 @@ class AppFeildState extends State<AppFeild> {
         ),
       ),
       child: TextFormField(
+        enabled: enabled, // Set the enabled state
         style: AppTextStyles.paragraphStyle.copyWith(
           color:
               isSearchField
@@ -153,6 +157,15 @@ class AppFeildState extends State<AppFeild> {
                       : AppColors.blackColor.withCustomOpacity(.2),
             ),
           ),
+          disabledBorder: OutlineInputBorder(
+            // Add disabled border style
+            borderRadius: BorderRadius.circular(
+              isSearchField ? 100 : widget.radius,
+            ),
+            borderSide: BorderSide(
+              color: AppColors.blackColor.withCustomOpacity(.2),
+            ),
+          ),
           border: InputBorder.none,
           hintText: widget.hintText,
           hintStyle: TextStyle(
@@ -190,11 +203,14 @@ class AppFeildState extends State<AppFeild> {
           suffixIcon:
               widget.isPasswordField == true
                   ? GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _obscureText = !_obscureText;
-                      });
-                    },
+                    onTap:
+                        enabled // Only allow tap if field is enabled
+                            ? () {
+                              setState(() {
+                                _obscureText = !_obscureText;
+                              });
+                            }
+                            : null,
                     child: Icon(
                       _obscureText ? Icons.visibility_off : Icons.visibility,
                       size: widget.iconSize,
@@ -206,7 +222,10 @@ class AppFeildState extends State<AppFeild> {
                   )
                   : widget.suffixImage != null
                   ? GestureDetector(
-                    onTap: widget.onSuffixTap,
+                    onTap:
+                        enabled
+                            ? widget.onSuffixTap
+                            : null, // Only allow tap if field is enabled
                     child: Padding(
                       padding: const EdgeInsets.all(12.0).copyWith(right: 16),
                       child: SvgPicture.asset(

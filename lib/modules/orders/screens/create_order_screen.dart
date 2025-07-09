@@ -67,11 +67,14 @@ class CreateOrderScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              AppButton(
-                text: "Create order",
-                onPressed: () {
-                  controller.createOrder();
-                },
+              Obx(
+                () => AppButton(
+                  text: "Create order",
+                  isLoading: controller.isLoading.value,
+                  onPressed: () {
+                    controller.createOrder();
+                  },
+                ),
               ),
             ],
           ),

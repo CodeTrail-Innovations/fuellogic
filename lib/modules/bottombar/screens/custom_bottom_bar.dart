@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:fuellogic/config/app_assets.dart';
 import 'package:fuellogic/config/extension/space_extension.dart';
@@ -14,8 +12,7 @@ import 'package:get/get.dart';
 import 'package:svg_flutter/svg_flutter.dart';
 
 class CustomBottomBar extends StatefulWidget {
-  CustomBottomBar({super.key});
-  final controller = Get.put(BottombarController());
+  const CustomBottomBar({super.key});
 
   @override
   CustomBottomBarState createState() => CustomBottomBarState();
@@ -23,77 +20,35 @@ class CustomBottomBar extends StatefulWidget {
 
 class CustomBottomBarState extends State<CustomBottomBar> {
   int _selectedIndex = 0;
-  List<Widget> _screens = [];
-  List<String> _selectedIcons = [];
-  List<String> _unselectedIcons = [];
+  final controller = Get.put(BottombarController());
 
-  @override
-  void initState() {
-    super.initState();
+  List<Widget> get _screens {
+    final userRole = controller.userData.value?.role.label ?? '';
+    final isCompany = userRole == 'Company';
 
-    widget.controller.fetchCurrentUserData().then((_) {
-      final userRole = widget.controller.userData.value?.role.label ?? '';
-
-      log('==============================');
-      log('check logs: $userRole');
-      log('==============================');
-
-      final isCompany = userRole == 'Company';
-
-      if (isCompany) {
-        _screens = [
+    return isCompany
+        ? [
           DashboardScreen(),
           CreateOrderScreen(),
           SettingScreen(),
           ProfileScreen(),
-        ];
-
-        _selectedIcons = [
-          AppAssets.homeIconFilled,
-          AppAssets.addOrderFilled,
-          AppAssets.settingIconFilled,
-          AppAssets.prifileIconFilled,
-        ];
-
-        _unselectedIcons = [
-          AppAssets.homeIconLinear,
-          AppAssets.addOrderLinear,
-          AppAssets.settingIconLinear,
-          AppAssets.prifileIconLinear,
-        ];
-      } else {
-        _screens = [
-          HomeScreen(),
-          CreateOrderScreen(),
-          SettingScreen(),
-          ProfileScreen(),
-        ];
-
-        _selectedIcons = [
-          AppAssets.homeIconFilled,
-          AppAssets.addOrderFilled,
-          AppAssets.settingIconFilled,
-          AppAssets.prifileIconFilled,
-        ];
-
-        _unselectedIcons = [
-          AppAssets.homeIconLinear,
-          AppAssets.addOrderLinear,
-          AppAssets.settingIconLinear,
-          AppAssets.prifileIconLinear,
-        ];
-      }
-
-      setState(() {});
-    });
-
-    _screens = [
-      HomeScreen(),
-      CreateOrderScreen(),
-      SettingScreen(),
-      ProfileScreen(),
-    ];
+        ]
+        : [HomeScreen(), CreateOrderScreen(), SettingScreen(), ProfileScreen()];
   }
+
+  List<String> get _selectedIcons => [
+    AppAssets.homeIconFilled,
+    AppAssets.addOrderFilled,
+    AppAssets.settingIconFilled,
+    AppAssets.prifileIconFilled,
+  ];
+
+  List<String> get _unselectedIcons => [
+    AppAssets.homeIconLinear,
+    AppAssets.addOrderLinear,
+    AppAssets.settingIconLinear,
+    AppAssets.prifileIconLinear,
+  ];
 
   void _onItemTapped(int index) {
     setState(() {
