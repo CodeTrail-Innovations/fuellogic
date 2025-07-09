@@ -41,8 +41,7 @@ class CreateOrderScreen extends StatelessWidget {
               ),
               Text("Enter Quantity", style: AppTextStyles.regularStyle),
               AppFeild(
-                height: 55,
-                controller: controller.quantityController,
+                 controller: controller.quantityController,
                 hintText: "Pakistan Petroleum Limited",
                 inputType: TextInputType.numberWithOptions(),
               ),

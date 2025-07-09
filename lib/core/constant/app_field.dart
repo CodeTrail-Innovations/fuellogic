@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fuellogic/config/app_assets.dart';
@@ -34,7 +32,7 @@ class AppFeild extends StatefulWidget {
   final VoidCallback? onSuffixTap;
   final bool isRating;
   final bool isTextarea;
-  final bool enabled; // New parameter for enabling/disabling the field
+  final bool enabled;
 
   const AppFeild({
     super.key,
@@ -56,14 +54,14 @@ class AppFeild extends StatefulWidget {
     this.feildClr,
     this.radius = 12,
     this.isSearchField = false,
-    this.height = 75,
+    this.height = 55,
     this.hintTextColor,
     this.fieldTextColor,
     this.suffixImage,
     this.onSuffixTap,
     this.isRating = false,
     this.isTextarea = false,
-    this.enabled = true, // Default to enabled
+    this.enabled = true,
   });
 
   @override
@@ -76,7 +74,7 @@ class AppFeildState extends State<AppFeild> {
   @override
   Widget build(BuildContext context) {
     final isSearchField = widget.isSearchField;
-    final enabled = widget.enabled; // Get the enabled state
+    final enabled = widget.enabled;
 
     return Container(
       width: double.infinity,
@@ -90,7 +88,7 @@ class AppFeildState extends State<AppFeild> {
         ),
       ),
       child: TextFormField(
-        enabled: enabled, // Set the enabled state
+        enabled: enabled,
         style: AppTextStyles.paragraphStyle.copyWith(
           color:
               isSearchField
@@ -158,7 +156,6 @@ class AppFeildState extends State<AppFeild> {
             ),
           ),
           disabledBorder: OutlineInputBorder(
-            // Add disabled border style
             borderRadius: BorderRadius.circular(
               isSearchField ? 100 : widget.radius,
             ),
@@ -186,6 +183,7 @@ class AppFeildState extends State<AppFeild> {
                       width: widget.iconSize ?? 24,
                       height: widget.iconSize ?? 24,
                       fit: BoxFit.contain,
+
                       colorFilter:
                           widget.prefixImage != null
                               ? ColorFilter.mode(
@@ -193,6 +191,8 @@ class AppFeildState extends State<AppFeild> {
                                 BlendMode.srcIn,
                               )
                               : null,
+
+                      // ignore: deprecated_member_use
                       color:
                           isSearchField
                               ? AppColors.whiteColor
@@ -204,7 +204,7 @@ class AppFeildState extends State<AppFeild> {
               widget.isPasswordField == true
                   ? GestureDetector(
                     onTap:
-                        enabled // Only allow tap if field is enabled
+                        enabled
                             ? () {
                               setState(() {
                                 _obscureText = !_obscureText;
@@ -222,10 +222,7 @@ class AppFeildState extends State<AppFeild> {
                   )
                   : widget.suffixImage != null
                   ? GestureDetector(
-                    onTap:
-                        enabled
-                            ? widget.onSuffixTap
-                            : null, // Only allow tap if field is enabled
+                    onTap: enabled ? widget.onSuffixTap : null,
                     child: Padding(
                       padding: const EdgeInsets.all(12.0).copyWith(right: 16),
                       child: SvgPicture.asset(
@@ -233,6 +230,7 @@ class AppFeildState extends State<AppFeild> {
                         width: widget.iconSize ?? 24,
                         height: widget.iconSize ?? 24,
                         fit: BoxFit.contain,
+                        // ignore: deprecated_member_use
                         color: isSearchField ? AppColors.whiteColor : null,
                       ),
                     ),
