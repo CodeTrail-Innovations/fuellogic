@@ -102,23 +102,4 @@ Created At: ${user.createdAt.toDate()}
       snackPosition: SnackPosition.BOTTOM,
     );
   }
-
-  // Future<String?> getCompanyOwnerName() async {
-  //   if (userData.value?.role != UserRole.driver ||
-  //       userData.value?.companyId.isEmpty ?? true) {
-  //     return null;
-  //   }
-  //
-  //   try {
-  //     final doc = await _firestore
-  //         .collection('users')
-  //         .doc(userData.value!.companyId)
-  //         .get();
-  //
-  //     return doc['displayName'] as String?;
-  //   } catch (e) {
-  //     log('Error fetching company owner: $e');
-  //     return null;
-  //   }
-  // }
 }

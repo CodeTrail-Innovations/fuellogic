@@ -3,6 +3,7 @@ import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
 import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/modules/company/controllers/report_controller.dart';
+import 'package:fuellogic/modules/company/modules/trucks/screens/all_vehicle_screen.dart';
 import 'package:fuellogic/modules/company/screens/all_driver_screen.dart';
 import 'package:fuellogic/modules/company/screens/components/order_report_card.dart';
 import 'package:fuellogic/modules/home/screens/components/order_card.dart';
@@ -33,6 +34,7 @@ class ReportScreen extends StatelessWidget {
             child: Column(
               children: [
                 Row(
+                  spacing: 16,
                   children: [
                     Expanded(
                       child: OrderReportCard(
@@ -42,15 +44,23 @@ class ReportScreen extends StatelessWidget {
                         forDelivered: true,
                       ),
                     ),
-                    SizedBox(width: 16),
+
                     Expanded(
                       child: OrderReportCard(
-                        title: 'On the way',
+                        ontap: () => Get.to(() => AllVehicleScreen()),
+                        title: 'Total cars',
                         stats: reportController.onTheWayOrdersCount.toString(),
                         forDelivered: false,
                       ),
                     ),
                   ],
+                ),
+                16.vertical,
+                OrderReportCard(
+                  forTruck: true,
+                  title: 'On the way',
+                  stats: reportController.onTheWayOrdersCount.toString(),
+                  forDelivered: false,
                 ),
                 16.vertical,
                 SingleChildScrollView(

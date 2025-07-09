@@ -2,72 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:fuellogic/config/app_textstyle.dart';
 import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
-import 'package:fuellogic/modules/company/controllers/report_controller.dart';
+import 'package:fuellogic/modules/company/modules/trucks/controllers/vehicle_controller.dart';
+import 'package:fuellogic/modules/company/modules/trucks/screens/add_vehicle_screen.dart';
 import 'package:fuellogic/widgets/custom_appbar.dart';
 import 'package:get/get.dart';
 
-class AllDriverScreen extends StatelessWidget {
-  final controller = Get.put(ReportController());
-
-  AllDriverScreen({super.key});
-
+class AllVehicleScreen extends StatelessWidget {
+  AllVehicleScreen({super.key});
+  final controller = Get.put(VehicleController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: CustomAppBar(),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () => Get.to(() => AddVehicleScreen()),
+        ),
         body: Obx(() {
           if (controller.isLoading.value) {
-            return const Center(
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  AppColors.primaryColor,
-                ),
-              ),
-            );
+            return const Center(child: CircularProgressIndicator());
           }
 
-          if (controller.driversList.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.people_outline,
-                    size: 80,
-                    color: AppColors.whiteColor.withCustomOpacity(0.5),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'No drivers found',
-                    style: TextStyle(
-                      color: AppColors.whiteColor.withCustomOpacity(0.7),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Add drivers to see them here',
-                    style: TextStyle(
-                      color: AppColors.whiteColor.withCustomOpacity(0.5),
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
-              ),
-            );
+          if (controller.vehicles.isEmpty) {
+            return const Center(child: Text('No vehicles found'));
           }
-
           return Column(
+            spacing: 16,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              
               Expanded(
                 child: ListView.builder(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
-                  itemCount: controller.driversList.length,
+                  itemCount: controller.vehicles.length,
                   itemBuilder: (context, index) {
-                    final driver = controller.driversList[index];
+                    final vehicle = controller.vehicles[index];
                     return Container(
                       margin: const EdgeInsets.only(bottom: 12),
                       decoration: BoxDecoration(
@@ -93,35 +62,25 @@ class AllDriverScreen extends StatelessWidget {
                               width: 2,
                             ),
                           ),
-                          child:
-                              driver.photoURL.isNotEmpty
-                                  ? CircleAvatar(
-                                    radius: 28,
-                                    backgroundImage: NetworkImage(
-                                      driver.photoURL,
-                                    ),
-                                    backgroundColor: AppColors.primaryColor
-                                        .withCustomOpacity(0.1),
-                                  )
-                                  : CircleAvatar(
-                                    radius: 28,
-                                    backgroundColor: AppColors.primaryColor
-                                        .withCustomOpacity(0.1),
-                                    child: Icon(
-                                      Icons.person,
-                                      color: AppColors.primaryColor,
-                                      size: 28,
-                                    ),
-                                  ),
+                          child: CircleAvatar(
+                            radius: 28,
+                            backgroundColor: AppColors.primaryColor
+                                .withCustomOpacity(0.1),
+                            child: Icon(
+                              Icons.person,
+                              color: AppColors.primaryColor,
+                              size: 28,
+                            ),
+                          ),
                         ),
                         title: Text(
-                          driver.displayName,
+                          'Vehicle Name: ${vehicle.vehicleName}',
                           style: AppTextStyles.regularStyle,
                         ),
                         subtitle: Padding(
                           padding: const EdgeInsets.only(top: 4),
                           child: Text(
-                            driver.email,
+                            'Vehicle Number# ${vehicle.vehicleNumber}',
                             style: AppTextStyles.paragraphStyle,
                           ),
                         ),

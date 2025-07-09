@@ -19,6 +19,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   final _auth = FirebaseAuth.instance;
   final _bottomBarController = Get.put(BottombarController());
+  int? initialIndex;
 
   @override
   void initState() {
@@ -36,13 +37,17 @@ class _SplashScreenState extends State<SplashScreen> {
       if (user != null) {
         await _bottomBarController.fetchCurrentUserData();
 
-        Get.off(() => CustomBottomBar());
+        final userRole = _bottomBarController.userData.value?.role.label ?? '';
+
+        log(userRole);
+        final isCompany = userRole == 'Company';
+
+        Get.off(() => CustomBottomBar(isCompany: isCompany));
       } else {
         Get.off(() => AuthScreen());
       }
     } catch (e) {
       log("Error during splash screen navigation: $e");
-
       Get.off(() => AuthScreen());
     }
   }

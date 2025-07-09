@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:fuellogic/config/app_assets.dart';
 import 'package:fuellogic/config/extension/space_extension.dart';
@@ -12,21 +14,35 @@ import 'package:get/get.dart';
 import 'package:svg_flutter/svg_flutter.dart';
 
 class CustomBottomBar extends StatefulWidget {
-  const CustomBottomBar({super.key});
+  final bool isCompany;
+  final int initialIndex;
+
+  const CustomBottomBar({
+    super.key,
+    this.initialIndex = 0,
+    this.isCompany = false,
+  });
 
   @override
   CustomBottomBarState createState() => CustomBottomBarState();
 }
 
 class CustomBottomBarState extends State<CustomBottomBar> {
-  int _selectedIndex = 0;
+  late int _selectedIndex;
   final controller = Get.put(BottombarController());
 
-  List<Widget> get _screens {
-    final userRole = controller.userData.value?.role.label ?? '';
-    final isCompany = userRole == 'Company';
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.initialIndex;
 
-    return isCompany
+    log('CustomBottomBar - isCompany: ${widget.isCompany}');
+    log('Initial index: ${widget.initialIndex}');
+  }
+
+  List<Widget> get _screens {
+    log('Getting screens - isCompany: ${widget.isCompany}');
+    return widget.isCompany
         ? [
           DashboardScreen(),
           CreateOrderScreen(),
@@ -51,6 +67,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
   ];
 
   void _onItemTapped(int index) {
+    log('Bottom bar item tapped - index: $index');
     setState(() {
       _selectedIndex = index;
     });
@@ -58,6 +75,8 @@ class CustomBottomBarState extends State<CustomBottomBar> {
 
   @override
   Widget build(BuildContext context) {
+    log('Building CustomBottomBar with selectedIndex: $_selectedIndex');
+
     return SafeArea(
       top: false,
       child: Scaffold(
@@ -107,6 +126,9 @@ class CustomBottomBarState extends State<CustomBottomBar> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: List.generate(_selectedIcons.length, (index) {
+                    log(
+                      'Building nav item $index - selected: ${_selectedIndex == index}',
+                    );
                     return _buildNavItem(index);
                   }),
                 ),

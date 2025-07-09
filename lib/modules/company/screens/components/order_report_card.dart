@@ -9,13 +9,15 @@ class OrderReportCard extends StatelessWidget {
   final String title;
   final String stats;
   final bool forDelivered;
+  final bool forTruck;
   final VoidCallback? ontap;
   const OrderReportCard({
     super.key,
     required this.title,
     required this.stats,
-    required this.forDelivered,
+    this.forDelivered = false,
     this.ontap,
+    this.forTruck = false,
   });
 
   @override
@@ -29,15 +31,19 @@ class OrderReportCard extends StatelessWidget {
           border: Border.all(
             width: 2,
             color:
-                forDelivered == true
+                forTruck == true
+                    ? AppColors.primaryColor.withCustomOpacity(.5)
+                    : forDelivered == true
                     ? AppColors.progressColor.withCustomOpacity(.5)
-                    : AppColors.primaryColor.withCustomOpacity(.5),
+                    : AppColors.mainColor.withCustomOpacity(.5),
           ),
           borderRadius: BorderRadius.circular(24),
           color:
-              forDelivered == true
+              forTruck == true
+                  ? AppColors.primaryColor.withCustomOpacity(.2)
+                  : forDelivered == true
                   ? AppColors.progressColor.withCustomOpacity(.2)
-                  : AppColors.primaryColor.withCustomOpacity(.2),
+                  : AppColors.mainColor.withCustomOpacity(.2),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,9 +52,11 @@ class OrderReportCard extends StatelessWidget {
               title,
               style: AppTextStyles.regularStyle.copyWith(
                 color:
-                    forDelivered == true
+                    forTruck == true
+                        ? AppColors.primaryColor
+                        : forDelivered == true
                         ? AppColors.progressColor
-                        : AppColors.primaryColor,
+                        : AppColors.mainColor,
               ),
             ),
             16.vertical,
@@ -61,9 +69,11 @@ class OrderReportCard extends StatelessWidget {
                       ? AppAssets.orderIconFilled
                       : AppAssets.orderIconLinear,
                   colorFilter: ColorFilter.mode(
-                    forDelivered == true
+                    forTruck == true
+                        ? AppColors.primaryColor
+                        : forDelivered == true
                         ? AppColors.progressColor
-                        : AppColors.primaryColor,
+                        : AppColors.mainColor,
                     BlendMode.srcIn,
                   ),
                 ),
