@@ -9,7 +9,6 @@ import 'package:fuellogic/modules/company/screens/dashboard_screen.dart';
 import 'package:fuellogic/modules/home/screens/home_screen.dart';
 import 'package:fuellogic/modules/orders/screens/create_order_screen.dart';
 import 'package:fuellogic/modules/profile/screens/profile_screen.dart';
-import 'package:fuellogic/modules/setting/screens/setting_screen.dart';
 import 'package:get/get.dart';
 import 'package:svg_flutter/svg_flutter.dart';
 
@@ -43,26 +42,19 @@ class CustomBottomBarState extends State<CustomBottomBar> {
   List<Widget> get _screens {
     log('Getting screens - isCompany: ${widget.isCompany}');
     return widget.isCompany
-        ? [
-          DashboardScreen(),
-          CreateOrderScreen(),
-          SettingScreen(),
-          ProfileScreen(),
-        ]
-        : [HomeScreen(), CreateOrderScreen(), SettingScreen(), ProfileScreen()];
+        ? [DashboardScreen(), CreateOrderScreen(), ProfileScreen()]
+        : [HomeScreen(), CreateOrderScreen(), ProfileScreen()];
   }
 
   List<String> get _selectedIcons => [
     AppAssets.homeIconFilled,
     AppAssets.addOrderFilled,
-    AppAssets.settingIconFilled,
     AppAssets.prifileIconFilled,
   ];
 
   List<String> get _unselectedIcons => [
     AppAssets.homeIconLinear,
     AppAssets.addOrderLinear,
-    AppAssets.settingIconLinear,
     AppAssets.prifileIconLinear,
   ];
 

@@ -10,6 +10,7 @@ import 'package:fuellogic/core/constant/app_colors.dart';
 import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/core/routes/app_router.dart';
 import 'package:fuellogic/modules/auth/models/user_model.dart';
+import 'package:fuellogic/modules/company/modules/trucks/models/vehicle_model.dart';
 import 'package:get/get.dart';
 
 class ProfileController extends GetxController {
@@ -25,8 +26,12 @@ class ProfileController extends GetxController {
 
   @override
   void onInit() {
-    fetchCurrentUserData();
-    fetchCompanyNameForDriver();
+    fetchCurrentUserData().then((_) {
+      if (userData.value?.role.value == UserRole.driver.value) {
+        fetchAssignedVehicle();
+      }
+      fetchCompanyNameForDriver();
+    });
     super.onInit();
   }
 
@@ -41,7 +46,7 @@ class ProfileController extends GetxController {
           final userData = userDoc.data();
           if (userData != null) {
             this.userData.value = UserModel.fromJson(userData);
-             displayNameController.text = this.userData.value?.displayName ?? '';
+            displayNameController.text = this.userData.value?.displayName ?? '';
             phoneNumberController.text = this.userData.value?.phoneNumber ?? '';
             addressController.text = this.userData.value?.address ?? '';
           }
@@ -109,6 +114,30 @@ class ProfileController extends GetxController {
       Get.snackbar('Error', 'Failed to update profile: $e');
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  final Rx<VehicleModel?> assignedVehicle = Rx<VehicleModel?>(null);
+
+  Future<void> fetchAssignedVehicle() async {
+    log("start the fetch function");
+    try {
+      final user = auth.currentUser;
+      if (user == null) return;
+
+      final querySnapshot =
+          await firestore
+              .collection('vehicles')
+              .where('assignDriverId', isEqualTo: user.uid)
+              .limit(1)
+              .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        final doc = querySnapshot.docs.first;
+        assignedVehicle.value = VehicleModel.fromJson(doc.data());
+      }
+    } catch (e) {
+      log('Error fetching assigned vehicle: $e');
     }
   }
 

@@ -7,7 +7,8 @@ import 'package:fuellogic/core/constant/app_colors.dart';
 import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/modules/orders/screens/order_history_screen.dart';
 import 'package:fuellogic/modules/profile/controllers/profile_controller.dart';
-import 'package:fuellogic/modules/setting/screens/components/setting_card.dart';
+import 'package:fuellogic/modules/profile/screens/company_profile_screen.dart';
+import 'package:fuellogic/modules/profile/screens/components/profile_card.dart';
 import 'package:get/get.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -29,14 +30,15 @@ class ProfileScreen extends StatelessWidget {
 
           return Column(
             children: [
+              20.vertical,
               Expanded(
                 child: SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Column(
+                      spacing: 16,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        24.vertical,
                         Text(
                           "Profile",
                           style: AppTextStyles.largeStyle.copyWith(
@@ -44,42 +46,15 @@ class ProfileScreen extends StatelessWidget {
                           ),
                         ),
 
-                        24.vertical,
-                        Center(
-                          child: CircleAvatar(
-                            backgroundColor: AppColors.primaryColor,
-                            radius: 75,
-                            child: Icon(
-                              size: 50,
-                              Icons.person,
-                              color: AppColors.whiteColor,
-                            ),
-                          ),
+                        ProfileCard(
+                          onTap: () => Get.to(() => CompanyProfileScreen()),
+                          title: 'Profile',
+                          subTitle: "Profile picture, name",
+                          forIcon: false,
+                          icon: '',
                         ),
-                        24.vertical,
-                        Text(
-                          userData.displayName,
-                          style: AppTextStyles.regularStyle,
-                        ),
-                        8.vertical,
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 2,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.primaryColor.withCustomOpacity(.1),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Text(
-                            userData.role.name,
-                            style: AppTextStyles.paragraphStyle.copyWith(
-                              color: AppColors.primaryColor,
-                            ),
-                          ),
-                        ),
-                        24.vertical,
-                        SettingCard(
+
+                        ProfileCard(
                           onTap:
                               () => Get.to(
                                 () => OrderHistoryScreen(role: userData.role),
@@ -89,23 +64,49 @@ class ProfileScreen extends StatelessWidget {
                           forIcon: true,
                           icon: AppAssets.clockIcon,
                         ),
-                        16.vertical,
 
-                        // FutureBuilder<String?>(
-                        //   future: controller.fetchCompanyNameForDriver(),
-                        //   builder: (context, snapshot) {
-                        //     final companyName = snapshot.data ?? 'Loading...';
-                        //     return SettingCard(
-                        //       title: companyName,
-                        //       subTitle: "click here to see company details",
-                        //       forIcon: true,
-                        //       icon: AppAssets.clockIcon,
-                        //     );
-                        //   },
-                        // ),
-                        // 16.vertical,
+                        Obx(() {
+                          final vehicle = controller.assignedVehicle.value;
+                          if (vehicle == null) return Text("data");
+
+                          return Column(
+                            children: [
+                              ProfileCard(
+                                onTap: () {
+                                  Get.dialog(
+                                    AlertDialog(
+                                      title: Text('Fuel Information'),
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Capacity: ${vehicle.vehicleCapacity}',
+                                          ),
+                                        ],
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () => Get.back(),
+                                          child: Text('Close'),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                                title: 'Assigned Vehicle',
+                                subTitle:
+                                    "${vehicle.vehicleName} (${vehicle.vehicleNumber})",
+                                forIcon: true,
+                                icon: AppAssets.carIcon,
+                              ),
+                            ],
+                          );
+                        }),
+
                         userData.role == UserRole.company
-                            ? SettingCard(
+                            ? ProfileCard(
                               onTap: () {
                                 controller.showCompanyKeyDialog(context);
                               },

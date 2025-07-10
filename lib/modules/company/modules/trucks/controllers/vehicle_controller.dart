@@ -105,6 +105,8 @@ class VehicleController extends GetxController {
         vehicleCapacity: vehicleCapacityController.text,
         vehicleFilled: '0',
         logs: [],
+        assignDriverId: '',
+        driverName: '',
       );
 
       await _firebaseFirestore
@@ -191,5 +193,85 @@ class VehicleController extends GetxController {
         }
       }
     });
+  }
+
+  Future<void> assignDriverToVehicle({
+    required String vehicleId,
+    required String driverId,
+    required String driverName,
+  }) async {
+    try {
+      isLoading.value = true;
+
+      await _firebaseFirestore.collection('vehicles').doc(vehicleId).update({
+        'assignDriverId': driverId,
+        'driverName': driverName,
+      });
+
+      final index = vehicles.indexWhere((v) => v.id == vehicleId);
+      if (index != -1) {
+        vehicles[index] = vehicles[index].copyWith(
+          assignDriverId: driverId,
+          driverName: driverName,
+        );
+      }
+
+      await addVehicleLog(
+        vehicleId: vehicleId,
+        message: 'Driver $driverName assigned to vehicle',
+      );
+
+      Get.snackbar(
+        'Success',
+        'Driver assigned successfully',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to assign driver: $e',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> unassignDriverFromVehicle(String vehicleId) async {
+    try {
+      isLoading.value = true;
+
+      await _firebaseFirestore.collection('vehicles').doc(vehicleId).update({
+        'assignDriverId': '',
+        'driverName': '',
+      });
+
+      final index = vehicles.indexWhere((v) => v.id == vehicleId);
+      if (index != -1) {
+        vehicles[index] = vehicles[index].copyWith(
+          assignDriverId: '',
+          driverName: '',
+        );
+      }
+
+      await addVehicleLog(
+        vehicleId: vehicleId,
+        message: 'Driver unassigned from vehicle',
+      );
+
+      Get.snackbar(
+        'Success',
+        'Driver unassigned successfully',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to unassign driver: $e',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } finally {
+      isLoading.value = false;
+    }
   }
 }

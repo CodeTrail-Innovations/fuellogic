@@ -63,10 +63,24 @@ class VehicleDetailScreen extends StatelessWidget {
                       ),
                     ),
                     16.vertical,
-                    _buildInfoCard(
-                      'Capacity',
-                      vehicle.vehicleCapacity,
-                      Icons.local_gas_station,
+                    Row(
+                      spacing: 16,
+                      children: [
+                        Expanded(
+                          child: _buildInfoCard(
+                            'Capacity',
+                            vehicle.vehicleCapacity,
+                            Icons.local_gas_station,
+                          ),
+                        ),
+                        Expanded(
+                          child: _buildInfoCard(
+                            'Driver',
+                            vehicle.driverName,
+                            Icons.person,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

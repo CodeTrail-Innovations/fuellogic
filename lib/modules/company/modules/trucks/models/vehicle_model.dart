@@ -6,6 +6,8 @@ class VehicleModel {
   final String vehicleCapacity;
   final String vehicleFilled;
   final List<Map<String, dynamic>> logs;
+  final String assignDriverId;
+  final String driverName;
 
   VehicleModel({
     required this.id,
@@ -15,6 +17,8 @@ class VehicleModel {
     required this.vehicleCapacity,
     required this.vehicleFilled,
     required this.logs,
+    required this.assignDriverId,
+    required this.driverName,
   });
 
   factory VehicleModel.fromJson(Map<String, dynamic> json) {
@@ -26,6 +30,8 @@ class VehicleModel {
       vehicleCapacity: json['vehicleCapacity'] as String,
       vehicleFilled: json['vehicleFilled'] as String,
       logs: List<Map<String, dynamic>>.from(json['logs'] ?? []),
+      assignDriverId: json['assignDriverId'] as String,
+      driverName: json['driverName'] as String,
     );
   }
 
@@ -38,6 +44,8 @@ class VehicleModel {
       'vehicleCapacity': vehicleCapacity,
       'vehicleFilled': vehicleFilled,
       'logs': logs,
+      'assignDriverId': assignDriverId,
+      'driverName': driverName,
     };
   }
 
@@ -49,6 +57,8 @@ class VehicleModel {
     String? vehicleCapacity,
     String? vehicleFilled,
     List<Map<String, dynamic>>? logs,
+    String? assignDriverId,
+    String? driverName,
   }) {
     return VehicleModel(
       id: id ?? this.id,
@@ -58,10 +68,12 @@ class VehicleModel {
       vehicleCapacity: vehicleCapacity ?? this.vehicleCapacity,
       vehicleFilled: vehicleFilled ?? this.vehicleFilled,
       logs: logs ?? this.logs,
+      assignDriverId: assignDriverId ?? this.assignDriverId,
+      driverName: driverName ?? this.driverName,
     );
   }
 
-   VehicleModel addLog({
+  VehicleModel addLog({
     required String logsMessage,
     required String createdDate,
     required String currentUserId,

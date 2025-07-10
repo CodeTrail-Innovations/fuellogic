@@ -5,13 +5,13 @@ import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
 import 'package:svg_flutter/svg.dart';
 
-class SettingCard extends StatelessWidget {
+class ProfileCard extends StatelessWidget {
   final String title;
   final String subTitle;
   final String? icon;
   final bool forIcon;
   final VoidCallback? onTap;
-  const SettingCard({
+  const ProfileCard({
     super.key,
     required this.title,
     required this.subTitle,
