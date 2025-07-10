@@ -20,7 +20,7 @@ class CreateOrderScreen extends StatelessWidget {
             spacing: 16,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              24.vertical,
+              6.vertical,
               Text(
                 "Create order",
                 style: AppTextStyles.largeStyle.copyWith(
@@ -37,12 +37,12 @@ class CreateOrderScreen extends StatelessWidget {
               AppFeild(
                 controller: controller.locationController,
                 hintText:
-                    "Akshya Nagar 1st Block 1st Cross, Rammurthy nagar, Bangalore-560016",
+                    "12A City Mall, Jail Road, lahore - 52334",
               ),
               Text("Enter Quantity", style: AppTextStyles.regularStyle),
               AppFeild(
                  controller: controller.quantityController,
-                hintText: "Pakistan Petroleum Limited",
+                hintText: "e.g 500 ltr or 30 Pieces",
                 inputType: TextInputType.numberWithOptions(),
               ),
               Text("Choose date", style: AppTextStyles.regularStyle),

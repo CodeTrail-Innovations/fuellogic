@@ -3,6 +3,9 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
+import 'package:fuellogic/core/routes/app_router.dart';
+import 'package:fuellogic/helper/constants/keys.dart';
+import 'package:fuellogic/helper/utils/hive_utils.dart';
 import 'package:fuellogic/modules/auth/screens/auth_screen.dart';
 import 'package:fuellogic/modules/bottombar/controllers/bottombar_controller.dart';
 import 'package:fuellogic/modules/bottombar/screens/custom_bottom_bar.dart';
@@ -31,6 +34,10 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(const Duration(seconds: 1));
 
     try {
+
+      final role= HiveBox().getValue(key: roleKey);
+      log("saved role: $role");
+
       User? user = _auth.currentUser;
       log("DEBUG: User is ${user != null ? 'LOGGED IN' : 'NULL'}");
 
@@ -42,13 +49,13 @@ class _SplashScreenState extends State<SplashScreen> {
         log(userRole);
         final isCompany = userRole == 'Company';
 
-        Get.off(() => CustomBottomBar(isCompany: isCompany));
+        Get.offAll(() => CustomBottomBar(isCompany: role == companyRoleKey ? true : false));
       } else {
-        Get.off(() => AuthScreen());
+        Get.offAllNamed(AppRoutes.welcomeScreen);
       }
     } catch (e) {
       log("Error during splash screen navigation: $e");
-      Get.off(() => AuthScreen());
+      Get.offAllNamed(AppRoutes.welcomeScreen);
     }
   }
 
@@ -62,7 +69,7 @@ class _SplashScreenState extends State<SplashScreen> {
           spacing: 16,
           children: [
             Text(
-              'Fuellogic',
+              'Fuelogic',
               style: GoogleFonts.racingSansOne(
                 textStyle: TextStyle(
                   fontSize: 36,

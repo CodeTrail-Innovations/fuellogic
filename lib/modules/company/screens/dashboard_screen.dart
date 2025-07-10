@@ -11,6 +11,8 @@ import 'package:fuellogic/modules/home/screens/components/order_card.dart';
 import 'package:fuellogic/widgets/custom_appbar.dart';
 import 'package:get/get.dart';
 
+import '../../orders/screens/create_order_screen.dart';
+
 class DashboardScreen extends StatelessWidget {
   DashboardScreen({super.key});
   final controller = Get.put(ReportController());
@@ -60,12 +62,34 @@ class DashboardScreen extends StatelessWidget {
                 ],
               ),
               16.vertical,
+              // Container(
+              //   height: 65,
+              //   width: double.infinity,
+              //   decoration: BoxDecoration(
+              //     color: AppColors.primaryColor,
+              //     borderRadius: BorderRadius.circular(16),
+              //   ),
+              //   padding: EdgeInsets.symmetric(horizontal: 20),
+              //   child: Center(
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //       children: [
+              //         Text('Fleet Manager', style: AppTextStyles.regularStyle.copyWith(
+              //           color: Colors.white,
+              //           // fontSize: 18
+              //         ),),
+              //         Icon(Icons.chevron_right_rounded, color: Colors.white,)
+              //       ],
+              //     ),
+              //   ),
+              // ),
               AppButton(
-                text: "View report",
+                text: "Place Order",
                 onPressed: () {
-                  Get.to(() => ReportScreen());
+                  Get.to(() => CreateOrderScreen());
+                  // Get.to(() => ReportScreen());
                 },
-                isIconButton: true,
+                isIconButton: false,
                 icon: Icons.arrow_forward,
               ),
               24.vertical,

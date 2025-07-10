@@ -114,12 +114,12 @@ class OrderCard extends StatelessWidget {
                         ],
                       ),
                       16.vertical,
-                      Image.network(
-                        height: 24,
-                        width: 24,
-                        fit: BoxFit.cover,
-                        "https://upload.wikimedia.org/wikipedia/en/thumb/e/e8/Shell_logo.svg/1200px-Shell_logo.svg.png",
-                      ),
+                      // Image.network(
+                      //   height: 24,
+                      //   width: 24,
+                      //   fit: BoxFit.cover,
+                      //   "https://upload.wikimedia.org/wikipedia/en/thumb/e/e8/Shell_logo.svg/1200px-Shell_logo.svg.png",
+                      // ),
                     ],
                   ),
                 ),

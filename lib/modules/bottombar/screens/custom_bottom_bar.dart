@@ -12,6 +12,8 @@ import 'package:fuellogic/modules/profile/screens/profile_screen.dart';
 import 'package:get/get.dart';
 import 'package:svg_flutter/svg_flutter.dart';
 
+import '../../company/screens/report_screen.dart';
+
 class CustomBottomBar extends StatefulWidget {
   final bool isCompany;
   final int initialIndex;
@@ -34,6 +36,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
   void initState() {
     super.initState();
     _selectedIndex = widget.initialIndex;
+    controller.saveDeviceToken();
 
     log('CustomBottomBar - isCompany: ${widget.isCompany}');
     log('Initial index: ${widget.initialIndex}');
@@ -42,7 +45,8 @@ class CustomBottomBarState extends State<CustomBottomBar> {
   List<Widget> get _screens {
     log('Getting screens - isCompany: ${widget.isCompany}');
     return widget.isCompany
-        ? [DashboardScreen(), CreateOrderScreen(), ProfileScreen()]
+        ? [DashboardScreen(), ReportScreen(), ProfileScreen()]
+        // ? [DashboardScreen(), CreateOrderScreen(), ProfileScreen()]
         : [HomeScreen(), CreateOrderScreen(), ProfileScreen()];
   }
 

@@ -3,6 +3,8 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fuellogic/modules/auth/models/user_model.dart';
 import 'package:get/get.dart';
 
@@ -73,6 +75,34 @@ Created At: ${user.createdAt.toDate()}
     log(user.toJson().toString(), name: 'UserDataJSON');
   }
 
+
+  Future<void> saveDeviceToken() async {
+    try {
+      final fcmToken = await _getFcmToken();
+      final user = _auth.currentUser;
+
+      if (user != null && fcmToken != null) {
+        final uid = user.uid;
+
+        await FirebaseFirestore.instance
+            .collection('device_tokens')
+            .doc(uid)
+            .set({
+          'device_token': fcmToken,
+          'updatedAt': FieldValue.serverTimestamp(),
+        }, SetOptions(merge: true));
+
+        print('✅ FCM token saved for UID: $uid');
+      } else {
+        print('⚠️ User not authenticated or FCM token is null');
+      }
+    } catch (e) {
+      print('❌ Error saving device token: $e');
+    }
+  }
+
+
+
   void _handleFirebaseError(FirebaseException e) {
     final errorMessage = 'Firebase error: ${e.code} - ${e.message}';
     log(errorMessage, error: e, stackTrace: e.stackTrace);
@@ -102,4 +132,10 @@ Created At: ${user.createdAt.toDate()}
       snackPosition: SnackPosition.BOTTOM,
     );
   }
+
+  Future<String?> _getFcmToken() async {
+    await Firebase.initializeApp();
+    return FirebaseMessaging.instance.getToken();
+  }
+
 }

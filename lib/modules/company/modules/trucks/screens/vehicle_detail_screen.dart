@@ -232,7 +232,8 @@ class VehicleDetailScreen extends StatelessWidget {
   }
 
   Widget _buildLogEntry(Map<String, dynamic> log, int index) {
-    final timestamp = _formatTimestamp(log['createdDate']);
+    final timestamp = formatDate(log['createdDate']);
+    // final timestamp = _formatTimestamp(log['createdDate']);
     final username = log['username'] ?? 'Unknown';
     final message = log['logsMessage'] ?? '';
     final role = log['role'] ?? '';
@@ -310,6 +311,7 @@ class VehicleDetailScreen extends StatelessWidget {
     if (isoDate == null) return '--:--';
     try {
       final date = DateTime.parse(isoDate);
+
       return '${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
     } catch (e) {
       return '--:--';

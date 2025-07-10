@@ -88,6 +88,7 @@ class CreateOrderController extends GetxController {
         'Order created successfully',
         snackPosition: SnackPosition.BOTTOM,
       );
+      clearFields();
     } catch (e) {
       Get.snackbar(
         'Error',
@@ -105,5 +106,12 @@ class CreateOrderController extends GetxController {
     quantityController.dispose();
     dateController.dispose();
     super.onClose();
+  }
+
+  void clearFields(){
+    locationController.clear();
+    descriptionController.clear();
+    quantityController.clear();
+    dateController.clear();
   }
 }

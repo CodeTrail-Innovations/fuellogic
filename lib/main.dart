@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fuellogic/config/theme.dart';
 import 'package:fuellogic/core/routes/app_router.dart';
+import 'package:fuellogic/helper/utils/hive_utils.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 import 'firebase_options.dart';
@@ -10,6 +11,7 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  HiveBox().openBoxes();
   runApp(const MyApp());
 }
 

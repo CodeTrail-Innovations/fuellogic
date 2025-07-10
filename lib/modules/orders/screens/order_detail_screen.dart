@@ -69,6 +69,21 @@ class OrderDetailScreen extends StatelessWidget {
               ],
             ),
             16.vertical,
+            Row(
+              spacing: 16,
+              children: [
+                SvgPicture.asset(AppAssets.orderIconLinearRed),
+                Expanded(
+                  child: Text(
+                    order.quantity,
+                    style: AppTextStyles.paragraphStyle.copyWith(
+                      color: AppColors.primaryColor,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            16.vertical,
             Text("Status", style: AppTextStyles.regularStyle),
             16.vertical,
             OrderStatusLabel(
@@ -82,20 +97,20 @@ class OrderDetailScreen extends StatelessWidget {
             ),
 
             16.vertical,
-            Text("Company", style: AppTextStyles.regularStyle),
-            16.vertical,
-            Row(
-              spacing: 16,
-              children: [
-                Image.network(
-                  height: 24,
-                  width: 24,
-                  fit: BoxFit.cover,
-
-                  "https://upload.wikimedia.org/wikipedia/en/thumb/e/e8/Shell_logo.svg/1200px-Shell_logo.svg.png",
-                ),
-              ],
-            ),
+            // Text("Company", style: AppTextStyles.regularStyle),
+            // 16.vertical,
+            // Row(
+            //   spacing: 16,
+            //   children: [
+            //     Image.network(
+            //       height: 24,
+            //       width: 24,
+            //       fit: BoxFit.cover,
+            //
+            //       "https://upload.wikimedia.org/wikipedia/en/thumb/e/e8/Shell_logo.svg/1200px-Shell_logo.svg.png",
+            //     ),
+            //   ],
+            // ),
             16.vertical,
             Text("Date", style: AppTextStyles.regularStyle),
             16.vertical,

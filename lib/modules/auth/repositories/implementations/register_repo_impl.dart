@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fuellogic/core/enums/enum.dart';
+import 'package:fuellogic/helper/constants/keys.dart';
+import 'package:fuellogic/helper/utils/hive_utils.dart';
 import 'package:fuellogic/modules/auth/models/user_model.dart';
 import 'package:fuellogic/modules/auth/repositories/interfaces/register_repo.dart';
 import 'package:fuellogic/modules/bottombar/screens/custom_bottom_bar.dart';
@@ -128,8 +130,8 @@ class RegisterRepoImpl implements RegisterRepository {
             rethrow;
           }
         }
-
-        Get.off(() => CustomBottomBar());
+        HiveBox().setValue(key: roleKey, value: role == UserRole.company ? companyRoleKey :driverRoleKey);
+        Get.offAll(() => CustomBottomBar(isCompany: role == UserRole.company ? true :false,));
         DialogUtils.showAnimatedDialog(
           type: DialogType.success,
           title: 'Success',

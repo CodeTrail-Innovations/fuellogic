@@ -160,7 +160,7 @@ class RegisterScreen extends StatelessWidget {
                             style: AppTextStyles.regularStyle,
                           ),
                           Text(
-                            "Fuellogic",
+                            "Fuelogic",
                             style: AppTextStyles.regularStyle.copyWith(
                               color: AppColors.primaryColor,
                               fontWeight: FontWeight.w600,

@@ -23,7 +23,7 @@ class AuthScreen extends StatelessWidget {
             children: [
               Spacer(),
               Text(
-                'Fuellogic',
+                'Fuelogic',
                 style: GoogleFonts.racingSansOne(
                   textStyle: TextStyle(
                     fontSize: 36,

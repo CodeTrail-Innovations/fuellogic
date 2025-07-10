@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:fuellogic/helper/constants/keys.dart';
+import 'package:fuellogic/helper/utils/hive_utils.dart';
 import 'package:fuellogic/modules/auth/repositories/implementations/home_repo_impl.dart';
 import 'package:fuellogic/modules/auth/repositories/interfaces/home_repo.dart';
 import 'package:fuellogic/modules/auth/repositories/interfaces/login_repo.dart';
@@ -37,8 +41,16 @@ class LoginRepoImpl implements LoginRepository {
             title: 'Success',
             message: 'Login successful!',
           );
+          final userData = userDoc.data() as Map<String, dynamic>;
+          final userRole = userData['role'] ?? 'unknown';
 
-          Get.off(() => CustomBottomBar());
+          log('user doc data fetched');
+          log(userData.toString());
+          log('User Role: $userRole');
+
+          HiveBox().setValue(key: roleKey, value: userRole == companyRoleKey ?companyRoleKey:driverRoleKey,);
+
+          Get.offAll(() => CustomBottomBar(isCompany: userRole == companyRoleKey ? true:false,));
 
           if (!Get.isRegistered<HomeRepository>()) {
             Get.put(() => HomeRepositoryImpl());

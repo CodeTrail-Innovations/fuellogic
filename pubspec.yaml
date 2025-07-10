@@ -45,6 +45,12 @@ dependencies:
   package_rename: ^1.10.0
   shared_preferences: ^2.5.3
   intl: ^0.20.2
+  icons_plus: ^5.0.0
+  hive_flutter: ^1.1.0
+  qr_flutter: ^4.1.0
+  firebase_messaging: ^15.2.9
+  app_settings: ^6.1.1
+  flutter_local_notifications: ^19.3.0
 
 dev_dependencies:
   flutter_test:
@@ -99,6 +105,21 @@ flutter:
     - family: PublicSans-BoldItalic
       fonts:
         - asset: assets/fonts/PublicSans-BoldItalic.otf
+    - family: Inter-Bold
+      fonts:
+        - asset: assets/fonts/Inter-Bold.otf
+    - family: Inter-Medium-Italic
+      fonts:
+        - asset: assets/fonts/Inter-MediumItalic.otf
+    - family: Inter-Medium
+      fonts:
+        - asset: assets/fonts/Inter-Medium.otf
+    - family: Inter-Regular
+      fonts:
+        - asset: assets/fonts/Inter-Regular.otf
+    - family: Inter-SemiBold
+      fonts:
+        - asset: assets/fonts/Inter-SemiBold.otf
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package

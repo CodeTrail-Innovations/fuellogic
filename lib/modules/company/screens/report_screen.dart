@@ -13,6 +13,8 @@ import 'package:fuellogic/modules/profile/controllers/profile_controller.dart';
 import 'package:fuellogic/widgets/custom_appbar.dart';
 import 'package:get/get.dart';
 
+import '../../../config/app_textstyle.dart';
+
 class ReportScreen extends StatelessWidget {
   ReportScreen({super.key});
   final controller = Get.put(ProfileController());
@@ -23,7 +25,18 @@ class ReportScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: CustomAppBar(),
+        // appBar: AppBar(
+        //   elevation: 0,
+        //   centerTitle: true,
+        //   // leading: InkWell(
+        //   //   onTap: ()=> Get.back(),
+        //   //     child: Icon(Icons.chevron_left_rounded, color: AppColors.blackColor,)),
+        //   backgroundColor: AppColors.whiteColor,
+        //   title: Text('Fleet Manager', style: AppTextStyles.extraLargeStyle.copyWith(
+        //   color: AppColors.mainColor,
+        //     fontSize: 18
+        //   ),),
+        // ),
         body: Obx(() {
           if (controller.isLoading.value) {
             return const Center(child: CircularProgressIndicator());
@@ -33,9 +46,19 @@ class ReportScreen extends StatelessWidget {
             return const Center(child: Text('No user data available'));
           }
           return SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                8.vertical,
+                Text(
+                  textAlign: TextAlign.start,
+                  "Fleet Manager",
+                  style: AppTextStyles.largeStyle.copyWith(
+                    color: AppColors.primaryColor,
+                  ),
+                ),
+                16.vertical,
                 Row(
                   spacing: 16,
                   children: [

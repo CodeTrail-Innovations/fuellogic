@@ -32,7 +32,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  "Good Morning 👋!",
+                  "Fueling Made Easy",
                   style: AppTextStyles.captionStyle.copyWith(
                     color: AppColors.greyColor,
                   ),

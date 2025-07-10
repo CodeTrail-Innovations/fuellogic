@@ -11,6 +11,7 @@ class AppAssets {
   static const String homeIconLinear = "assets/icons/home_icon_linear.svg";
   static const String orderIconFilled = "assets/icons/order_icon_filled.svg";
   static const String orderIconLinear = "assets/icons/order_icon_linear.svg";
+  static const String orderIconLinearRed = "assets/icons/order_icon_linear_red.svg";
   static const String settingIconFilled =
       "assets/icons/setting_icon_filled.svg";
   static const String settingIconLinear =

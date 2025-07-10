@@ -9,6 +9,7 @@ import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
 import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/core/routes/app_router.dart';
+import 'package:fuellogic/helper/utils/hive_utils.dart';
 import 'package:fuellogic/modules/auth/models/user_model.dart';
 import 'package:fuellogic/modules/company/modules/trucks/models/vehicle_model.dart';
 import 'package:get/get.dart';
@@ -300,7 +301,8 @@ class ProfileController extends GetxController {
   void logout() async {
     try {
       await auth.signOut();
-      Get.offAllNamed(AppRoutes.splashScreen);
+      HiveBox().clearAppSession();
+      Get.offAllNamed(AppRoutes.welcomeScreen);
     } catch (e) {
       log('Error logging out: $e');
     }
