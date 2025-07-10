@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/modules/company/modules/trucks/controllers/vehicle_controller.dart';
 import 'package:fuellogic/modules/company/modules/trucks/screens/add_vehicle_screen.dart';
 import 'package:fuellogic/modules/company/modules/trucks/screens/components/vehicle_card.dart';
@@ -12,7 +13,11 @@ class AllVehicleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: CustomAppBar(),
+        appBar: CustomAppBar(
+          isSimple: true,
+          height: 55,
+          title: 'Your vehicles',
+        ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () => Get.to(() => AddVehicleScreen()),
@@ -29,6 +34,7 @@ class AllVehicleScreen extends StatelessWidget {
             spacing: 16,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              16.vertical,
               Expanded(
                 child: ListView.builder(
                   padding: const EdgeInsets.symmetric(horizontal: 12),

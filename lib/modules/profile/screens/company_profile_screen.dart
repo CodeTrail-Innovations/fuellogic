@@ -17,7 +17,7 @@ class CompanyProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: CustomAppBar(isSimple: true, height: 40, title: 'Profile'),
+        appBar: CustomAppBar(isSimple: true, height: 55, title: 'Profile'),
         body:
             controller.isLoading.value
                 ? const Center(child: CircularProgressIndicator())
@@ -29,6 +29,7 @@ class CompanyProfileScreen extends StatelessWidget {
                     spacing: 8,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      16.vertical,
                       Text("Your Name", style: AppTextStyles.regularStyle),
                       AppFeild(
                         hintText: "Enter Name",

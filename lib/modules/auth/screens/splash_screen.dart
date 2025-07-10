@@ -33,8 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(const Duration(seconds: 1));
 
     try {
-
-      final role= HiveBox().getValue(key: roleKey);
+      final role = HiveBox().getValue(key: roleKey);
       log("saved role: $role");
 
       User? user = _auth.currentUser;
@@ -46,9 +45,11 @@ class _SplashScreenState extends State<SplashScreen> {
         final userRole = _bottomBarController.userData.value?.role.label ?? '';
 
         log(userRole);
-        final isCompany = userRole == 'Company';
 
-        Get.offAll(() => CustomBottomBar(isCompany: role == companyRoleKey ? true : false));
+        Get.offAll(
+          () =>
+              CustomBottomBar(isCompany: role == companyRoleKey ? true : false),
+        );
       } else {
         Get.offAllNamed(AppRoutes.welcomeScreen);
       }

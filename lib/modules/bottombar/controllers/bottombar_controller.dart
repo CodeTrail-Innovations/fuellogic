@@ -92,12 +92,12 @@ Created At: ${user.createdAt.toDate()}
           'updatedAt': FieldValue.serverTimestamp(),
         }, SetOptions(merge: true));
 
-        print('✅ FCM token saved for UID: $uid');
+        log('✅ FCM token saved for UID: $uid');
       } else {
-        print('⚠️ User not authenticated or FCM token is null');
+        log('⚠️ User not authenticated or FCM token is null');
       }
     } catch (e) {
-      print('❌ Error saving device token: $e');
+      log('❌ Error saving device token: $e');
     }
   }
 

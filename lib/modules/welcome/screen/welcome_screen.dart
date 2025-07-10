@@ -33,13 +33,24 @@ class WelcomeScreen extends StatelessWidget {
                 width: Get.width,
 
                 decoration: BoxDecoration(
-                    image: DecorationImage(image: AssetImage(ImageResources.banner), fit: BoxFit.fill, alignment: Alignment.topCenter)
-                ),// replace with your banner image via DecorationImage if you like
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 35),
+                  image: DecorationImage(
+                    image: AssetImage(ImageResources.banner),
+                    fit: BoxFit.fill,
+                    alignment: Alignment.topCenter,
+                  ),
+                ), // replace with your banner image via DecorationImage if you like
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 35,
+                ),
                 child: Align(
                   alignment: Alignment.topRight,
                   child: IconButton(
-                    icon: const Icon(CupertinoIcons.person_crop_circle, color: Colors.white, size: 30,),
+                    icon: const Icon(
+                      CupertinoIcons.person_crop_circle,
+                      color: Colors.white,
+                      size: 30,
+                    ),
                     onPressed: () => Get.toNamed(AppRoutes.authScreen),
                   ),
                 ),
@@ -62,7 +73,7 @@ class WelcomeScreen extends StatelessWidget {
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(.2),
+                        color: Colors.black.withCustomOpacity(.2),
                         blurRadius: 4,
                         offset: const Offset(0, 4),
                       ),
@@ -81,10 +92,7 @@ class WelcomeScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(
-                'Fuelogic',
-                style: AppTextStyles.heading2Style,
-              ),
+              child: Text('Fuelogic', style: AppTextStyles.heading2Style),
             ),
           ),
           Padding(
@@ -110,7 +118,7 @@ class WelcomeScreen extends StatelessWidget {
             );
           }),
 
-          const Divider(thickness: 1,color: AppColors.grey2,),
+          const Divider(thickness: 1, color: AppColors.grey2),
 
           // ─── Content ───
           Expanded(
@@ -137,12 +145,12 @@ class WelcomeScreen extends StatelessWidget {
               label,
               style: TextStyle(
                 fontSize: 16,
-                color: c.selectedTab.value == index
-                    ? Colors.orange
-                    : Colors.black,
-                fontWeight: c.selectedTab.value == index
-                    ? FontWeight.bold
-                    : FontWeight.normal,
+                color:
+                    c.selectedTab.value == index ? Colors.orange : Colors.black,
+                fontWeight:
+                    c.selectedTab.value == index
+                        ? FontWeight.bold
+                        : FontWeight.normal,
               ),
             ),
           ),
@@ -171,41 +179,43 @@ class WelcomeScreen extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Get in touch', style: AppTextStyles.paragraphBoldStyle,),
-                  Text('Fuelogict', style: AppTextStyles.captionStyle,),
+                  Text('Get in touch', style: AppTextStyles.paragraphBoldStyle),
+                  Text('Fuelogict', style: AppTextStyles.captionStyle),
                 ],
               ),
 
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
-                  border: Border.all(
-                    color: AppColors.grey2,
-
-                  ),
-
+                  border: Border.all(color: AppColors.grey2),
                 ),
                 padding: EdgeInsets.all(10),
-                child: Text('Message', style: AppTextStyles.captionStyle,),
-              )
-
+                child: Text('Message', style: AppTextStyles.captionStyle),
+              ),
             ],
           ),
           _contactTile(CupertinoIcons.phone, 'Phone Number', '+923008272842'),
-          _contactTile(CupertinoIcons.barcode_viewfinder, 'Invite Code', '8ERALC'),
-          _contactTile(Icons.location_on_outlined, 'Location', 'Lt. Col Sheraz Ali Khan Shaheed Road'),
+          _contactTile(
+            CupertinoIcons.barcode_viewfinder,
+            'Invite Code',
+            '8ERALC',
+          ),
+          _contactTile(
+            Icons.location_on_outlined,
+            'Location',
+            'Lt. Col Sheraz Ali Khan Shaheed Road',
+          ),
 
           24.vertical,
-          // Social Links
 
+          // Social Links
           Row(
             children: [
-              _brandContainer(Brands.instagram, (){}),
-              _brandContainer(Brands.facebook, (){}),
-              _brandContainer(Brands.twitterx_2, (){}),
-              _brandContainer(Brands.youtube, (){}),
-              _brandContainer(Brands.tiktok, (){}),
-
+              _brandContainer(Brands.instagram, () {}),
+              _brandContainer(Brands.facebook, () {}),
+              _brandContainer(Brands.twitterx_2, () {}),
+              _brandContainer(Brands.youtube, () {}),
+              _brandContainer(Brands.tiktok, () {}),
             ],
           ),
         ],
@@ -213,21 +223,19 @@ class WelcomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _brandContainer(String brand,Function() onPressed){
+  Widget _brandContainer(String brand, Function() onPressed) {
     return Padding(
       padding: const EdgeInsets.all(4),
       child: Container(
         decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.grey.shade400
-
+          shape: BoxShape.circle,
+          color: Colors.grey.shade400,
         ),
         padding: EdgeInsets.all(8),
-        child: Center(child: Brand(brand, size: 35,)),
+        child: Center(child: Brand(brand, size: 35)),
       ),
     );
   }
-
 
   // Widget _contactTile(IconData icon, String label, String value) {
   //   return Column(
@@ -248,7 +256,7 @@ class WelcomeScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Column(
         children: [
-          Divider(color: AppColors.grey2,),
+          Divider(color: AppColors.grey2),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -258,14 +266,13 @@ class WelcomeScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(value, style: AppTextStyles.paragraphBoldStyle,),
-                    Text(label, style: AppTextStyles.captionStyle,),
+                    Text(value, style: AppTextStyles.paragraphBoldStyle),
+                    Text(label, style: AppTextStyles.captionStyle),
                   ],
                 ),
               ),
 
               Icon(icon, color: Colors.orange),
-
             ],
           ),
         ],

@@ -15,7 +15,7 @@ class AllDriverScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: CustomAppBar(),
+        appBar: CustomAppBar(isSimple: true, height: 55, title: 'Your drivers'),
         body: Obx(() {
           if (controller.isLoading.value) {
             return const Center(
@@ -61,7 +61,7 @@ class AllDriverScreen extends StatelessWidget {
 
           return Column(
             children: [
-              
+              16.vertical,
               Expanded(
                 child: ListView.builder(
                   padding: const EdgeInsets.symmetric(horizontal: 12),

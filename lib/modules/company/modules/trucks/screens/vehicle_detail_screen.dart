@@ -24,7 +24,11 @@ class VehicleDetailScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey[50],
-        appBar: CustomAppBar(),
+        appBar: CustomAppBar(
+          isSimple: true,
+          height: 55,
+          title: 'Vehicle detail',
+        ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
@@ -305,17 +309,6 @@ class VehicleDetailScreen extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  String _formatTimestamp(String? isoDate) {
-    if (isoDate == null) return '--:--';
-    try {
-      final date = DateTime.parse(isoDate);
-
-      return '${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
-    } catch (e) {
-      return '--:--';
-    }
   }
 
   void _addLog(
