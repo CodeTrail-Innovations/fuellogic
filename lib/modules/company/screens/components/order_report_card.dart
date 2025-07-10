@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fuellogic/config/app_assets.dart';
 import 'package:fuellogic/config/app_textstyle.dart';
 import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
@@ -11,6 +10,9 @@ class OrderReportCard extends StatelessWidget {
   final bool forDelivered;
   final bool forTruck;
   final VoidCallback? ontap;
+  final String image;
+  final bool isSvg;
+
   const OrderReportCard({
     super.key,
     required this.title,
@@ -18,15 +20,24 @@ class OrderReportCard extends StatelessWidget {
     this.forDelivered = false,
     this.ontap,
     this.forTruck = false,
+    required this.image,
+    this.isSvg = true,
   });
 
   @override
   Widget build(BuildContext context) {
+    final Color iconColor =
+        forTruck == true
+            ? AppColors.primaryColor
+            : forDelivered == true
+            ? AppColors.progressColor
+            : AppColors.mainColor;
+
     return InkWell(
       onTap: ontap,
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           border: Border.all(
             width: 2,
@@ -50,33 +61,29 @@ class OrderReportCard extends StatelessWidget {
           children: [
             Text(
               title,
-              style: AppTextStyles.regularStyle.copyWith(
-                color:
-                    forTruck == true
-                        ? AppColors.primaryColor
-                        : forDelivered == true
-                        ? AppColors.progressColor
-                        : AppColors.mainColor,
-              ),
+              style: AppTextStyles.regularStyle.copyWith(color: iconColor),
             ),
             16.vertical,
             Row(
               spacing: 24,
               children: [
                 Text(stats, style: AppTextStyles.extraLargeStyle),
-                SvgPicture.asset(
-                  forDelivered == true
-                      ? AppAssets.orderIconFilled
-                      : AppAssets.orderIconLinear,
-                  colorFilter: ColorFilter.mode(
-                    forTruck == true
-                        ? AppColors.primaryColor
-                        : forDelivered == true
-                        ? AppColors.progressColor
-                        : AppColors.mainColor,
-                    BlendMode.srcIn,
-                  ),
-                ),
+
+                isSvg
+                    ? SvgPicture.asset(
+                      height: 24,
+                      width: 24,
+                      fit: BoxFit.cover,
+                      image,
+                      colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
+                    )
+                    : Image.asset(
+                      image,
+                      color: iconColor,
+                      height: 24,
+                      width: 24,
+                      fit: BoxFit.cover,
+                    ),
               ],
             ),
           ],

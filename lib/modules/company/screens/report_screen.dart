@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fuellogic/config/app_assets.dart';
 import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
 import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/modules/company/controllers/report_controller.dart';
+import 'package:fuellogic/modules/company/modules/trucks/controllers/vehicle_controller.dart';
 import 'package:fuellogic/modules/company/modules/trucks/screens/all_vehicle_screen.dart';
 import 'package:fuellogic/modules/company/screens/all_driver_screen.dart';
 import 'package:fuellogic/modules/company/screens/components/order_report_card.dart';
@@ -15,6 +17,7 @@ class ReportScreen extends StatelessWidget {
   ReportScreen({super.key});
   final controller = Get.put(ProfileController());
   final reportController = Get.put(ReportController());
+  final vehicleController = Get.put(VehicleController());
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +45,8 @@ class ReportScreen extends StatelessWidget {
                         title: 'Total drivers',
                         stats: userData.driver!.length.toString(),
                         forDelivered: true,
+                        image: AppAssets.driverImage,
+                        isSvg: false,
                       ),
                     ),
 
@@ -49,8 +54,10 @@ class ReportScreen extends StatelessWidget {
                       child: OrderReportCard(
                         ontap: () => Get.to(() => AllVehicleScreen()),
                         title: 'Total cars',
-                        stats: reportController.onTheWayOrdersCount.toString(),
+                        stats: vehicleController.totalVehicles.toString(),
                         forDelivered: false,
+                        image: AppAssets.carIcon,
+                        isSvg: true,
                       ),
                     ),
                   ],
@@ -61,6 +68,8 @@ class ReportScreen extends StatelessWidget {
                   title: 'On the way',
                   stats: reportController.onTheWayOrdersCount.toString(),
                   forDelivered: false,
+                  image: AppAssets.orderIconLinear,
+                  isSvg: true,
                 ),
                 16.vertical,
                 SingleChildScrollView(

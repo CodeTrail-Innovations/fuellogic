@@ -1,7 +1,8 @@
 class AppAssets {
   //images
   static const String noOrderImage = "assets/images/no_order_image.svg";
-  static const String gasStationIcon = "assets/images/gas_station_icon.png";
+  static const String gasStation = "assets/images/gas_station_icon.png";
+  static const String driverImage = "assets/images/driver_image.png";
 
   //icons
   static const String addOrderFilled = "assets/icons/add_order_filled.svg";
@@ -26,4 +27,5 @@ class AppAssets {
   static const String notificationIcon = "assets/icons/notification_icon.svg";
   static const String editProfileIcon = "assets/icons/user_edit_icon.svg";
   static const String inviteUserIcon = "assets/icons/invite_user_icon.svg";
+  static const String carIcon = "assets/icons/car_icon.svg";
 }

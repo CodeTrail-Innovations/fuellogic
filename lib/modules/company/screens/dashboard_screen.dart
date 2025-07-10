@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fuellogic/config/app_assets.dart';
 import 'package:fuellogic/config/app_textstyle.dart';
 import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/core/constant/app_button.dart';
@@ -42,13 +43,18 @@ class DashboardScreen extends StatelessWidget {
                       title: 'Delivered',
                       stats: controller.deliveredOrdersCount.toString(),
                       forDelivered: true,
+                      image: AppAssets.orderIconFilled,
+                      isSvg: true,
                     ),
                   ),
                   Expanded(
                     child: OrderReportCard(
+                      forTruck: true,
                       title: 'On the way',
                       stats: controller.onTheWayOrdersCount.toString(),
                       forDelivered: false,
+                      image: AppAssets.orderIconLinear,
+                      isSvg: true,
                     ),
                   ),
                 ],
