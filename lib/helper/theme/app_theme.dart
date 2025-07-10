@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fuellogic/helper/theme/app_colors.dart';
 import 'package:fuellogic/helper/theme/app_text_styles.dart';
 
 class AppTheme {

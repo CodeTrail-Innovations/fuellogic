@@ -17,7 +17,7 @@ class CompanyProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: CustomAppBar(),
+        appBar: CustomAppBar(isSimple: true, height: 40, title: 'Profile'),
         body:
             controller.isLoading.value
                 ? const Center(child: CircularProgressIndicator())

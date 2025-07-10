@@ -6,7 +6,6 @@ import 'package:fuellogic/core/constant/app_button.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
 import 'package:fuellogic/modules/company/controllers/report_controller.dart';
 import 'package:fuellogic/modules/company/screens/components/order_report_card.dart';
-import 'package:fuellogic/modules/company/screens/report_screen.dart';
 import 'package:fuellogic/modules/home/screens/components/order_card.dart';
 import 'package:fuellogic/widgets/custom_appbar.dart';
 import 'package:get/get.dart';

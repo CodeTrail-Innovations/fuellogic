@@ -6,7 +6,6 @@ import 'package:fuellogic/core/constant/app_colors.dart';
 import 'package:fuellogic/core/routes/app_router.dart';
 import 'package:fuellogic/helper/constants/keys.dart';
 import 'package:fuellogic/helper/utils/hive_utils.dart';
-import 'package:fuellogic/modules/auth/screens/auth_screen.dart';
 import 'package:fuellogic/modules/bottombar/controllers/bottombar_controller.dart';
 import 'package:fuellogic/modules/bottombar/screens/custom_bottom_bar.dart';
 import 'package:get/get.dart';

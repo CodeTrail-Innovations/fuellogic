@@ -10,7 +10,6 @@ import 'package:fuellogic/modules/company/screens/all_driver_screen.dart';
 import 'package:fuellogic/modules/company/screens/components/order_report_card.dart';
 import 'package:fuellogic/modules/home/screens/components/order_card.dart';
 import 'package:fuellogic/modules/profile/controllers/profile_controller.dart';
-import 'package:fuellogic/widgets/custom_appbar.dart';
 import 'package:get/get.dart';
 
 import '../../../config/app_textstyle.dart';

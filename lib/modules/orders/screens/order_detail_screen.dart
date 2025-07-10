@@ -7,6 +7,7 @@ import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/modules/home/screens/components/order_status_label.dart';
 import 'package:fuellogic/modules/orders/controllers/order_detail_controller.dart';
 import 'package:fuellogic/modules/orders/models/order_model.dart';
+import 'package:fuellogic/widgets/custom_appbar.dart';
 import 'package:get/get.dart';
 import 'package:svg_flutter/svg_flutter.dart';
 
@@ -22,17 +23,7 @@ class OrderDetailScreen extends StatelessWidget {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black),
-        title: Text(
-          'Order Detail',
-          style: AppTextStyles.regularStyle.copyWith(
-            color: AppColors.mainColor,
-          ),
-        ),
-        backgroundColor: AppColors.transparentColor,
-      ),
+      appBar: CustomAppBar(isSimple: true, height: 40, title: 'Order detail'),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(

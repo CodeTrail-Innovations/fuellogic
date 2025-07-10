@@ -8,11 +8,11 @@ class QRDialog extends StatelessWidget {
   final String email;
 
   const QRDialog({
-    Key? key,
+    super.key,
     required this.name,
     required this.companyId,
     required this.email,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -12,7 +12,7 @@ import '../../../core/routes/app_router.dart';
 import '../controller/welcome_controller.dart';
 
 class WelcomeScreen extends StatelessWidget {
-  WelcomeScreen({Key? key}) : super(key: key);
+  WelcomeScreen({super.key});
   final c = Get.put(WelcomeController());
 
   @override
