@@ -63,7 +63,7 @@ class OrderStatusLabel extends StatelessWidget {
           ),
         ),
         child: Text(
-          status.value,
+          status.label,
           style: AppTextStyles.captionStyle.copyWith(
             color: _getTextColor(context),
             fontWeight: FontWeight.w500,

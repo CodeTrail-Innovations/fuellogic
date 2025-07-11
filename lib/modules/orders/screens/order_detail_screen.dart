@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fuellogic/config/app_assets.dart';
 import 'package:fuellogic/config/extension/space_extension.dart';
+import 'package:fuellogic/helper/constants/keys.dart';
+import 'package:fuellogic/helper/utils/hive_utils.dart';
 import 'package:fuellogic/modules/orders/controllers/order_detail_controller.dart';
 import 'package:fuellogic/modules/orders/models/order_model.dart';
 import 'package:fuellogic/modules/orders/screens/components/detail_row.dart';
@@ -10,16 +12,20 @@ import 'package:fuellogic/modules/orders/screens/components/schedule_card.dart';
 import 'package:fuellogic/modules/orders/screens/components/section_card.dart';
 import 'package:fuellogic/widgets/custom_appbar.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 class OrderDetailScreen extends StatelessWidget {
-  const OrderDetailScreen({super.key, required this.order});
+  OrderDetailScreen({super.key, required this.order});
 
   final OrderModel order;
+
+  final role = HiveBox().getValue(key: roleKey);
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(
-      OrderDetailController(status: order.orderStatus, orderId: order.id),
+      OrderDetailController(status: order.orderStatus, orderId: order.id, order: order),
     );
 
     return Scaffold(
@@ -53,16 +59,65 @@ class OrderDetailScreen extends StatelessWidget {
                         value: order.description,
                         isFirst: true,
                       ),
-                      DetailRow(
-                        iconAsset: AppAssets.orderIconFilled,
-                        label: 'Order total',
-                        value: order.orderTotal?.toString() ?? 'N/A',
+                      // Order Total - Editable
+                      InkWell(
+                        onTap: () {
+
+                          if(role == adminRoleKey){
+                            controller.showEditDialog(
+                              field: 'orderTotal',
+                              title: 'Edit Order Total',
+                              initialValue: controller.order.value.orderTotal?.toString() ?? '',
+                            );
+                          }
+
+                        },
+                        child: Obx(()=>DetailRow(
+                          iconAsset: AppAssets.orderIconFilled,
+                          label: 'Order total',
+                          value: controller.order.value.orderTotal?.toString() ?? 'N/A',
+                          suffixIcon: role == adminRoleKey ? Icons.edit : null,
+                        )),
                       ),
-                      DetailRow(
-                        iconAsset: AppAssets.orderIconFilled,
-                        label: 'DC Book',
-                        value: order.dcBook ?? 'N/A',
+
+// DC Book - Editable
+                      InkWell(
+                        onTap: () {
+
+                          if(role  == adminRoleKey){
+                            controller.showEditDialog(
+                              field: 'dcBook',
+                              title: 'Edit DC Book Number',
+                              initialValue: controller.order.value.dcBook ?? '',
+                            );
+                          }
+
+
+                        },
+                        child: Obx(()=>DetailRow(
+                          iconAsset: AppAssets.orderIconFilled,
+                          label: 'DC Book',
+                          value: controller.order.value.dcBook ?? 'N/A',
+                          suffixIcon: role  == adminRoleKey ? Icons.edit : null,
+                        )),
                       ),
+
+                      // InkWell(
+                      //   onTap: (){
+                      //
+                      //   },
+                      //   child: DetailRow(
+                      //     iconAsset: AppAssets.orderIconFilled,
+                      //     label: 'Order total',
+                      //     value: controller.order.value.orderTotal?.toString() ?? 'N/A',
+                      //     suffixIcon: Icons.edit,
+                      //   ),
+                      // ),
+                      // DetailRow(
+                      //   iconAsset: AppAssets.orderIconFilled,
+                      //   label: 'DC Book',
+                      //   value: controller.order.value.dcBook ?? 'N/A',
+                      // ),
                       DetailRow(
                         iconAsset: AppAssets.mapIcon,
                         label: 'Delivery Location',

@@ -46,10 +46,16 @@ class _SplashScreenState extends State<SplashScreen> {
 
         log(userRole);
 
-        Get.offAll(
-          () =>
-              CustomBottomBar(isCompany: role == companyRoleKey ? true : false),
-        );
+        if (role == adminRoleKey){
+          Get.offAllNamed(AppRoutes.adminMainScreen);
+        } else {
+          Get.offAll(
+                () =>
+                CustomBottomBar(isCompany: role == companyRoleKey ? true : false),
+          );
+        }
+
+
       } else {
         Get.offAllNamed(AppRoutes.welcomeScreen);
       }

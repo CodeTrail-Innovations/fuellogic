@@ -6,15 +6,20 @@ import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/modules/home/screens/components/order_status_label.dart';
 import 'package:fuellogic/modules/orders/controllers/order_detail_controller.dart';
 
+import '../../../../helper/constants/keys.dart';
+import '../../../../helper/utils/hive_utils.dart';
+
 class OrderStatusCard extends StatelessWidget {
   final OrderStatus status;
   final OrderDetailController controller;
 
-  const OrderStatusCard({
+  OrderStatusCard({
     super.key,
     required this.status,
     required this.controller,
   });
+
+  final role = HiveBox().getValue(key: roleKey);
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +39,14 @@ class OrderStatusCard extends StatelessWidget {
           OrderStatusLabel(
             status: status,
             onTap: () {
-              if (status == OrderStatus.approved ||
+              if (status == OrderStatus.pending ||
+                  status == OrderStatus.approved ||
                   status == OrderStatus.onTheWay) {
-                controller.showStatusBottomSheet(context);
+
+                if(role == adminRoleKey){
+                  controller.showStatusBottomSheet(context);
+                }
+                
               }
             },
           ),

@@ -56,6 +56,16 @@ class AuthScreen extends StatelessWidget {
                 isOutline: true,
                 onPressed: () => controller.goToRegisterScreen(UserRole.driver),
               ),
+
+              AppButton(
+                height: 55,
+                btnRadius: 100,
+                text: 'Fuelogic Admin Login',
+                isOutline: true,
+                btnColor: Colors.grey,
+                borderColor: Colors.grey,
+                onPressed: () => controller.goToAdminLoginScreen(),
+              ),
               8.vertical,
             ],
           ),

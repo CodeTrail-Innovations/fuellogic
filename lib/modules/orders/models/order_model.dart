@@ -6,6 +6,7 @@ class OrderModel {
   final String location;
   final String quantity;
   final String date;
+  final DateTime createdAt;
   final OrderStatus orderStatus;
   final String? driverId;
   final String? driverName;
@@ -27,9 +28,22 @@ class OrderModel {
     this.driverName = '',
     this.orderTotal,
     this.dcBook,
-  });
+    DateTime? createdAt,
+  }) : createdAt = createdAt ?? DateTime.utc(1989, 11, 9);
 
   factory OrderModel.fromJson(Map<String, dynamic> json) {
+    DateTime parseCreatedAt() {
+      if (json['createdAt'] != null) {
+        try {
+          return DateTime.parse(json['createdAt'].toString());
+        } catch (e) {
+          final ms = int.tryParse(json['createdAt'].toString());
+          if (ms != null) return DateTime.fromMillisecondsSinceEpoch(ms);
+        }
+      }
+      return DateTime.utc(2025, 07, 07);
+    }
+
     return OrderModel(
       id: json['id']?.toString() ?? '',
       companyId: json['companyId']?.toString() ?? '',
@@ -40,8 +54,11 @@ class OrderModel {
       orderStatus: _parseOrderStatus(json['orderStatus']),
       driverId: json['driverId']?.toString() ?? '',
       driverName: json['driverName']?.toString() ?? '',
-      orderTotal: json['orderTotal']?.toDouble(),
+      orderTotal: (json['orderTotal'] is num)
+          ? (json['orderTotal'] as num).toDouble()
+          : double.tryParse(json['orderTotal']?.toString() ?? ''),
       dcBook: json['dcBook']?.toString(),
+      createdAt: parseCreatedAt(),
     );
   }
 
@@ -57,25 +74,17 @@ class OrderModel {
     'driverName': driverName,
     'orderTotal': orderTotal,
     'dcBook': dcBook,
+    'createdAt': createdAt.toIso8601String(),
   };
-
-  static OrderStatus _parseOrderStatus(dynamic value) {
-    try {
-      return OrderStatus.fromValue(value?.toString() ?? '');
-    } catch (e) {
-      return defaultOrderStatus;
-    }
-  }
 
   OrderModel copyWith({
     String? id,
     String? companyId,
     String? location,
-    FuelType? fuelType,
     String? quantity,
     String? description,
-    FuelUnit? fuelUnit,
     String? date,
+    DateTime? createdAt,
     OrderStatus? orderStatus,
     String? driverId,
     String? driverName,
@@ -94,11 +103,20 @@ class OrderModel {
       driverName: driverName ?? this.driverName,
       orderTotal: orderTotal ?? this.orderTotal,
       dcBook: dcBook ?? this.dcBook,
+      createdAt: createdAt ?? this.createdAt,
     );
+  }
+
+  static OrderStatus _parseOrderStatus(dynamic value) {
+    try {
+      return OrderStatus.fromValue(value?.toString() ?? '');
+    } catch (e) {
+      return defaultOrderStatus;
+    }
   }
 
   @override
   String toString() {
-    return 'OrderModel(id: $id, companyId: $companyId, location: $location, description: $description, quantity: $quantity, date: $date, orderStatus: ${orderStatus.name}, driverId: $driverId, driverName: $driverName, orderTotal: $orderTotal, dcBook: $dcBook)';
+    return 'OrderModel(id: $id, companyId: $companyId, location: $location, description: $description, quantity: $quantity, date: $date, createdAt: $createdAt, orderStatus: ${orderStatus.name}, driverId: $driverId, driverName: $driverName, orderTotal: $orderTotal, dcBook: $dcBook)';
   }
 }

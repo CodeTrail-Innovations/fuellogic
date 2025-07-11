@@ -1,40 +1,58 @@
-import 'dart:async';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
-import 'package:fuellogic/helper/constants/keys.dart';
-import 'package:fuellogic/helper/utils/hive_utils.dart';
-import 'package:fuellogic/modules/auth/repositories/implementations/home_repo_impl.dart';
-import 'package:fuellogic/modules/auth/repositories/interfaces/home_repo.dart';
-import 'package:fuellogic/modules/auth/repositories/interfaces/login_repo.dart';
-import 'package:fuellogic/modules/bottombar/screens/custom_bottom_bar.dart';
-import 'package:fuellogic/utils/dialog_utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-class LoginRepoImpl implements LoginRepository {
+import '../../../core/enums/enum.dart';
+import '../../../core/routes/app_router.dart';
+import '../../../helper/constants/keys.dart';
+import '../../../helper/utils/hive_utils.dart';
+import '../../../utils/dialog_utils.dart';
+
+class AdminLoginController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
-  @override
-  Future<void> userSignIn({
+  final isLoading = false.obs;
+
+
+
+  Future<void> handleSignIn({
     required String email,
     required String password,
   }) async {
+    final email = emailController.text.trim();
+    final password = passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      DialogUtils.showAnimatedDialog(
+        type: DialogType.error,
+        title: 'Error',
+        message: 'Please enter both email and password',
+      );
+      return;
+    }
+
+    isLoading.value = true;
+
+
     try {
+
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-
       final User? user = userCredential.user;
 
       if (user != null) {
         DocumentSnapshot userDoc =
-            await _firestore.collection('users').doc(user.uid).get();
+        await _firestore.collection('users').doc(user.uid).get();
 
         if (userDoc.exists) {
           DialogUtils.hideLoadingDialog();
@@ -51,15 +69,13 @@ class LoginRepoImpl implements LoginRepository {
           log(userData.toString());
           log('User Role: $userRole');
 
-          HiveBox().setValue(key: roleKey, value: userRole == companyRoleKey ?companyRoleKey:driverRoleKey,);
+          HiveBox().setValue(key: roleKey, value: adminRoleKey,);
 
           // unawaited(saveDeviceToken());
           saveDeviceToken();
-          Get.offAll(() => CustomBottomBar(isCompany: userRole == companyRoleKey ? true:false,));
 
-          if (!Get.isRegistered<HomeRepository>()) {
-            Get.put(() => HomeRepositoryImpl());
-          }
+          Get.offAllNamed(AppRoutes.adminMainScreen);
+
         } else {
           DialogUtils.hideLoadingDialog();
           throw FirebaseAuthException(
@@ -74,22 +90,16 @@ class LoginRepoImpl implements LoginRepository {
           message: 'No user found with the provided credentials.',
         );
       }
-    } on FirebaseAuthException catch (e) {
-      DialogUtils.hideLoadingDialog();
-      String errorMessage = _getFirebaseAuthErrorMessage(e);
-      DialogUtils.showAnimatedDialog(
-        type: DialogType.error,
-        title: 'Login Failed',
-        message: errorMessage,
-      );
+      // await loginRepo.userSignIn(email: email, password: password);
     } catch (e) {
-      DialogUtils.hideLoadingDialog();
-      debugPrint('Unexpected error: $e');
+      log('Error during sign-in: $e');
       DialogUtils.showAnimatedDialog(
         type: DialogType.error,
-        title: 'Error',
+        title: 'Sign-In Failed',
         message: 'An unexpected error occurred. Please try again later.',
       );
+    } finally {
+      isLoading.value = false;
     }
   }
 
@@ -106,6 +116,7 @@ class LoginRepoImpl implements LoginRepository {
             .doc(uid)
             .set({
           'device_token': fcmToken,
+          'role': adminRoleKey,
           'updatedAt': FieldValue.serverTimestamp(),
         }, SetOptions(merge: true));
 
@@ -125,22 +136,10 @@ class LoginRepoImpl implements LoginRepository {
     return FirebaseMessaging.instance.getToken();
   }
 
-  String _getFirebaseAuthErrorMessage(FirebaseAuthException e) {
-    const errorMessages = {
-      'invalid-email': 'The email address is badly formatted.',
-      'user-disabled': 'This user account has been disabled.',
-      'user-not-found': 'No account found with this email.',
-      'auth/user-not-found': 'No account found with this email.',
-      'wrong-password': 'Incorrect password. Please try again.',
-      'too-many-requests':
-          'We have blocked all requests from this device due to unusual activity. Try again later.',
-      'network-request-failed':
-          'A network error has occurred. Please check your internet connection.',
-      'device-mismatch':
-          'This account is already logged in on another device. Please log out from the other device first.',
-    };
-
-    return errorMessages[e.code] ??
-        'An unknown error occurred. Please try again.';
+  @override
+  void onClose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.onClose();
   }
 }

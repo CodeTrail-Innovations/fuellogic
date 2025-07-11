@@ -10,6 +10,7 @@ class ScheduleCard extends StatelessWidget {
 
   const ScheduleCard({super.key, required this.date});
 
+
   @override
   Widget build(BuildContext context) {
     return Container(

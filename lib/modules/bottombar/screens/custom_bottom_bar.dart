@@ -36,7 +36,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
   void initState() {
     super.initState();
     _selectedIndex = widget.initialIndex;
-    controller.saveDeviceToken();
+    // controller.saveDeviceToken();
 
     log('CustomBottomBar - isCompany: ${widget.isCompany}');
     log('Initial index: ${widget.initialIndex}');

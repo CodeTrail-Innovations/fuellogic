@@ -7,4 +7,9 @@ class AuthController extends GetxController {
     Get.toNamed(AppRoutes.loginScreen, arguments: userRole);
     // Get.toNamed(AppRoutes.registerScreen, arguments: userRole);
   }
+
+  void goToAdminLoginScreen() {
+    Get.toNamed(AppRoutes.adminLoginScreen);
+    // Get.toNamed(AppRoutes.registerScreen, arguments: userRole);
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fuellogic/helper/constants/app_assets.dart';
 import 'package:fuellogic/helper/constants/image_resources.dart';
 import 'package:fuellogic/helper/extensions/space_extensions.dart';
 import 'package:fuellogic/helper/theme/app_colors.dart';
@@ -8,6 +9,7 @@ import 'package:get/get.dart';
 
 import '../../../core/routes/app_router.dart';
 import '../controller/welcome_controller.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 class WelcomeScreen extends StatelessWidget {
   WelcomeScreen({super.key});
@@ -179,7 +181,64 @@ class WelcomeScreen extends StatelessWidget {
             'Location',
             'Lt. Col Sheraz Ali Khan Shaheed Road',
           ),
+          24.vertical,
+          // Social Links
+
+          Row(
+            children: [
+              _brandContainer(Brands.instagram, (){}),
+              _brandContainer(Brands.facebook, (){}),
+              _brandContainer(Brands.twitterx_2, (){}),
+              _brandContainer(Brands.youtube, (){}),
+              _brandContainer(Brands.tiktok, (){}),
+
+            ],
+          ),
+          24.vertical,
+          Center(
+            child: Text('Fuelogic Copyright © 2025', style: AppTextStyles.captionBold.copyWith(
+                fontSize: 15
+            ),),
+          ),
+          4.vertical,
+          Center(
+            child: Text(
+              'All rights reserved by Fuelogic. Unauthorized use is strictly prohibited.',
+              textAlign: TextAlign.center,
+              style: AppTextStyles.captionStyle.copyWith(
+                fontSize: 12
+            ),),
+          ),
+          4.vertical,
+          Center(
+            child: Text(
+              'For more information, visit: fuellogict.com',
+              textAlign: TextAlign.center,
+              style: AppTextStyles.captionStyle.copyWith(
+                  fontSize: 12
+              ),),
+          ),
+
+          
+
+          
         ],
+      ),
+    );
+  }
+
+  Widget _brandContainer(String brand,Function() onPressed){
+    return Padding(
+      padding: const EdgeInsets.all(4),
+      child: Container(
+
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.grey.shade400
+
+        ),
+        padding: EdgeInsets.all(8),
+        child: Center(child: Brand(brand, size: 35,)),
       ),
     );
   }
@@ -273,6 +332,7 @@ class WelcomeScreen extends StatelessWidget {
           Column(
             children: [
               _buildEnhancedFuelCard(
+                imagePath: AppAssets.petrolImage,
                 title: 'PETROL',
                 subtitle: 'Premium Unleaded',
                 description:
@@ -284,6 +344,7 @@ class WelcomeScreen extends StatelessWidget {
               ),
               24.vertical,
               _buildEnhancedFuelCard(
+                imagePath: AppAssets.dieselImage,
                 title: 'HIGH SPEED DIESEL',
                 subtitle: 'Commercial Grade',
                 description:
@@ -294,6 +355,7 @@ class WelcomeScreen extends StatelessWidget {
               ),
               24.vertical,
               _buildEnhancedFuelCard(
+                imagePath: AppAssets.mobilImage,
                 title: 'MOBIL OILS',
                 subtitle: 'Premium Lubricants',
                 description:
@@ -305,6 +367,7 @@ class WelcomeScreen extends StatelessWidget {
               ),
               24.vertical,
               _buildEnhancedFuelCard(
+                imagePath: AppAssets.solarImage,
                 title: 'SOLAR PANELS',
                 subtitle: 'Clean Energy',
                 description:
@@ -324,6 +387,7 @@ class WelcomeScreen extends StatelessWidget {
   Widget _buildEnhancedFuelCard({
     required String title,
     required String subtitle,
+    required String imagePath,
     required String description,
     required Color color,
     required IconData icon,
@@ -355,8 +419,8 @@ class WelcomeScreen extends StatelessWidget {
           child: Stack(
             children: [
               Positioned.fill(
-                child: Image.network(
-                  'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-07-11%20at%2012.34.55%20PM-jZPxVwKROhMRO7tupC9oarLxAi6U0n.jpeg',
+                child: Image.asset(
+                  imagePath,
                   fit: BoxFit.cover,
                   alignment: Alignment.centerRight,
                 ),
@@ -426,7 +490,7 @@ class WelcomeScreen extends StatelessWidget {
                       ),
                       8.horizontal,
                       Text(
-                        'FUEL',
+                        'FUE',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 12,
@@ -536,7 +600,7 @@ class WelcomeScreen extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(30),
+                        borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withCustomOpacity(0.15),

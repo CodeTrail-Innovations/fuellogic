@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:fuellogic/config/app_textstyle.dart';
 import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
@@ -7,6 +8,8 @@ import 'package:svg_flutter/svg.dart';
 class DetailRow extends StatelessWidget {
   final IconData? icon;
   final String? iconAsset;
+  final IconData? suffixIcon;
+  final String? suffixIconAsset;
   final String label;
   final String value;
   final bool isFirst;
@@ -16,6 +19,8 @@ class DetailRow extends StatelessWidget {
     super.key,
     this.icon,
     this.iconAsset,
+    this.suffixIcon,
+    this.suffixIconAsset,
     required this.label,
     required this.value,
     this.isFirst = false,
@@ -81,6 +86,26 @@ class DetailRow extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+          10.horizontal,
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: AppColors.whiteColor,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child:
+            suffixIcon != null
+                ? Icon(suffixIcon, size: 16, color: AppColors.blackColor)
+                : suffixIconAsset != null ? SvgPicture.asset(
+              suffixIconAsset!,
+              height: 16,
+              width: 16,
+              colorFilter: ColorFilter.mode(
+                AppColors.primaryColor,
+                BlendMode.srcIn,
+              ),
+            ) : SizedBox.shrink(),
           ),
         ],
       ),

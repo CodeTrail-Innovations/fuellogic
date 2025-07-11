@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/helper/constants/keys.dart';
 import 'package:fuellogic/helper/utils/hive_utils.dart';
@@ -131,6 +133,7 @@ class RegisterRepoImpl implements RegisterRepository {
           }
         }
         HiveBox().setValue(key: roleKey, value: role == UserRole.company ? companyRoleKey :driverRoleKey);
+        saveDeviceToken();
         Get.offAll(() => CustomBottomBar(isCompany: role == UserRole.company ? true :false,));
         DialogUtils.showAnimatedDialog(
           type: DialogType.success,
@@ -182,6 +185,39 @@ class RegisterRepoImpl implements RegisterRepository {
       log('Error fetching user data: $e');
       return null;
     }
+  }
+
+
+  Future<void> saveDeviceToken() async {
+    try {
+      final fcmToken = await _getFcmToken();
+      final user = _auth.currentUser;
+
+      if (user != null && fcmToken != null) {
+        final uid = user.uid;
+
+        await FirebaseFirestore.instance
+            .collection('device_tokens')
+            .doc(uid)
+            .set({
+          'device_token': fcmToken,
+          'updatedAt': FieldValue.serverTimestamp(),
+        }, SetOptions(merge: true));
+
+        log('✅ FCM token saved for UID: $uid');
+      } else {
+        log('⚠️ User not authenticated or FCM token is null');
+      }
+    } catch (e) {
+      log('❌ Error saving device token: $e');
+    }
+  }
+
+
+
+  Future<String?> _getFcmToken() async {
+    await Firebase.initializeApp();
+    return FirebaseMessaging.instance.getToken();
   }
 
   String _getFirebaseAuthErrorMessage(FirebaseAuthException e) {
