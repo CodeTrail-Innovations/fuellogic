@@ -11,7 +11,8 @@ class AppAssets {
   static const String homeIconLinear = "assets/icons/home_icon_linear.svg";
   static const String orderIconFilled = "assets/icons/order_icon_filled.svg";
   static const String orderIconLinear = "assets/icons/order_icon_linear.svg";
-  static const String orderIconLinearRed = "assets/icons/order_icon_linear_red.svg";
+  static const String orderIconLinearRed =
+      "assets/icons/order_icon_linear_red.svg";
   static const String settingIconFilled =
       "assets/icons/setting_icon_filled.svg";
   static const String settingIconLinear =
@@ -29,4 +30,6 @@ class AppAssets {
   static const String editProfileIcon = "assets/icons/user_edit_icon.svg";
   static const String inviteUserIcon = "assets/icons/invite_user_icon.svg";
   static const String carIcon = "assets/icons/car_icon.svg";
+  static const String dcBookIcon = "assets/icons/dc_book_icon.svg";
+  static const String orderTotalIcon = "assets/icons/order_total_icon.svg";
 }

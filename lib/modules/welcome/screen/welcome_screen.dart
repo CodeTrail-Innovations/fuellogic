@@ -1,4 +1,3 @@
-// presentation/screens/home_screen.dart
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fuellogic/helper/constants/image_resources.dart';
@@ -23,22 +22,19 @@ class WelcomeScreen extends StatelessWidget {
       backgroundColor: AppColors.grey1,
       body: Column(
         children: [
-          // ─── Banner + Logo Stack ───
           Stack(
             clipBehavior: Clip.none,
             children: [
-              // Banner
               Container(
                 height: bannerHeight,
                 width: Get.width,
-
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage(ImageResources.banner),
                     fit: BoxFit.fill,
                     alignment: Alignment.topCenter,
                   ),
-                ), // replace with your banner image via DecorationImage if you like
+                ),
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 35,
@@ -55,8 +51,6 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-
-              // Logo overlapping
               Positioned(
                 bottom: -bannerHeight * 0.20,
                 left: 16,
@@ -83,11 +77,7 @@ class WelcomeScreen extends StatelessWidget {
               ),
             ],
           ),
-
-          // Push subsequent content down to clear logo overlap
           SizedBox(height: bannerHeight * 0.25),
-
-          // Company name
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Align(
@@ -105,10 +95,7 @@ class WelcomeScreen extends StatelessWidget {
               ),
             ),
           ),
-
           16.vertical,
-
-          // ─── Tabs ───
           Obx(() {
             return Row(
               children: [
@@ -117,10 +104,7 @@ class WelcomeScreen extends StatelessWidget {
               ],
             );
           }),
-
           const Divider(thickness: 1, color: AppColors.grey2),
-
-          // ─── Content ───
           Expanded(
             child: Obx(() {
               return c.selectedTab.value == 0
@@ -139,7 +123,6 @@ class WelcomeScreen extends StatelessWidget {
         onTap: () => c.selectTab(index),
         child: Container(
           color: Colors.transparent,
-          // padding: const EdgeInsets.symmetric(vertical: 2),
           child: Center(
             child: Text(
               label,
@@ -165,16 +148,13 @@ class WelcomeScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Dummy Description
           Text(
             'Fuelogic provides nationwide fuel supply, Genset maintenance, and customized solar solutions for corporate clients. We Offer round-the-clock diesel.',
             style: AppTextStyles.paragraphStyle,
           ),
           const SizedBox(height: 24),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,7 +163,6 @@ class WelcomeScreen extends StatelessWidget {
                   Text('Fuelogict', style: AppTextStyles.captionStyle),
                 ],
               ),
-
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
@@ -205,10 +184,7 @@ class WelcomeScreen extends StatelessWidget {
             'Location',
             'Lt. Col Sheraz Ali Khan Shaheed Road',
           ),
-
           24.vertical,
-
-          // Social Links
           Row(
             children: [
               _brandContainer(Brands.instagram, () {}),
@@ -237,30 +213,14 @@ class WelcomeScreen extends StatelessWidget {
     );
   }
 
-  // Widget _contactTile(IconData icon, String label, String value) {
-  //   return Column(
-  //     mainAxisSize: MainAxisSize.min,
-  //     children: [
-  //       Divider(),
-  //       ListTile(
-  //         contentPadding: EdgeInsets.zero,
-  //         title: Text(value, style: AppTextStyles.paragraphBoldStyle,),
-  //         subtitle: Text(label, style: AppTextStyles.captionStyle,),
-  //       ),
-  //     ],
-  //   );
-  // }
-
   Widget _contactTile(IconData icon, String label, String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Column(
         children: [
           Divider(color: AppColors.grey2),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
             children: [
               Expanded(
                 child: Column(
@@ -271,7 +231,6 @@ class WelcomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-
               Icon(icon, color: Colors.orange),
             ],
           ),
@@ -281,28 +240,127 @@ class WelcomeScreen extends StatelessWidget {
   }
 
   Widget _buildOrdersTab() {
-    return Center(
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Placeholder for images
-          Container(
-            width: 120,
-            height: 120,
-            color: Colors.grey.shade300,
-            child: const Icon(Icons.image, size: 60, color: Colors.white54),
+          Text('Our Products & Services', style: AppTextStyles.heading2Style),
+          8.vertical,
+          Text(
+            'Choose from our wide range of fuel and energy solutions',
+            style: AppTextStyles.paragraphStyle,
           ),
-          const SizedBox(height: 16),
-          ElevatedButton.icon(
-            icon: const Icon(Icons.add),
-            label: const Text('Add Order'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.orange,
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            ),
-            onPressed: () => Get.toNamed(AppRoutes.authScreen),
+          GridView.count(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            crossAxisCount: 2,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+            childAspectRatio: 0.85,
+            children: [
+              _buildProductCard(
+                title: 'Petrol',
+                description: 'Premium quality petrol for all vehicles',
+                icon: Icons.local_gas_station,
+                color: Colors.red,
+                onTap: () {},
+              ),
+              _buildProductCard(
+                title: 'High Speed Diesel',
+                description: 'High-grade diesel for industrial use',
+                icon: Icons.fire_truck,
+                color: Colors.blue,
+                onTap: () {},
+              ),
+              _buildProductCard(
+                title: 'Mobil Oils',
+                description: 'Premium lubricants and engine oils',
+                icon: Icons.oil_barrel,
+                color: Colors.amber,
+                onTap: () {},
+              ),
+              _buildProductCard(
+                title: 'Solar Panels',
+                description: 'Sustainable solar energy solutions',
+                icon: Icons.solar_power,
+                color: Colors.green,
+                onTap: () {},
+              ),
+            ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildProductCard({
+    required String title,
+    required String description,
+    required IconData icon,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withCustomOpacity(0.08),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: color.withCustomOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(icon, color: color, size: 28),
+              ),
+              16.vertical,
+              Text(
+                title,
+                style: AppTextStyles.paragraphBoldStyle.copyWith(fontSize: 16),
+              ),
+              8.vertical,
+              Expanded(
+                child: Text(
+                  description,
+                  style: AppTextStyles.captionStyle.copyWith(height: 1.4),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              12.vertical,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Order Now',
+                    style: TextStyle(
+                      color: Colors.orange,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
+                  ),
+                  Icon(Icons.arrow_forward_ios, color: Colors.orange, size: 16),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -10,6 +10,8 @@ class OrderModel {
   final String? driverId;
   final String? driverName;
   final String description;
+  final double? orderTotal;
+  final String? dcBook;
 
   static const OrderStatus defaultOrderStatus = OrderStatus.pending;
 
@@ -23,6 +25,8 @@ class OrderModel {
     this.orderStatus = defaultOrderStatus,
     this.driverId = '',
     this.driverName = '',
+    this.orderTotal,
+    this.dcBook,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) {
@@ -36,6 +40,8 @@ class OrderModel {
       orderStatus: _parseOrderStatus(json['orderStatus']),
       driverId: json['driverId']?.toString() ?? '',
       driverName: json['driverName']?.toString() ?? '',
+      orderTotal: json['orderTotal']?.toDouble(),
+      dcBook: json['dcBook']?.toString(),
     );
   }
 
@@ -49,6 +55,8 @@ class OrderModel {
     'orderStatus': orderStatus.name,
     'driverId': driverId,
     'driverName': driverName,
+    'orderTotal': orderTotal,
+    'dcBook': dcBook,
   };
 
   static OrderStatus _parseOrderStatus(dynamic value) {
@@ -71,6 +79,8 @@ class OrderModel {
     OrderStatus? orderStatus,
     String? driverId,
     String? driverName,
+    double? orderTotal,
+    String? dcBook,
   }) {
     return OrderModel(
       id: id ?? this.id,
@@ -82,11 +92,13 @@ class OrderModel {
       orderStatus: orderStatus ?? this.orderStatus,
       driverId: driverId ?? this.driverId,
       driverName: driverName ?? this.driverName,
+      orderTotal: orderTotal ?? this.orderTotal,
+      dcBook: dcBook ?? this.dcBook,
     );
   }
 
   @override
   String toString() {
-    return 'OrderModel(id: $id, companyId: $companyId, location: $location, description: $description, quantity: $quantity,   date: $date, orderStatus: ${orderStatus.name}, driverId: $driverId, driverName: $driverName)';
+    return 'OrderModel(id: $id, companyId: $companyId, location: $location, description: $description, quantity: $quantity, date: $date, orderStatus: ${orderStatus.name}, driverId: $driverId, driverName: $driverName, orderTotal: $orderTotal, dcBook: $dcBook)';
   }
 }
