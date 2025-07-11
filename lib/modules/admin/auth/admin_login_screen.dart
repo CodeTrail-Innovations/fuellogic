@@ -7,6 +7,7 @@ import '../../../config/app_textstyle.dart';
 import '../../../core/constant/app_button.dart';
 import '../../../core/constant/app_colors.dart';
 import '../../../core/constant/app_field.dart';
+import '../../../widgets/custom_appbar.dart';
 
 class AdminLoginScreen extends StatelessWidget {
   AdminLoginScreen({super.key});
@@ -19,6 +20,9 @@ class AdminLoginScreen extends StatelessWidget {
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: AppColors.whiteColor,
+        appBar: CustomAppBar(
+          isSimple: true,
+        ),
         body: Column(
           children: [
             Expanded(
@@ -52,13 +56,7 @@ class AdminLoginScreen extends StatelessWidget {
                       hintText: "********",
                       controller: controller.passwordController,
                     ),
-                    // Align(
-                    //   alignment: Alignment.centerRight,
-                    //   child: Text(
-                    //     "Forgot password?",
-                    //     style: AppTextStyles.regularStyle,
-                    //   ),
-                    // ),
+
                     8.vertical,
                     Obx(
                           () => AppButton(

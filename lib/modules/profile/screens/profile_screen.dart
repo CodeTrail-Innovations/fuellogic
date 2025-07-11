@@ -100,7 +100,7 @@ class ProfileScreen extends StatelessWidget {
                                 controller.showCompanyKeyDialog(context);
                               },
                               title: 'Invite Driver',
-                              subTitle: "click here to see your ",
+                              subTitle: "click here to see your ID ",
                               forIcon: true,
                               icon: AppAssets.inviteUserIcon,
                             )

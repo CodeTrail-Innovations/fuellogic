@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fuellogic/config/app_textstyle.dart';
 import 'package:fuellogic/config/extension/space_extension.dart';
@@ -8,16 +10,21 @@ import 'package:fuellogic/core/constant/app_colors.dart';
 import 'package:fuellogic/core/enums/enum.dart';
 import 'package:get/get.dart';
 
+import '../../auth/models/user_model.dart';
 import '../models/order_model.dart';
 
 class OrderDetailController extends GetxController {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final Rx<OrderStatus> status;
   final String orderId;
   final Rx<OrderModel> order = OrderModel().obs;
+  final Rx<UserModel?> companyData = Rx<UserModel?>(null);
+  final Rx<UserModel?> driverData = Rx<UserModel?>(null);
+  final RxBool isLoading = false.obs;
 
 
-  // OrderDetailController({required OrderStatus status, required this.orderId, required this.order})
-  //   : status = status.obs;
+
 
   OrderDetailController({
     required OrderStatus status,
@@ -25,9 +32,18 @@ class OrderDetailController extends GetxController {
     required OrderModel order,
   })  : status = status.obs {
     this.order.value = order;
+
+    // Trigger data fetches based on order info
+    if (order.companyId.isNotEmpty) {
+      fetchCompanyData(order.companyId);
+    }
+
+    if (order.driverId != null && order.driverId!.isNotEmpty) {
+      fetchDriverData(order.driverId!);
+    }
   }
 
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
 
   void showStatusBottomSheet(BuildContext context) {
     List<OrderStatus> availableStatuses = [];
@@ -124,6 +140,55 @@ class OrderDetailController extends GetxController {
       Get.snackbar('Error', 'Failed to update status: $e');
     }
   }
+
+
+  Future<void> fetchCompanyData(String companyId) async {
+    log('Fetching Company Data');
+    try {
+      isLoading.value = true;
+      final user = auth.currentUser;
+      if (user != null) {
+        final userDoc = await _firestore.collection('users').doc(companyId).get();
+
+        if (userDoc.exists) {
+          final userData = userDoc.data();
+          if (userData != null) {
+            this.companyData.value = UserModel.fromJson(userData);
+
+          }
+        }
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to fetch user data: $e');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> fetchDriverData(String driverId) async {
+    log('Fetching Driver Data');
+    try {
+      isLoading.value = true;
+      final user = auth.currentUser;
+      if (user != null) {
+        final userDoc = await _firestore.collection('users').doc(driverId).get();
+
+        if (userDoc.exists) {
+          final userData = userDoc.data();
+          if (userData != null) {
+            this.driverData.value = UserModel.fromJson(userData);
+
+          }
+        }
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to fetch user data: $e');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+
 
 
   void showEditDialog({

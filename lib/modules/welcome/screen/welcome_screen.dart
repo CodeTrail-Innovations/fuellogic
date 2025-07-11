@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:fuellogic/helper/constants/app_assets.dart';
 import 'package:fuellogic/helper/constants/image_resources.dart';
 import 'package:fuellogic/helper/extensions/space_extensions.dart';
-import 'package:fuellogic/helper/theme/app_colors.dart';
-import 'package:fuellogic/helper/theme/app_text_styles.dart';
+
 import 'package:get/get.dart';
 
+import '../../../config/app_textstyle.dart';
+import '../../../core/constant/app_colors.dart';
 import '../../../core/routes/app_router.dart';
 import '../controller/welcome_controller.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -45,7 +46,7 @@ class WelcomeScreen extends StatelessWidget {
                   child: IconButton(
                     icon: const Icon(
                       CupertinoIcons.person_crop_circle,
-                      color: Colors.white,
+                      color: Colors.transparent,
                       size: 30,
                     ),
                     onPressed: () => Get.toNamed(AppRoutes.authScreen),
@@ -81,11 +82,39 @@ class WelcomeScreen extends StatelessWidget {
           SizedBox(height: bannerHeight * 0.25),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text('Fuelogic', style: AppTextStyles.heading2Style),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Fuelogic', style: AppTextStyles.heading2Style),
+                InkWell(
+                  onTap: (){
+                    Get.toNamed(AppRoutes.authScreen);
+                  },
+                  child: Container(
+                    // height: 30,
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryColor.withCustomOpacity(0.8),
+                      borderRadius: BorderRadius.circular(8),
+
+                    ),
+                    // child: TextButton(onPressed: (){}, child: Text('Get Started')),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text('Get Started', style: AppTextStyles.paragraphStyle.copyWith(
+                          color: Colors.white
+                        ),),
+                        5.horizontal,
+                        Icon(Icons.chevron_right, color: Colors.white,),
+                      ],
+                    ),
+                  ),
+                )
+              ],
             ),
           ),
+
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: Align(
@@ -340,7 +369,9 @@ class WelcomeScreen extends StatelessWidget {
 
                 color: const Color(0xFFE53E3E),
                 icon: Icons.local_gas_station,
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed(AppRoutes.authScreen);
+                },
               ),
               24.vertical,
               _buildEnhancedFuelCard(
@@ -351,7 +382,9 @@ class WelcomeScreen extends StatelessWidget {
                     'Premium HSD for trucks, generators and heavy machinery with superior performance',
                 color: const Color(0xFF3182CE),
                 icon: Icons.fire_truck,
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed(AppRoutes.authScreen);
+                },
               ),
               24.vertical,
               _buildEnhancedFuelCard(
@@ -363,7 +396,9 @@ class WelcomeScreen extends StatelessWidget {
 
                 color: const Color(0xFFD69E2E),
                 icon: Icons.oil_barrel,
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed(AppRoutes.authScreen);
+                },
               ),
               24.vertical,
               _buildEnhancedFuelCard(
@@ -375,7 +410,9 @@ class WelcomeScreen extends StatelessWidget {
 
                 color: const Color(0xFF38A169),
                 icon: Icons.solar_power,
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed(AppRoutes.authScreen);
+                },
               ),
             ],
           ),

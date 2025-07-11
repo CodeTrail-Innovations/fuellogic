@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fuellogic/config/extension/space_extension.dart';
+import 'package:fuellogic/core/routes/app_router.dart';
 import 'package:fuellogic/modules/admin/admin_main/admin_main_controller.dart';
 import 'package:get/get.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 import '../../../config/app_textstyle.dart';
 import '../../../core/constant/app_colors.dart';
@@ -16,9 +18,16 @@ class AdminMainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Order Management'),
+        backgroundColor: Colors.white,
+        title: Text('Order Management',style: AppTextStyles.largeStyle.copyWith(
+          color: AppColors.primaryColor
+        ),),
+        elevation: 0,
         actions: [
-          IconButton(onPressed: ()=> controller.logout(), icon: Icon(Icons.logout_rounded))
+          IconButton(
+              onPressed: ()=> Get.toNamed(AppRoutes.adminProfileScreen), 
+              // onPressed: ()=> controller.logout(), 
+              icon: Icon(Iconsax.profile_circle_outline, color: AppColors.primaryColor,))
 
         ],
       ),

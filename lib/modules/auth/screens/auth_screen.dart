@@ -7,6 +7,8 @@ import 'package:fuellogic/modules/auth/controllers/auth_controller.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../widgets/custom_appbar.dart';
+
 class AuthScreen extends StatelessWidget {
   AuthScreen({super.key});
 
@@ -16,6 +18,9 @@ class AuthScreen extends StatelessWidget {
     return SafeArea(
       top: false,
       child: Scaffold(
+        appBar: CustomAppBar(
+          isSimple: true,
+        ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(

@@ -1,16 +1,22 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fuellogic/core/enums/enum.dart';
+import 'package:fuellogic/helper/constants/keys.dart';
+import 'package:fuellogic/helper/utils/hive_utils.dart';
 import 'package:fuellogic/modules/orders/models/order_model.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/adapters.dart';
 
 class HomeController extends GetxController {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   final RxList<OrderModel> orders = <OrderModel>[].obs;
   var isLoading = true.obs;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   var selectedIndex = 0.obs;
+  final role = HiveBox().getValue(key: roleKey);
 
   List<String> orderFilter = [
     "All",
@@ -56,8 +62,14 @@ class HomeController extends GetxController {
       log('Fetching orders...');
       isLoading(true);
 
+      final roleId = role == companyRoleKey ? 'companyId' : 'driverId';
+      final user = _firebaseAuth.currentUser;
+      final userId = user?.uid;
+
       _firebaseFirestore
           .collection('orders')
+      .where(roleId, isEqualTo: userId)
+      .orderBy('createdAt', descending: true)
           .snapshots()
           .listen(
             (snapshot) {

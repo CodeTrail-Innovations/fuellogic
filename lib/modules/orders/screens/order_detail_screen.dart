@@ -12,7 +12,6 @@ import 'package:fuellogic/modules/orders/screens/components/schedule_card.dart';
 import 'package:fuellogic/modules/orders/screens/components/section_card.dart';
 import 'package:fuellogic/widgets/custom_appbar.dart';
 import 'package:get/get.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 class OrderDetailScreen extends StatelessWidget {
@@ -102,22 +101,6 @@ class OrderDetailScreen extends StatelessWidget {
                         )),
                       ),
 
-                      // InkWell(
-                      //   onTap: (){
-                      //
-                      //   },
-                      //   child: DetailRow(
-                      //     iconAsset: AppAssets.orderIconFilled,
-                      //     label: 'Order total',
-                      //     value: controller.order.value.orderTotal?.toString() ?? 'N/A',
-                      //     suffixIcon: Icons.edit,
-                      //   ),
-                      // ),
-                      // DetailRow(
-                      //   iconAsset: AppAssets.orderIconFilled,
-                      //   label: 'DC Book',
-                      //   value: controller.order.value.dcBook ?? 'N/A',
-                      // ),
                       DetailRow(
                         iconAsset: AppAssets.mapIcon,
                         label: 'Delivery Location',
@@ -131,6 +114,62 @@ class OrderDetailScreen extends StatelessWidget {
                       ),
                     ],
                   ),
+                  20.vertical,
+                  SectionCard(
+                    title: 'Customer Information',
+                    icon: Icons.person_outline,
+                    children: [
+                      Obx(() {
+                        final company = controller.companyData.value;
+                        if (company == null) return const Text('Loading company info...');
+                        return Column(
+                          children: [
+                            DetailRow(
+                              icon: Icons.business,
+                              label: 'Company Name',
+                              value: company.displayName,
+                              isFirst: true,
+                            ),
+                            DetailRow(
+                              icon: Icons.phone,
+                              label: 'Company Email',
+                              value: company.email,
+                            ),
+                          ],
+                        );
+                      }),
+                      10.vertical,
+                      if (controller.order.value.driverId != null && controller.order.value.driverId!.isNotEmpty)
+                        Obx(() {
+                          final driver = controller.driverData.value;
+
+                          if (driver == null) {
+                            return const Text('Loading driver info...');
+                          }
+
+                          return Column(
+                            children: [
+                              DetailRow(
+                                icon: Icons.local_shipping,
+                                label: 'Driver Name',
+                                value: driver.displayName,
+                                isFirst: true,
+                              ),
+                              DetailRow(
+                                icon: Icons.phone_android,
+                                label: 'Driver Email',
+                                value: driver.email ?? 'N/A',
+                                isLast: true,
+                              ),
+                            ],
+                          );
+                        })
+                      else
+                        const SizedBox.shrink(), // or nothing if no driver
+
+                    ],
+                  ),
+
                   20.vertical,
                   SectionCard(
                     title: 'Order Status',

@@ -1,6 +1,7 @@
 enum UserRole {
   driver('driver'),
-  company('company');
+  company('company'),
+  admin('admin');
 
   final String value;
   const UserRole(this.value);
@@ -11,6 +12,8 @@ enum UserRole {
         return 'Driver';
       case UserRole.company:
         return 'Company';
+      case UserRole.admin:
+          return 'Admin';
     }
   }
 

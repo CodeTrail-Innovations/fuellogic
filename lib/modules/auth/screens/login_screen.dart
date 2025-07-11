@@ -9,6 +9,7 @@ import 'package:fuellogic/core/constant/app_field.dart';
 import 'package:fuellogic/core/constant/app_fonts.dart';
 import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/modules/auth/controllers/login_controller.dart';
+import 'package:fuellogic/widgets/custom_appbar.dart';
 import 'package:get/get.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -24,6 +25,9 @@ class LoginScreen extends StatelessWidget {
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: AppColors.whiteColor,
+        appBar: CustomAppBar(
+          isSimple: true,
+        ),
         body: Column(
           children: [
             Expanded(

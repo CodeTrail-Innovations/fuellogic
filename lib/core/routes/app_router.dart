@@ -1,4 +1,5 @@
 import 'package:fuellogic/modules/admin/admin_main/admin_main_screen.dart';
+import 'package:fuellogic/modules/admin/admin_profile/admin_profile_screen.dart';
 import 'package:fuellogic/modules/auth/screens/auth_screen.dart';
 import 'package:fuellogic/modules/auth/screens/login_screen.dart';
 import 'package:fuellogic/modules/auth/screens/register_screen.dart';
@@ -7,6 +8,7 @@ import 'package:fuellogic/modules/welcome/screen/welcome_screen.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:get/get_navigation/src/routes/transitions_type.dart';
 
+import '../../modules/admin/admin_profile/add_new_admin_screen.dart';
 import '../../modules/admin/auth/admin_login_screen.dart';
 
 class AppRoutes {
@@ -18,6 +20,8 @@ class AppRoutes {
 
   static const adminLoginScreen ="/adminLoginScreen";
   static const adminMainScreen ="/adminMainScreen";
+  static const adminProfileScreen = "/adminProfileScreen";
+  static const addNewAdminScreen = "/addNewAdminScreen";
 
   static final routes = [
     GetPage(
@@ -53,6 +57,16 @@ class AppRoutes {
     GetPage(
       name: adminMainScreen,
       page: () => AdminMainScreen(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: adminProfileScreen,
+      page: () => AdminProfileScreen(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: addNewAdminScreen,
+      page: () => AddNewAdminScreen(),
       transition: Transition.fadeIn,
     ),
   ];

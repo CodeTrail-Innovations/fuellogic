@@ -11,6 +11,8 @@ import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/modules/auth/controllers/register_controller.dart';
 import 'package:get/get.dart';
 
+import '../../../widgets/custom_appbar.dart';
+
 class RegisterScreen extends StatelessWidget {
   final UserRole? userRole;
   RegisterScreen({super.key}) : userRole = Get.arguments;
@@ -25,6 +27,9 @@ class RegisterScreen extends StatelessWidget {
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: AppColors.whiteColor,
+        appBar: CustomAppBar(
+          isSimple: true,
+        ),
         body: Column(
           children: [
             Expanded(

@@ -67,7 +67,8 @@ class CreateOrderController extends GetxController {
         quantity: quantityController.text,
         date: dateController.text,
         orderStatus: OrderStatus.pending,
-        companyId: currentUser.uid,
+        companyId: currentUser.companyId,
+        // companyId: currentUser.uid,
         createdAt: DateTime.now(),
         driverId:
             currentUser.role == UserRole.company
