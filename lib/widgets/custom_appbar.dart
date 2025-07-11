@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fuellogic/config/app_textstyle.dart';
 import 'package:fuellogic/core/constant/app_colors.dart';
+import 'package:fuellogic/core/constant/app_fonts.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double? height;
@@ -25,8 +26,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         title: Text(
           title ?? 'Back',
           style: AppTextStyles.largeStyle.copyWith(
-            fontSize: 20,
+            fontSize: 18,
             color: AppColors.blackColor,
+            fontFamily: AppFonts.publicSansSemiBold,
           ),
         ),
         iconTheme: const IconThemeData(),
@@ -61,11 +63,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 ),
               ],
-            ),
-            const CircleAvatar(
-              backgroundColor: AppColors.primaryColor,
-              radius: 20,
-              child: Icon(Icons.person, color: AppColors.whiteColor),
             ),
           ],
         ),

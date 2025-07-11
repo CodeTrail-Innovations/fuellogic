@@ -5,7 +5,6 @@ import 'package:fuellogic/helper/extensions/space_extensions.dart';
 import 'package:fuellogic/helper/theme/app_colors.dart';
 import 'package:fuellogic/helper/theme/app_text_styles.dart';
 import 'package:get/get.dart';
-import 'package:icons_plus/icons_plus.dart';
 
 import '../../../core/routes/app_router.dart';
 import '../controller/welcome_controller.dart';
@@ -174,41 +173,13 @@ class WelcomeScreen extends StatelessWidget {
             ],
           ),
           _contactTile(CupertinoIcons.phone, 'Phone Number', '+923008272842'),
-          _contactTile(
-            CupertinoIcons.barcode_viewfinder,
-            'Invite Code',
-            '8ERALC',
-          ),
+
           _contactTile(
             Icons.location_on_outlined,
             'Location',
             'Lt. Col Sheraz Ali Khan Shaheed Road',
           ),
-          24.vertical,
-          Row(
-            children: [
-              _brandContainer(Brands.instagram, () {}),
-              _brandContainer(Brands.facebook, () {}),
-              _brandContainer(Brands.twitterx_2, () {}),
-              _brandContainer(Brands.youtube, () {}),
-              _brandContainer(Brands.tiktok, () {}),
-            ],
-          ),
         ],
-      ),
-    );
-  }
-
-  Widget _brandContainer(String brand, Function() onPressed) {
-    return Padding(
-      padding: const EdgeInsets.all(4),
-      child: Container(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.grey.shade400,
-        ),
-        padding: EdgeInsets.all(8),
-        child: Center(child: Brand(brand, size: 35)),
       ),
     );
   }
@@ -245,46 +216,102 @@ class WelcomeScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Our Products & Services', style: AppTextStyles.heading2Style),
-          8.vertical,
-          Text(
-            'Choose from our wide range of fuel and energy solutions',
-            style: AppTextStyles.paragraphStyle,
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.orange.withCustomOpacity(0.1),
+                  Colors.red.withCustomOpacity(0.05),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: Colors.orange.withCustomOpacity(0.2),
+                width: 1,
+              ),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.orange.withCustomOpacity(0.2),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    Icons.local_shipping,
+                    color: Colors.orange,
+                    size: 24,
+                  ),
+                ),
+                16.horizontal,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Professional Fuel Services',
+                        style: AppTextStyles.paragraphBoldStyle.copyWith(
+                          fontSize: 18,
+                        ),
+                      ),
+                      4.vertical,
+                      Text(
+                        'Commercial fuel delivery & energy solutions',
+                        style: AppTextStyles.captionStyle,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
-          GridView.count(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: 2,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
-            childAspectRatio: 0.85,
+          24.vertical,
+          Column(
             children: [
-              _buildProductCard(
-                title: 'Petrol',
-                description: 'Premium quality petrol for all vehicles',
+              _buildEnhancedFuelCard(
+                title: 'PETROL',
+                subtitle: 'Premium Unleaded',
+                description:
+                    'High-octane petrol for all vehicle types with guaranteed quality and nationwide delivery service',
+
+                color: const Color(0xFFE53E3E),
                 icon: Icons.local_gas_station,
-                color: Colors.red,
                 onTap: () {},
               ),
-              _buildProductCard(
-                title: 'High Speed Diesel',
-                description: 'High-grade diesel for industrial use',
+              24.vertical,
+              _buildEnhancedFuelCard(
+                title: 'HIGH SPEED DIESEL',
+                subtitle: 'Commercial Grade',
+                description:
+                    'Premium HSD for trucks, generators and heavy machinery with superior performance',
+                color: const Color(0xFF3182CE),
                 icon: Icons.fire_truck,
-                color: Colors.blue,
                 onTap: () {},
               ),
-              _buildProductCard(
-                title: 'Mobil Oils',
-                description: 'Premium lubricants and engine oils',
+              24.vertical,
+              _buildEnhancedFuelCard(
+                title: 'MOBIL OILS',
+                subtitle: 'Premium Lubricants',
+                description:
+                    'Complete range of engine oils, hydraulic fluids and specialized lubricants',
+
+                color: const Color(0xFFD69E2E),
                 icon: Icons.oil_barrel,
-                color: Colors.amber,
                 onTap: () {},
               ),
-              _buildProductCard(
-                title: 'Solar Panels',
-                description: 'Sustainable solar energy solutions',
+              24.vertical,
+              _buildEnhancedFuelCard(
+                title: 'SOLAR PANELS',
+                subtitle: 'Clean Energy',
+                description:
+                    'Complete solar installation with maintenance, monitoring and long-term support',
+
+                color: const Color(0xFF38A169),
                 icon: Icons.solar_power,
-                color: Colors.green,
                 onTap: () {},
               ),
             ],
@@ -294,69 +321,260 @@ class WelcomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildProductCard({
+  Widget _buildEnhancedFuelCard({
     required String title,
+    required String subtitle,
     required String description,
-    required IconData icon,
     required Color color,
+    required IconData icon,
     required VoidCallback onTap,
   }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        height: 240,
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withCustomOpacity(0.08),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
+              color: Colors.black.withCustomOpacity(0.1),
+              blurRadius: 20,
+              offset: const Offset(0, 8),
+              spreadRadius: 0,
+            ),
+            BoxShadow(
+              color: color.withCustomOpacity(0.1),
+              blurRadius: 15,
+              offset: const Offset(0, 4),
+              spreadRadius: 0,
             ),
           ],
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Stack(
             children: [
-              Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: color.withCustomOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(icon, color: color, size: 28),
-              ),
-              16.vertical,
-              Text(
-                title,
-                style: AppTextStyles.paragraphBoldStyle.copyWith(fontSize: 16),
-              ),
-              8.vertical,
-              Expanded(
-                child: Text(
-                  description,
-                  style: AppTextStyles.captionStyle.copyWith(height: 1.4),
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
+              Positioned.fill(
+                child: Image.network(
+                  'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-07-11%20at%2012.34.55%20PM-jZPxVwKROhMRO7tupC9oarLxAi6U0n.jpeg',
+                  fit: BoxFit.cover,
+                  alignment: Alignment.centerRight,
                 ),
               ),
-              12.vertical,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Order Now',
-                    style: TextStyle(
-                      color: Colors.orange,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
+
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors: [
+                        Colors.black.withCustomOpacity(0.85),
+                        Colors.black.withCustomOpacity(0.7),
+                        Colors.black.withCustomOpacity(0.4),
+                        Colors.transparent,
+                      ],
+                      stops: const [0.0, 0.4, 0.7, 1.0],
                     ),
                   ),
-                  Icon(Icons.arrow_forward_ios, color: Colors.orange, size: 16),
-                ],
+                ),
+              ),
+
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  height: 4,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [color, color.withCustomOpacity(0.5)],
+                    ),
+                  ),
+                ),
+              ),
+
+              Positioned(
+                top: 20,
+                right: 20,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(25),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withCustomOpacity(0.15),
+                        blurRadius: 8,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        width: 8,
+                        height: 8,
+                        decoration: BoxDecoration(
+                          color: color,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      8.horizontal,
+                      Text(
+                        'FUEL',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                      Text(
+                        'LOGIC',
+                        style: TextStyle(
+                          color: color,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              Positioned(
+                left: 24,
+                top: 24,
+                bottom: 24,
+                right: 120,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: color.withCustomOpacity(0.2),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: color.withCustomOpacity(0.3),
+                          width: 1,
+                        ),
+                      ),
+                      child: Icon(icon, color: color, size: 24),
+                    ),
+
+                    16.vertical,
+
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.2,
+                            height: 1.1,
+                            shadows: [
+                              Shadow(
+                                offset: Offset(2, 2),
+                                blurRadius: 4,
+                                color: Colors.black54,
+                              ),
+                            ],
+                          ),
+                        ),
+                        4.vertical,
+                        Text(
+                          subtitle,
+                          style: TextStyle(
+                            color: color,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    12.vertical,
+
+                    Expanded(
+                      child: Text(
+                        description,
+                        style: TextStyle(
+                          color: Colors.white.withCustomOpacity(0.9),
+                          fontSize: 14,
+                          height: 1.4,
+                          letterSpacing: 0.2,
+                        ),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              Positioned(
+                right: 0,
+                bottom: 0,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 14,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withCustomOpacity(0.15),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'ORDER NOW',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 0.8,
+                            ),
+                          ),
+                          12.horizontal,
+                          Container(
+                            padding: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              color: color,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.arrow_forward,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

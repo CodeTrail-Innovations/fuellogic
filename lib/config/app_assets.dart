@@ -32,4 +32,6 @@ class AppAssets {
   static const String carIcon = "assets/icons/car_icon.svg";
   static const String dcBookIcon = "assets/icons/dc_book_icon.svg";
   static const String orderTotalIcon = "assets/icons/order_total_icon.svg";
+  static const String fleetIconFilled = "assets/icons/fleet_icon_filled.svg";
+  static const String fleetIconLinear = "assets/icons/fleet_icon_linear.svg";
 }

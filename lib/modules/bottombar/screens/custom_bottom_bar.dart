@@ -46,19 +46,18 @@ class CustomBottomBarState extends State<CustomBottomBar> {
     log('Getting screens - isCompany: ${widget.isCompany}');
     return widget.isCompany
         ? [DashboardScreen(), ReportScreen(), ProfileScreen()]
-        // ? [DashboardScreen(), CreateOrderScreen(), ProfileScreen()]
         : [HomeScreen(), CreateOrderScreen(), ProfileScreen()];
   }
 
   List<String> get _selectedIcons => [
     AppAssets.homeIconFilled,
-    AppAssets.addOrderFilled,
+    widget.isCompany ? AppAssets.fleetIconFilled : AppAssets.addOrderFilled,
     AppAssets.prifileIconFilled,
   ];
 
   List<String> get _unselectedIcons => [
     AppAssets.homeIconLinear,
-    AppAssets.addOrderLinear,
+    widget.isCompany ? AppAssets.fleetIconLinear : AppAssets.addOrderLinear,
     AppAssets.prifileIconLinear,
   ];
 

@@ -74,7 +74,7 @@ class ProfileScreen extends StatelessWidget {
 
                         Obx(() {
                           final vehicle = controller.assignedVehicle.value;
-                          if (vehicle == null) return Text("data");
+                          if (vehicle == null) return SizedBox.shrink();
 
                           return Column(
                             children: [
