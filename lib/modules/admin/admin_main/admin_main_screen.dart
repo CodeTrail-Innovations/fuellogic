@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:fuellogic/config/extension/space_extension.dart';
 import 'package:fuellogic/core/routes/app_router.dart';
@@ -8,11 +10,41 @@ import 'package:icons_plus/icons_plus.dart';
 import '../../../config/app_textstyle.dart';
 import '../../../core/constant/app_colors.dart';
 import '../../../core/constant/app_fonts.dart';
+import '../../../helper/services/notification_services.dart';
 import '../../home/screens/components/order_card.dart';
 
-class AdminMainScreen extends StatelessWidget {
+class AdminMainScreen extends StatefulWidget {
   AdminMainScreen({super.key});
+
+  @override
+  State<AdminMainScreen> createState() => _AdminMainScreenState();
+}
+
+class _AdminMainScreenState extends State<AdminMainScreen> {
   final controller = Get.put(AdminMainController());
+
+  NotificationServices notificationServices = NotificationServices();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    notificationServices.requestNotificationPermission();
+    if(Platform.isAndroid){
+      notificationServices.subscribeToTopic('Android_Users');
+    }
+    else if(Platform.isIOS){
+      notificationServices.subscribeToTopic('iOS_Users');
+    }
+    notificationServices.foregroundMessage();
+    notificationServices.firebaseInit(context);
+    notificationServices.setupInteractMessage(context);
+    notificationServices.isTokenRefresh();
+    notificationServices.getDeviceToken().then((value) {
+      print('DEVICE TOKEN');
+      print(value);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +57,8 @@ class AdminMainScreen extends StatelessWidget {
         elevation: 0,
         actions: [
           IconButton(
-              onPressed: ()=> Get.toNamed(AppRoutes.adminProfileScreen), 
-              // onPressed: ()=> controller.logout(), 
+              onPressed: ()=> Get.toNamed(AppRoutes.adminProfileScreen),
+              // onPressed: ()=> controller.logout(),
               icon: Icon(Iconsax.profile_circle_outline, color: AppColors.primaryColor,))
 
         ],

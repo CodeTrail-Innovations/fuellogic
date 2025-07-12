@@ -56,12 +56,6 @@ class AdminLoginController extends GetxController {
 
         if (userDoc.exists) {
           DialogUtils.hideLoadingDialog();
-
-          DialogUtils.showAnimatedDialog(
-            type: DialogType.success,
-            title: 'Success',
-            message: 'Login successful!',
-          );
           final userData = userDoc.data() as Map<String, dynamic>;
           final userRole = userData['role'] ?? 'unknown';
 
@@ -69,12 +63,25 @@ class AdminLoginController extends GetxController {
           log(userData.toString());
           log('User Role: $userRole');
 
-          HiveBox().setValue(key: roleKey, value: adminRoleKey,);
+          if(userRole == adminRoleKey){
+            HiveBox().setValue(key: roleKey, value: adminRoleKey,);
 
-          // unawaited(saveDeviceToken());
-          saveDeviceToken();
+            // unawaited(saveDeviceToken());
+            saveDeviceToken();
 
-          Get.offAllNamed(AppRoutes.adminMainScreen);
+            Get.offAllNamed(AppRoutes.adminMainScreen);
+          } else {
+            _auth.signOut();
+            HiveBox().clearAppSession();
+            DialogUtils.showAnimatedDialog(
+              type: DialogType.error,
+              title: 'Invalid Login',
+              message: 'Please enter correct Admin credentials',
+            );
+
+          }
+
+
 
         } else {
           DialogUtils.hideLoadingDialog();

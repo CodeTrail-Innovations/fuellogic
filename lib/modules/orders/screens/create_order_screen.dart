@@ -42,11 +42,13 @@ class CreateOrderScreen extends StatelessWidget {
                 controller: controller.descriptionController,
                 isTextarea: true,
                 hintText: "Enter item names, data, and delivery instructions",
+                textCapitalization: TextCapitalization.sentences,
               ),
               Text("Choose location", style: AppTextStyles.regularStyle),
               AppFeild(
                 controller: controller.locationController,
                 hintText: "12A City Mall, Jail Road, Lahore - 52334",
+                textCapitalization: TextCapitalization.sentences,
               ),
               Text("Enter Quantity", style: AppTextStyles.regularStyle),
               AppFeild(

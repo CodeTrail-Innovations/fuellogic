@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 
+import '../../modules/orders/models/order_model.dart';
 import '../utils/utils.dart';
 
 
@@ -96,33 +97,44 @@ class NotificationServices {
   }
 
   Future<void> showNotification(RemoteMessage message) async {
+    final notificationTitle = message.notification?.title ?? message.data['title'] ?? 'New Notification';
+    final notificationBody = message.notification?.body ?? message.data['body'] ?? '';
+
     AndroidNotificationChannel androidNotificationChannel =
-        AndroidNotificationChannel(Random.secure().nextInt(10000).toString(),
-            'High Importance Notification',
-            importance: Importance.max);
+    AndroidNotificationChannel(Random.secure().nextInt(10000).toString(),
+        'High Importance Notification',
+        importance: Importance.max);
 
     AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails(androidNotificationChannel.id.toString(),
-            androidNotificationChannel.name.toString(),
-            channelDescription: 'iEternity channel',
-            importance: Importance.high,
-            priority: Priority.max,
-            ticker: 'ticker');
+    AndroidNotificationDetails(androidNotificationChannel.id.toString(),
+        androidNotificationChannel.name.toString(),
+        channelDescription: 'iEternity channel',
+        importance: Importance.high,
+        priority: Priority.max,
+        ticker: 'ticker');
 
     DarwinNotificationDetails darwinNotificationDetails =
-        const DarwinNotificationDetails(
+    const DarwinNotificationDetails(
       presentAlert: true,
       presentBadge: true,
       presentSound: true,
     );
 
     NotificationDetails notificationDetails = NotificationDetails(
-        android: androidNotificationDetails, iOS: darwinNotificationDetails);
-    Future.delayed(Duration.zero, () {
-      _flutterLocalNotification.show(0, message.notification?.title.toString(),
-          message.notification?.body.toString(), notificationDetails);
-    });
+      android: androidNotificationDetails,
+      iOS: darwinNotificationDetails,
+    );
+
+    _flutterLocalNotification.show(
+      0,
+      notificationTitle,
+      notificationBody,
+      notificationDetails,
+    );
   }
+
+
+
 
   Future<String> getDeviceToken() async {
     String? token = await messaging.getToken();
@@ -169,88 +181,49 @@ class NotificationServices {
     Utils.console('OUTER DATA: $outerData');
     Utils.console('INNER DATA: $innerData');
 
-    // if (innerData[StringsResource.TYPE] ==
-    //     StringsResource.NOTIFICATION_TYPE_MESSAGE) {
-    //   final chat = Inbox(
-    //     userId: innerData[StringsResource.USER_ID],
-    //     username: innerData[StringsResource.USER_NAME],
-    //     userStatus: innerData[StringsResource.USER_STATUS],
-    //     lastMessage: StringsResource.STR_EMPTY_STRING,
-    //     lastMessageTime: DimensionsResource.ZERO,
-    //     firstName: innerData[StringsResource.NAME_NOTIFICATION_PARAMETER],
-    //     lastName: StringsResource.STR_EMPTY_STRING,
-    //     avatar: innerData[StringsResource.AVATAR],
-    //     uuid: innerData[StringsResource.UUID],
-    //     unreadCount: DimensionsResource.ZERO,
-    //   );
-    //
-    //   Navigator.push(
-    //       context,
-    //       MaterialPageRoute(
-    //         builder: (_) => MultiBlocProvider(
-    //           providers: [
-    //             BlocProvider(
-    //               create: (context) => ChatBloc(),
-    //             ),
-    //           ],
-    //           child: ChatScreen(userData: chat, isMessageListScreen: false),
-    //         ),
-    //       ));
-    // } else if (innerData[StringsResource.TYPE] ==
-    //         StringsResource.NOTIFICATION_TYPE_ADMIN_ACCESS ||
-    //     innerData[StringsResource.TYPE] ==
-    //         StringsResource.NOTIFICATION_TYPE_ACCESS_RESTRICTED ||
-    //     innerData[StringsResource.TYPE] ==
-    //         StringsResource.NOTIFICATION_TYPE_ACCESS_GRANTED ||
-    //     innerData[StringsResource.TYPE] ==
-    //         StringsResource.NOTIFICATION_TYPE_USER_DIED ||
-    //     innerData[StringsResource.TYPE] ==
-    //         StringsResource.NOTIFICATION_TYPE_ADMIN_NOTIFICATION) {
-    //   Navigator.pushNamed(context, NOTIFICATIONS_SCREEN_ROUTE);
-    // } else if (innerData[StringsResource.TYPE] ==
-    //     StringsResource.NOTIFICATION_TYPE_CO_AUTHOR) {
-    //   Navigator.pushNamed(
-    //     context,
-    //     POST_DETAILS_SCREEN_ROUTE,
-    //     arguments: {
-    //       StringsResource.STR_POST_ID: innerData[StringsResource.POST_ID],
-    //       StringsResource.STR_MEDIA_INDEX: mediaIndex,
-    //     },
-    //   );
-    // } else if (innerData[StringsResource.TYPE] ==
-    //     StringsResource.NOTIFICATION_TYPE_COMMENTED) {
-    //   Navigator.pushNamed(
-    //     context,
-    //     OWN_POST_DETAILS_SCREEN_ROUTE,
-    //     arguments: innerData[StringsResource.POST_ID],
-    //   );
-    // } else if (innerData[StringsResource.TYPE] ==
-    //         StringsResource.NOTIFICATION_TYPE_LIKED_COMMENT ||
-    //     innerData[StringsResource.TYPE] ==
-    //         StringsResource.NOTIFICATION_TYPE_REPLIED_COMMENT) {
-    //   final userId = HiveBox().getValue(key: 'ownerId');
-    //
-    //   if (innerData[StringsResource.POST_OWNER_ID] == userId) {
-    //     Navigator.pushNamed(
-    //       context,
-    //       OWN_POST_DETAILS_SCREEN_ROUTE,
-    //       arguments: innerData[StringsResource.POST_ID],
-    //     );
-    //   } else {
-    //     Navigator.pushNamed(
-    //       context,
-    //       POST_DETAILS_SCREEN_ROUTE,
-    //       arguments: {
-    //         StringsResource.STR_POST_ID: innerData[StringsResource.POST_ID],
-    //         StringsResource.STR_MEDIA_INDEX: mediaIndex,
-    //       },
-    //     );
-    //   }
-    // } else if (innerData[StringsResource.TYPE] ==
-    //         StringsResource.NOTIFICATION_TYPE_FRIEND_REQUEST ||
-    //     innerData[StringsResource.TYPE] == 'FRIEND_REQUEST_ACCEPTED') {
-    //   Navigator.pushNamed(context, OTHER_USER_PROFILE_SCREEN,
-    //       arguments: innerData['senderId']);
-    // }
+
   }
+
+
+
+  Future<void> sendNotificationToCustomer({
+    required OrderModel order,
+}) async {
+
+    final companyId = order.companyId;
+    final driverId = order.driverId;
+
+    //from the 'device_tokens' collection, get the documents that have same docId as companyId and driverId
+    //both company and driver can place their order, companyId will always be in the order, and driverId will only
+    //in the case order is placed by driver, so in company order case, we only have to send notificaiton to company while in the case of
+    //driver, we have to send notification to both driver and company.
+    //the documents in 'device_tokens' collection have a field 'device_token' to which devices we have to send the notification
+    // so now write a send notification function for this
+
+
+  }
+
+  Future<void> sendNotificationToAdmin({
+    required OrderModel order,
+  }) async {
+
+    final companyId = order.companyId;
+    final driverId = order.driverId;
+
+    //this notification will be usually for new orders only.
+    // first from 'users' collection, read the docs that have 'role' value 'admin' then from those docs, get the 'uid' values and save them in a list
+    //because there will be multiple admins, so we have to send notificaitons to all the admins
+    // once you have the uid for all admins then one by one go through the docs in 'device_tokens' and get 'device_token' for the docs that have
+    //same docId as the uid and then start sending notifications
+    // so now write a send notification function for this
+
+
+
+  }
+
+
+
+
+
+
 }

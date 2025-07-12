@@ -11,6 +11,7 @@ import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/modules/auth/controllers/register_controller.dart';
 import 'package:get/get.dart';
 
+import '../../../core/routes/app_router.dart';
 import '../../../widgets/custom_appbar.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -60,6 +61,7 @@ class RegisterScreen extends StatelessWidget {
                     AppFeild(
                       hintText: "e.g Dina Adam",
                       controller: controller.nameController,
+                      textCapitalization: TextCapitalization.words,
                     ),
                     Text("Email", style: AppTextStyles.regularStyle),
                     AppFeild(
@@ -164,11 +166,16 @@ class RegisterScreen extends StatelessWidget {
                             "I agree to the T&C ",
                             style: AppTextStyles.regularStyle,
                           ),
-                          Text(
-                            "Fuelogic",
-                            style: AppTextStyles.regularStyle.copyWith(
-                              color: AppColors.primaryColor,
-                              fontWeight: FontWeight.w600,
+                          InkWell(
+                            onTap: (){
+                              Get.toNamed(AppRoutes.complianceScreen);
+                            },
+                            child: Text(
+                              "Fuelogic ",
+                              style: AppTextStyles.regularStyle.copyWith(
+                                color: AppColors.primaryColor,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
                         ],

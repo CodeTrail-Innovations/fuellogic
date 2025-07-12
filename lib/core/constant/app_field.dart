@@ -33,6 +33,7 @@ class AppFeild extends StatefulWidget {
   final bool isRating;
   final bool isTextarea;
   final bool enabled;
+  final TextCapitalization textCapitalization;
 
   const AppFeild({
     super.key,
@@ -62,6 +63,7 @@ class AppFeild extends StatefulWidget {
     this.isRating = false,
     this.isTextarea = false,
     this.enabled = true,
+    this.textCapitalization = TextCapitalization.none,
   });
 
   @override
@@ -88,6 +90,7 @@ class AppFeildState extends State<AppFeild> {
         ),
       ),
       child: TextFormField(
+        textCapitalization: widget.textCapitalization,
         enabled: enabled,
         style: AppTextStyles.paragraphStyle.copyWith(
           color:

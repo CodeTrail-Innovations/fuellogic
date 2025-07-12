@@ -190,17 +190,17 @@ class WelcomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Get in touch', style: AppTextStyles.paragraphBoldStyle),
-                  Text('Fuelogict', style: AppTextStyles.captionStyle),
+                  Text('Fuellogict.com', style: AppTextStyles.captionStyle),
                 ],
               ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  border: Border.all(color: AppColors.grey2),
-                ),
-                padding: EdgeInsets.all(10),
-                child: Text('Message', style: AppTextStyles.captionStyle),
-              ),
+              // Container(
+              //   decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(30),
+              //     border: Border.all(color: AppColors.grey2),
+              //   ),
+              //   padding: EdgeInsets.all(10),
+              //   // child: Text('Message', style: AppTextStyles.captionStyle),
+              // ),
             ],
           ),
           _contactTile(CupertinoIcons.phone, 'Phone Number', '+923008272842'),
@@ -247,6 +247,18 @@ class WelcomeScreen extends StatelessWidget {
                   fontSize: 12
               ),),
           ),
+
+          Center(
+            child: TextButton(onPressed: (){
+              Get.toNamed(AppRoutes.complianceScreen);
+            }, child: Text(
+              'Privacy Policy | Terms & Conditions',
+              textAlign: TextAlign.center,
+              style: AppTextStyles.captionStyle.copyWith(
+                  fontSize: 12
+              ),)),
+          ),
+          8.vertical,
 
           
 

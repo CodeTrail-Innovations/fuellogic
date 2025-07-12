@@ -10,6 +10,7 @@ import 'package:fuellogic/core/constant/app_colors.dart';
 import 'package:fuellogic/core/enums/enum.dart';
 import 'package:get/get.dart';
 
+import '../../../helper/services/fcm_service.dart';
 import '../../auth/models/user_model.dart';
 import '../models/order_model.dart';
 
@@ -22,6 +23,8 @@ class OrderDetailController extends GetxController {
   final Rx<UserModel?> companyData = Rx<UserModel?>(null);
   final Rx<UserModel?> driverData = Rx<UserModel?>(null);
   final RxBool isLoading = false.obs;
+
+  final fcmService = Get.find<FcmService>();
 
 
 
@@ -114,6 +117,7 @@ class OrderDetailController extends GetxController {
                                     )
                                     : null,
                             onTap: () async {
+                              order.value = order.value.copyWith(orderStatus: orderStatus);
                               await updateOrderStatus(orderStatus);
                               Get.back();
                             },
@@ -133,8 +137,13 @@ class OrderDetailController extends GetxController {
         'orderStatus': newStatus.name,
       });
       status.value = newStatus;
+
+      // order.value = order.value.copyWith(orderStatus: newStatus);
+
+      unawaited(fcmService.notifyCustomer(order.value, 'Updates on your order', 'Your Order is ${newStatus.label}'));
+
       Get.back();
-      Get.back();
+      // Get.back();
       Get.snackbar('Success', 'Order status updated to ${newStatus.label}');
     } catch (e) {
       Get.snackbar('Error', 'Failed to update status: $e');
@@ -253,6 +262,17 @@ class OrderDetailController extends GetxController {
       await _firestore.collection('orders').doc(orderId).update({
         field: value,
       });
+
+      if(field == 'orderTotal'){
+        unawaited(fcmService.notifyCustomer(order.value,
+            'Updates on your order',
+            'Your Order total is ${value}'));
+      }else if (field == 'dcBook') {
+        unawaited(fcmService.notifyCustomer(order.value,
+            'Updates on your order',
+            'Your Order invoice is ${value}'));
+      }
+
       Get.snackbar('Success', '$field updated', snackPosition: SnackPosition.BOTTOM);
     } catch (e) {
       Get.snackbar('Error', 'Failed to update $field: $e', snackPosition: SnackPosition.BOTTOM);

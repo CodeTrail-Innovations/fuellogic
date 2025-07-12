@@ -10,6 +10,7 @@ import 'package:get/get_navigation/src/routes/transitions_type.dart';
 
 import '../../modules/admin/admin_profile/add_new_admin_screen.dart';
 import '../../modules/admin/auth/admin_login_screen.dart';
+import '../../modules/compliance/compliance_screen.dart';
 
 class AppRoutes {
   static const splashScreen = "/splashScreen";
@@ -22,6 +23,10 @@ class AppRoutes {
   static const adminMainScreen ="/adminMainScreen";
   static const adminProfileScreen = "/adminProfileScreen";
   static const addNewAdminScreen = "/addNewAdminScreen";
+
+  static const complianceScreen = "/complianceScreen";
+
+
 
   static final routes = [
     GetPage(
@@ -67,6 +72,11 @@ class AppRoutes {
     GetPage(
       name: addNewAdminScreen,
       page: () => AddNewAdminScreen(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: complianceScreen,
+      page: () => ComplianceScreen(),
       transition: Transition.fadeIn,
     ),
   ];

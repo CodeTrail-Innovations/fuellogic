@@ -13,6 +13,7 @@ class AdminMainController extends GetxController {
   final repo = AdminOrdersRepository();
   final FirebaseAuth auth = FirebaseAuth.instance;
 
+
   final orders     = <OrderModel>[].obs;
   // var isLoading = true.obs;
 
@@ -33,6 +34,7 @@ class AdminMainController extends GetxController {
         .listen((list) {
       orders.assignAll(list);
     });
+
   }
 
 

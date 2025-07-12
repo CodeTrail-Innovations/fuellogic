@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fuellogic/core/enums/enum.dart';
+import 'package:fuellogic/helper/services/fcm_service.dart';
 import 'package:fuellogic/modules/auth/models/user_model.dart';
 import 'package:fuellogic/modules/orders/models/order_model.dart';
 import 'package:get/get.dart';
@@ -18,6 +21,12 @@ class CreateOrderController extends GetxController {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final Rx<UserModel?> userData = Rx<UserModel?>(null);
+
+
+  final fcmService = Get.find<FcmService>();
+
+
+
   @override
   void onInit() {
     fetchCurrentUserData();
@@ -84,6 +93,9 @@ class CreateOrderController extends GetxController {
           .collection('orders')
           .doc(order.id)
           .set(order.toJson());
+
+      // await fcmService.notifyAdmins(order);
+      unawaited(fcmService.notifyAdmins(order));
 
       Get.snackbar(
         'Success',

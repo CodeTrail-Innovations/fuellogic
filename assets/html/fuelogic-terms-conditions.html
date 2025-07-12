@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms and Conditions | Fuelogic</title>
+  <style>
+    :root {
+      --primary: #2C3E50;
+      --secondary: #3498DB;
+      --accent: #E74C3C;
+      --light: #F8F9FA;
+      --dark: #212529;
+      --gray: #6C757D;
+      --border: #E9ECEF;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      color: var(--dark);
+      background-color: var(--light);
+      padding: 0;
+      margin: 0;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+    
+    header {
+      text-align: center;
+      padding: 3rem 0;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::before {
+      content: "";
+      position: absolute;
+      top: -50px;
+      left: -50px;
+      width: 200px;
+      height: 200px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+    
+    header::after {
+      content: "";
+      position: absolute;
+      bottom: -80px;
+      right: -30px;
+      width: 250px;
+      height: 250px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .subtitle {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .last-updated {
+      background: rgba(255,255,255,0.15);
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .terms-section {
+      background: white;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.03);
+      border: 1px solid var(--border);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .terms-section:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    
+    h2 {
+      color: var(--primary);
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--accent);
+      display: inline-block;
+    }
+    
+    h3 {
+      color: var(--secondary);
+      font-size: 1.1rem;
+      margin: 1rem 0 0.5rem;
+    }
+    
+    p {
+      margin-bottom: 1rem;
+      color: var(--dark);
+    }
+    
+    ul, ol {
+      padding-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    li {
+      margin-bottom: 0.5rem;
+      position: relative;
+    }
+    
+    ul li::before {
+      content: "•";
+      color: var(--accent);
+      font-weight: bold;
+      display: inline-block; 
+      width: 1em;
+      margin-left: -1em;
+    }
+    
+    ol {
+      counter-reset: item;
+    }
+    
+    ol li {
+      counter-increment: item;
+    }
+    
+    ol li::before {
+      content: counter(item) ".";
+      color: var(--accent);
+      font-weight: bold;
+      display: inline-block; 
+      width: 1.5em;
+      margin-left: -1.5em;
+    }
+    
+    a {
+      color: var(--secondary);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    
+    a:hover {
+      color: var(--primary);
+      text-decoration: underline;
+    }
+    
+    .highlight-box {
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      border-left: 4px solid var(--accent);
+      padding: 1.5rem;
+      border-radius: 0 8px 8px 0;
+      margin: 2rem 0;
+      font-style: italic;
+    }
+    
+    footer {
+      text-align: center;
+      padding: 2rem 0;
+      color: var(--gray);
+      font-size: 0.9rem;
+      margin-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    
+    .acceptance-section {
+      background: linear-gradient(135deg, #3498db, #2c3e50);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin: 2rem 0;
+      text-align: center;
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.5rem 1rem;
+      }
+      
+      header {
+        padding: 2rem 1rem;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .terms-section {
+        padding: 1.25rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.75rem;
+      }
+      
+      h2 {
+        font-size: 1.25rem;
+      }
+      
+      header::before,
+      header::after {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Fuelogic Terms and Conditions</h1>
+    <p class="subtitle">Please read these terms carefully before using our services</p>
+    <p class="last-updated">Effective as of: <strong>July 12, 2025</strong></p>
+  </header>
+  
+  <div class="container">
+    <div class="terms-section">
+      <h2>1. Acceptance of Terms</h2>
+      <p>By accessing or using the Fuelogic mobile application ("the App"), you agree to be bound by these Terms and Conditions ("Terms"). If you do not agree with any part of these Terms, you must immediately cease using the App.</p>
+      <p>These Terms constitute a legally binding agreement between you ("User") and Fuelogic ("we", "us", or "our").</p>
+    </div>
+    
+    <div class="terms-section">
+      <h2>2. Service Description</h2>
+      <p>Fuelogic provides a platform for:</p>
+      <ul>
+        <li>Fuel order management and tracking</li>
+        <li>Communication between companies and drivers</li>
+        <li>Order processing and fulfillment</li>
+        <li>Delivery coordination and status updates</li>
+      </ul>
+      <p>We reserve the right to modify or discontinue any aspect of the service at any time without notice.</p>
+    </div>
+    
+    <div class="terms-section">
+      <h2>3. Account Registration</h2>
+      <p>To access certain features of the App, you must create an account:</p>
+      <ol>
+        <li>You must provide accurate and complete registration information</li>
+        <li>You are responsible for maintaining the confidentiality of your credentials</li>
+        <li>You must be at least 18 years old to create an account</li>
+        <li>You agree to immediately notify us of any unauthorized account use</li>
+      </ol>
+      <div class="highlight-box">
+        <p>We reserve the right to refuse service, terminate accounts, or remove content at our sole discretion.</p>
+      </div>
+    </div>
+    
+    <div class="terms-section">
+      <h2>4. User Responsibilities</h2>
+      <p>As a user of Fuelogic, you agree to:</p>
+      <ul>
+        <li>Use the App only for lawful purposes</li>
+        <li>Not engage in any fraudulent or deceptive activities</li>
+        <li>Not attempt to disrupt or compromise the App's security</li>
+        <li>Comply with all applicable laws and regulations</li>
+        <li>Not use the App to transmit harmful or malicious content</li>
+      </ul>
+      <h3>Company Responsibilities:</h3>
+      <p>Companies using Fuelogic are responsible for:</p>
+      <ul>
+        <li>Accurate order information</li>
+        <li>Timely fulfillment of orders</li>
+        <li>Proper management of driver accounts</li>
+      </ul>
+      <h3>Driver Responsibilities:</h3>
+      <p>Drivers using Fuelogic agree to:</p>
+      <ul>
+        <li>Provide accurate delivery information</li>
+        <li>Follow safety regulations during transport</li>
+        <li>Maintain proper documentation for deliveries</li>
+      </ul>
+    </div>
+    
+    <div class="terms-section">
+      <h2>5. Intellectual Property</h2>
+      <p>All rights, title, and interest in the App, including:</p>
+      <ul>
+        <li>Software and source code</li>
+        <li>User interface and design elements</li>
+        <li>Documentation and materials</li>
+        <li>Branding and trademarks</li>
+      </ul>
+      <p>are and will remain the exclusive property of Fuelogic and its licensors.</p>
+      <p>You are granted a limited, non-exclusive, non-transferable license to use the App for its intended purposes only.</p>
+    </div>
+    
+    <div class="terms-section">
+      <h2>6. Payment and Fees</h2>
+      <p>Certain features of Fuelogic may require payment:</p>
+      <ul>
+        <li>You agree to pay all applicable fees for services</li>
+        <li>Fees are non-refundable except as required by law</li>
+        <li>We may change fees with 30 days' notice</li>
+        <li>Taxes are not included unless specified</li>
+      </ul>
+      <div class="highlight-box">
+        <p>Free accounts may be subject to usage limitations. Premium features require subscription.</p>
+      </div>
+    </div>
+    
+    <div class="terms-section">
+      <h2>7. Data Privacy</h2>
+      <p>Your privacy is important to us. Our collection and use of personal information is governed by our <a href="#">Privacy Policy</a>.</p>
+      <p>By using Fuelogic, you consent to:</p>
+      <ul>
+        <li>Collection of necessary account information</li>
+        <li>Processing of order-related data</li>
+        <li>Use of analytics to improve our services</li>
+      </ul>
+    </div>
+    
+    <div class="terms-section">
+      <h2>8. Termination</h2>
+      <p>These Terms remain effective until terminated:</p>
+      <ul>
+        <li>You may terminate your account at any time</li>
+        <li>We may terminate or suspend access immediately for violations</li>
+        <li>Termination does not relieve you of prior obligations</li>
+      </ul>
+      <p>Upon termination, your right to use the App will cease immediately.</p>
+    </div>
+    
+    <div class="terms-section">
+      <h2>9. Disclaimers and Limitations</h2>
+      <h3>Service Availability</h3>
+      <p>The App is provided "as is" without warranties of any kind. We do not guarantee:</p>
+      <ul>
+        <li>Uninterrupted or error-free service</li>
+        <li>Accuracy of third-party information</li>
+        <li>Results from using the App</li>
+      </ul>
+      <h3>Limitation of Liability</h3>
+      <p>To the maximum extent permitted by law, Fuelogic shall not be liable for:</p>
+      <ul>
+        <li>Indirect, incidental, or consequential damages</li>
+        <li>Loss of profits, data, or business opportunities</li>
+        <li>Damages resulting from service interruptions</li>
+      </ul>
+      <div class="highlight-box">
+        <p>In no event shall our total liability exceed the amount you paid to us in the last six months.</p>
+      </div>
+    </div>
+    
+    <div class="terms-section">
+      <h2>10. Governing Law</h2>
+      <p>These Terms shall be governed by the laws of the State of Delaware, without regard to its conflict of law principles.</p>
+      <p>Any disputes arising from these Terms will be resolved exclusively in the state or federal courts located in Wilmington, Delaware.</p>
+    </div>
+    
+    <div class="terms-section">
+      <h2>11. Changes to Terms</h2>
+      <p>We reserve the right to modify these Terms at any time. Changes become effective upon posting. Your continued use of the App constitutes acceptance.</p>
+      <p>Material changes will be communicated via:</p>
+      <ul>
+        <li>In-app notifications</li>
+        <li>Email to registered users</li>
+        <li>Updated date at the top of this document</li>
+      </ul>
+    </div>
+    
+    <div class="terms-section">
+      <h2>12. Contact Information</h2>
+      <p>For questions about these Terms and Conditions:</p>
+      <p>Email: <a href="mailto:legal@fuellogict.com">legal@fuellogict.com</a></p>
+      <p>Mailing Address:</p>
+      <p>Fuelogic Inc.<br>
+      123 Business Avenue, Suite 500<br>
+      Wilmington, DE 19801</p>
+    </div>
+    
+    <div class="acceptance-section">
+      <h2>Your Agreement</h2>
+      <p>By using Fuelogic, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions.</p>
+    </div>
+    
+    <footer>
+      <p>&copy; 2025 Fuelogic Inc. All rights reserved.</p>
+      <p>These Terms and Conditions were last updated on July 12, 2025.</p>
+    </footer>
+  </div>
+</body>
+</html>

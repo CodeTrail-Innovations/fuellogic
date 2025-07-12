@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:fuellogic/config/app_assets.dart';
@@ -12,6 +13,7 @@ import 'package:fuellogic/modules/profile/screens/profile_screen.dart';
 import 'package:get/get.dart';
 import 'package:svg_flutter/svg_flutter.dart';
 
+import '../../../helper/services/notification_services.dart';
 import '../../company/screens/report_screen.dart';
 
 class CustomBottomBar extends StatefulWidget {
@@ -32,6 +34,8 @@ class CustomBottomBarState extends State<CustomBottomBar> {
   late int _selectedIndex;
   final controller = Get.put(BottombarController());
 
+  NotificationServices notificationServices = NotificationServices();
+
   @override
   void initState() {
     super.initState();
@@ -40,6 +44,23 @@ class CustomBottomBarState extends State<CustomBottomBar> {
 
     log('CustomBottomBar - isCompany: ${widget.isCompany}');
     log('Initial index: ${widget.initialIndex}');
+
+    notificationServices.requestNotificationPermission();
+    if(Platform.isAndroid){
+      notificationServices.subscribeToTopic('Android_Users');
+    }
+    else if(Platform.isIOS){
+      notificationServices.subscribeToTopic('iOS_Users');
+    }
+    notificationServices.foregroundMessage();
+    notificationServices.firebaseInit(context);
+    notificationServices.setupInteractMessage(context);
+    notificationServices.isTokenRefresh();
+    notificationServices.getDeviceToken().then((value) {
+      print('DEVICE TOKEN');
+      print(value);
+    });
+
   }
 
   List<Widget> get _screens {

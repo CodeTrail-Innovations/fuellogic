@@ -175,10 +175,10 @@ class OrderDetailScreen extends StatelessWidget {
                     title: 'Order Status',
                     icon: Icons.track_changes,
                     children: [
-                      OrderStatusCard(
-                        status: order.orderStatus,
+                      Obx(()=>OrderStatusCard(
+                        status: controller.order.value.orderStatus,
                         controller: controller,
-                      ),
+                      )),
                     ],
                   ),
                   20.vertical,
