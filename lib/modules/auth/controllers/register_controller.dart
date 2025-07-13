@@ -12,6 +12,7 @@ class RegisterController extends GetxController {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final companyIdController = TextEditingController();
+  final phoneNumberController = TextEditingController();
 
   RxBool isTermsAccepted = false.obs;
   final isLoading = false.obs;
@@ -56,15 +57,25 @@ class RegisterController extends GetxController {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
     final companyId = companyIdController.text.trim();
+    final phoneNumber = phoneNumberController.text.trim();
 
     log('[RegisterController] Handling signup for role: ${role.value}');
     log('Name: $name, Email: $email, CompanyID: $companyId');
 
-    if (name.isEmpty || email.isEmpty || password.isEmpty) {
+    if (name.isEmpty || email.isEmpty || password.isEmpty || phoneNumber.isEmpty) {
       DialogUtils.showAnimatedDialog(
         type: DialogType.error,
         title: 'Error',
-        message: 'Name, email, and password are required',
+        message: 'Name, Phone Number, Email, and Password are Required',
+      );
+      return;
+    }
+
+    if (!GetUtils.isEmail(email)) {
+      DialogUtils.showAnimatedDialog(
+        type: DialogType.error,
+        title: 'Error',
+        message: 'Please enter a valid email',
       );
       return;
     }
@@ -97,6 +108,7 @@ class RegisterController extends GetxController {
         password: password,
         role: role,
         companyId: companyId,
+        phoneNumber: phoneNumber
       );
 
       await fetchCurrentUserData();

@@ -44,7 +44,7 @@ class OrderStatusCard extends StatelessWidget {
                   status == OrderStatus.onTheWay) {
 
                 if(role == adminRoleKey){
-                  controller.showStatusBottomSheet(context);
+                  controller.showOrderStatusBottomSheet(context);
                 }
                 
               }

@@ -8,6 +8,7 @@ class OrderModel {
   final String date;
   final DateTime createdAt;
   final OrderStatus orderStatus;
+  final PaymentStatus? paymentStatus;
   final String? driverId;
   final String? driverName;
   final String description;
@@ -15,6 +16,7 @@ class OrderModel {
   final String? dcBook;
 
   static const OrderStatus defaultOrderStatus = OrderStatus.pending;
+  static const PaymentStatus defaultPaymentStatus = PaymentStatus.unpaid;
 
   OrderModel({
     this.id = '',
@@ -24,6 +26,7 @@ class OrderModel {
     this.description = '',
     this.date = '',
     this.orderStatus = defaultOrderStatus,
+    this.paymentStatus = defaultPaymentStatus,
     this.driverId = '',
     this.driverName = '',
     this.orderTotal,
@@ -52,6 +55,7 @@ class OrderModel {
       description: json['description']?.toString() ?? '',
       date: json['date']?.toString() ?? '',
       orderStatus: _parseOrderStatus(json['orderStatus']),
+      paymentStatus: _parsePaymentStatus(json['paymentStatus']),
       driverId: json['driverId']?.toString() ?? '',
       driverName: json['driverName']?.toString() ?? '',
       orderTotal: (json['orderTotal'] is num)
@@ -70,6 +74,7 @@ class OrderModel {
     'quantity': quantity,
     'date': date,
     'orderStatus': orderStatus.name,
+    'paymentStatus':paymentStatus?.name,
     'driverId': driverId,
     'driverName': driverName,
     'orderTotal': orderTotal,
@@ -86,6 +91,7 @@ class OrderModel {
     String? date,
     DateTime? createdAt,
     OrderStatus? orderStatus,
+    PaymentStatus? paymentStatus,
     String? driverId,
     String? driverName,
     double? orderTotal,
@@ -99,6 +105,7 @@ class OrderModel {
       quantity: quantity ?? this.quantity,
       date: date ?? this.date,
       orderStatus: orderStatus ?? this.orderStatus,
+      paymentStatus: paymentStatus ?? this.paymentStatus,
       driverId: driverId ?? this.driverId,
       driverName: driverName ?? this.driverName,
       orderTotal: orderTotal ?? this.orderTotal,
@@ -112,6 +119,15 @@ class OrderModel {
       return OrderStatus.fromValue(value?.toString() ?? '');
     } catch (e) {
       return defaultOrderStatus;
+    }
+  }
+
+
+  static PaymentStatus _parsePaymentStatus(dynamic value) {
+    try {
+      return PaymentStatus.fromValue(value?.toString() ?? '');
+    } catch (e) {
+      return defaultPaymentStatus;
     }
   }
 

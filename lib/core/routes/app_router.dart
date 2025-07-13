@@ -1,6 +1,7 @@
 import 'package:fuellogic/modules/admin/admin_main/admin_main_screen.dart';
 import 'package:fuellogic/modules/admin/admin_profile/admin_profile_screen.dart';
 import 'package:fuellogic/modules/auth/screens/auth_screen.dart';
+import 'package:fuellogic/modules/auth/screens/forgot_password_screen.dart';
 import 'package:fuellogic/modules/auth/screens/login_screen.dart';
 import 'package:fuellogic/modules/auth/screens/register_screen.dart';
 import 'package:fuellogic/modules/auth/screens/splash_screen.dart';
@@ -18,6 +19,8 @@ class AppRoutes {
   static const registerScreen = "/registerScreen";
   static const authScreen = "/authScreen";
   static const welcomeScreen = "/welcomeScreen";
+  static const forgotPasswordScreen = "/forgotPasswordScreen";
+
 
   static const adminLoginScreen ="/adminLoginScreen";
   static const adminMainScreen ="/adminMainScreen";
@@ -42,6 +45,11 @@ class AppRoutes {
     GetPage(
       name: registerScreen,
       page: () => RegisterScreen(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: forgotPasswordScreen,
+      page: () => ForgotPasswordScreen(),
       transition: Transition.fadeIn,
     ),
     GetPage(

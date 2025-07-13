@@ -203,12 +203,12 @@ class WelcomeScreen extends StatelessWidget {
               // ),
             ],
           ),
-          _contactTile(CupertinoIcons.phone, 'Phone Number', '+923008272842'),
+          _contactTile(CupertinoIcons.phone, 'Phone Number', '+923350897643'),
 
           _contactTile(
             Icons.location_on_outlined,
             'Location',
-            'Lt. Col Sheraz Ali Khan Shaheed Road',
+            'Office # 12, 5th Floor City Star Shopping Mall, Model Town Link Road, Lahore',
           ),
           24.vertical,
           // Social Links

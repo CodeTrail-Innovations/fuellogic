@@ -61,32 +61,13 @@ class DashboardScreen extends StatelessWidget {
                 ],
               ),
               16.vertical,
-              // Container(
-              //   height: 65,
-              //   width: double.infinity,
-              //   decoration: BoxDecoration(
-              //     color: AppColors.primaryColor,
-              //     borderRadius: BorderRadius.circular(16),
-              //   ),
-              //   padding: EdgeInsets.symmetric(horizontal: 20),
-              //   child: Center(
-              //     child: Row(
-              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //       children: [
-              //         Text('Fleet Manager', style: AppTextStyles.regularStyle.copyWith(
-              //           color: Colors.white,
-              //           // fontSize: 18
-              //         ),),
-              //         Icon(Icons.chevron_right_rounded, color: Colors.white,)
-              //       ],
-              //     ),
-              //   ),
-              // ),
+
               AppButton(
                 text: "Place Order",
                 onPressed: () {
                   Get.to(() => CreateOrderScreen());
                   // Get.to(() => ReportScreen());
+
                 },
                 isIconButton: false,
                 icon: Icons.arrow_forward,

@@ -7,6 +7,7 @@ abstract class RegisterRepository {
     required String password,
     required UserRole role,
     required String companyId,
+    required String phoneNumber,
   });
 
   Future<Map<String, dynamic>?> getCurrentUserData();

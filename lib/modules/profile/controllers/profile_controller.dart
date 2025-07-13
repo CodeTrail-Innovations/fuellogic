@@ -54,7 +54,7 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to fetch user data: $e');
+      Get.snackbar('Error', 'Failed to fetch user data: $e',snackPosition: SnackPosition.BOTTOM);
     } finally {
       isLoading.value = false;
     }
@@ -108,11 +108,11 @@ class ProfileController extends GetxController {
 
         log('Update successful');
         await fetchCurrentUserData();
-        Get.snackbar('Success', 'Profile updated successfully');
+        Get.snackbar('Success', 'Profile updated successfully', snackPosition: SnackPosition.BOTTOM);
       }
     } catch (e) {
       log('Update error: $e');
-      Get.snackbar('Error', 'Failed to update profile: $e');
+      Get.snackbar('Error', 'Failed to update profile: $e',snackPosition: SnackPosition.BOTTOM);
     } finally {
       isLoading.value = false;
     }

@@ -82,6 +82,7 @@ class RegisterRepoImpl implements RegisterRepository {
     required String password,
     required UserRole role,
     required String companyId,
+    required String phoneNumber,
   }) async {
     log('[RegisterRepo] Starting user signup for: $email');
     User? user;
@@ -109,6 +110,7 @@ class RegisterRepoImpl implements RegisterRepository {
           companyId: role == UserRole.driver ? companyId : user.uid,
           role: role,
           photoURL: '',
+          phoneNumber: phoneNumber,
           driver: role == UserRole.company ? [] : [],
           createdAt: Timestamp.now(),
         );

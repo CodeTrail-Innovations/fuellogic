@@ -7,6 +7,7 @@ import '../../../config/app_textstyle.dart';
 import '../../../core/constant/app_button.dart';
 import '../../../core/constant/app_colors.dart';
 import '../../../core/constant/app_field.dart';
+import '../../../core/routes/app_router.dart';
 import '../../../widgets/custom_appbar.dart';
 
 class AdminLoginScreen extends StatelessWidget {
@@ -22,60 +23,66 @@ class AdminLoginScreen extends StatelessWidget {
         backgroundColor: AppColors.whiteColor,
         appBar: CustomAppBar(
           isSimple: true,
+          height: 70,
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Column(
-                  spacing: 12,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    8.vertical,
-                    Text(
-                      "Welcome Back",
-                      style: AppTextStyles.extraLargeStyle.copyWith(
-                        color: AppColors.primaryColor,
-                      ),
-                    ),
-                    Text(
-                      "Access Admin Panel",
-                      style: AppTextStyles.regularStyle,
-                    ),
-                    8.vertical,
-                    Text("Email", style: AppTextStyles.regularStyle),
-                    AppFeild(
-                      hintText: "admin@fuelogic.com",
-                      controller: controller.emailController,
-                    ),
-                    Text("Password", style: AppTextStyles.regularStyle),
-                    AppFeild(
-                      isPasswordField: true,
-                      hintText: "********",
-                      controller: controller.passwordController,
-                    ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            spacing: 12,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
 
-                    8.vertical,
-                    Obx(
-                          () => AppButton(
-                        text: "Login",
-                        isLoading: controller.isLoading.value,
-                        onPressed: () {
-                          controller.handleSignIn(
-                            email: controller.emailController.text,
-                            password: controller.passwordController.text,
-                          );
-                        },
-                      ),
-                    ),
-                  ],
+              Text(
+                "Welcome Back",
+                style: AppTextStyles.extraLargeStyle.copyWith(
+                  color: AppColors.primaryColor,
                 ),
               ),
-            ),
+              Text(
+                "Access Admin Panel",
+                style: AppTextStyles.regularStyle,
+              ),
+              8.vertical,
+              Text("Email", style: AppTextStyles.regularStyle),
+              AppFeild(
+                hintText: "admin@fuelogic.com",
+                controller: controller.emailController,
+              ),
+              Text("Password", style: AppTextStyles.regularStyle),
+              AppFeild(
+                isPasswordField: true,
+                hintText: "********",
+                controller: controller.passwordController,
+              ),
+              InkWell(
+                onTap: (){
+                  Get.toNamed(AppRoutes.forgotPasswordScreen);
+                },
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    "Forgot password?",
+                    style: AppTextStyles.regularStyle,
+                  ),
+                ),
+              ),
 
-          ],
+              8.vertical,
+              Obx(
+                    () => AppButton(
+                  text: "Login",
+                  isLoading: controller.isLoading.value,
+                  onPressed: () {
+                    controller.handleSignIn(
+                      email: controller.emailController.text,
+                      password: controller.passwordController.text,
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

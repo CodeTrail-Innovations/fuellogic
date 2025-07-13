@@ -53,7 +53,7 @@ class VehicleController extends GetxController {
         }
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to fetch user data: $e');
+      Get.snackbar('Error', 'Failed to fetch user data: $e',snackPosition: SnackPosition.BOTTOM);
     }
   }
 

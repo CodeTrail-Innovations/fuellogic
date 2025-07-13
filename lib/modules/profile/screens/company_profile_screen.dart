@@ -64,6 +64,7 @@ class CompanyProfileScreen extends StatelessWidget {
                               AppFeild(
                                 hintText: "Address",
                                 controller: controller.addressController,
+                                textCapitalization: TextCapitalization.words,
                               ),
                             ],
                           )

@@ -110,3 +110,30 @@ enum OrderStatus {
      );
   }
 }
+
+enum PaymentStatus {
+  unpaid('unpaid'),
+  paid('paid');
+
+
+  final String value;
+  const PaymentStatus(this.value);
+
+  String get label {
+    switch (this) {
+      case PaymentStatus.paid:
+        return 'Paid';
+      case PaymentStatus.unpaid:
+        return 'Unpaid';
+    }
+  }
+
+  String get apiValue => value;
+
+  static PaymentStatus fromValue(String value) {
+    final formatted = value.toLowerCase().replaceAll(RegExp(r'[^a-z]'), '');
+    return PaymentStatus.values.firstWhere(
+          (status) => status.value == formatted,
+    );
+  }
+}

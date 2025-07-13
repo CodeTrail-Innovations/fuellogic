@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fuellogic/config/app_assets.dart';
 import 'package:fuellogic/config/extension/space_extension.dart';
+import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/helper/constants/keys.dart';
 import 'package:fuellogic/helper/utils/hive_utils.dart';
 import 'package:fuellogic/modules/orders/controllers/order_detail_controller.dart';
@@ -8,6 +9,7 @@ import 'package:fuellogic/modules/orders/models/order_model.dart';
 import 'package:fuellogic/modules/orders/screens/components/detail_row.dart';
 import 'package:fuellogic/modules/orders/screens/components/order_header_card.dart';
 import 'package:fuellogic/modules/orders/screens/components/order_status_card.dart';
+import 'package:fuellogic/modules/orders/screens/components/payment_status_card.dart';
 import 'package:fuellogic/modules/orders/screens/components/schedule_card.dart';
 import 'package:fuellogic/modules/orders/screens/components/section_card.dart';
 import 'package:fuellogic/widgets/custom_appbar.dart';
@@ -24,7 +26,7 @@ class OrderDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(
-      OrderDetailController(status: order.orderStatus, orderId: order.id, order: order),
+      OrderDetailController(status: order.orderStatus, orderId: order.id, order: order, paymentStatus: order.paymentStatus ?? PaymentStatus.unpaid),
     );
 
     return Scaffold(
@@ -132,8 +134,8 @@ class OrderDetailScreen extends StatelessWidget {
                             ),
                             DetailRow(
                               icon: Icons.phone,
-                              label: 'Company Email',
-                              value: company.email,
+                              label: 'Contact Number',
+                              value: company.phoneNumber,
                             ),
                           ],
                         );
@@ -157,8 +159,8 @@ class OrderDetailScreen extends StatelessWidget {
                               ),
                               DetailRow(
                                 icon: Icons.phone_android,
-                                label: 'Driver Email',
-                                value: driver.email ?? 'N/A',
+                                label: 'Driver Contact',
+                                value: driver.phoneNumber ?? 'N/A',
                                 isLast: true,
                               ),
                             ],
@@ -177,6 +179,17 @@ class OrderDetailScreen extends StatelessWidget {
                     children: [
                       Obx(()=>OrderStatusCard(
                         status: controller.order.value.orderStatus,
+                        controller: controller,
+                      )),
+                    ],
+                  ),
+                  20.vertical,
+                  SectionCard(
+                    title: 'Payment Status',
+                    icon: Icons.track_changes,
+                    children: [
+                      Obx(()=>PaymentStatusCard(
+                        status: controller.order.value.paymentStatus ?? PaymentStatus.unpaid,
                         controller: controller,
                       )),
                     ],

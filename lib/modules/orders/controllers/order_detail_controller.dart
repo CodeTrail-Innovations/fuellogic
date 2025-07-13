@@ -18,6 +18,7 @@ class OrderDetailController extends GetxController {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final Rx<OrderStatus> status;
+  final Rx<PaymentStatus> pStatus;
   final String orderId;
   final Rx<OrderModel> order = OrderModel().obs;
   final Rx<UserModel?> companyData = Rx<UserModel?>(null);
@@ -33,8 +34,11 @@ class OrderDetailController extends GetxController {
     required OrderStatus status,
     required this.orderId,
     required OrderModel order,
-  })  : status = status.obs {
+    required PaymentStatus paymentStatus,
+  })  : status = status.obs, pStatus = paymentStatus.obs {
     this.order.value = order;
+
+    // paymentStatus = paymentStatus.obs;
 
     // Trigger data fetches based on order info
     if (order.companyId.isNotEmpty) {
@@ -48,7 +52,7 @@ class OrderDetailController extends GetxController {
 
 
 
-  void showStatusBottomSheet(BuildContext context) {
+  void showOrderStatusBottomSheet(BuildContext context) {
     List<OrderStatus> availableStatuses = [];
 
     if (status.value == OrderStatus.pending) {
@@ -74,7 +78,7 @@ class OrderDetailController extends GetxController {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Change Status',
+                  'Change Order Status',
                   style: AppTextStyles.largeStyle.copyWith(
                     color: AppColors.primaryColor,
                   ),
@@ -144,9 +148,103 @@ class OrderDetailController extends GetxController {
 
       Get.back();
       // Get.back();
-      Get.snackbar('Success', 'Order status updated to ${newStatus.label}');
+      Get.snackbar('Success', 'Order status updated to ${newStatus.label}',snackPosition: SnackPosition.BOTTOM);
     } catch (e) {
-      Get.snackbar('Error', 'Failed to update status: $e');
+      Get.snackbar('Error', 'Failed to update status: $e',snackPosition: SnackPosition.BOTTOM);
+    }
+  }
+
+  void showPaymentStatusBottomSheet(BuildContext context) {
+    List<PaymentStatus> availableStatuses = [PaymentStatus.unpaid, PaymentStatus.paid];
+
+
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder:
+          (context) => Container(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Change Payment Status',
+              style: AppTextStyles.largeStyle.copyWith(
+                color: AppColors.primaryColor,
+              ),
+            ),
+            24.vertical,
+            Column(
+              children:
+              availableStatuses.map((paymentStatus) {
+                final isSelected = paymentStatus == pStatus.value;
+                final textColor =
+                paymentStatus == PaymentStatus.unpaid
+                    ? AppColors.progressColor
+                    : isSelected
+                    ? AppColors.primaryColor
+                    : AppColors.primaryColor.withCustomOpacity(0.7);
+
+                return Container(
+                  margin: const EdgeInsets.symmetric(vertical: 4),
+                  decoration: BoxDecoration(
+                    color:
+                    isSelected
+                        ? AppColors.primaryColor.withCustomOpacity(
+                      0.1,
+                    )
+                        : Colors.transparent,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: ListTile(
+                    title: Text(
+                      paymentStatus.label,
+                      style: AppTextStyles.regularStyle.copyWith(
+                        color: textColor,
+                      ),
+                    ),
+                    leading:
+                    isSelected
+                        ? Icon(
+                      Icons.check_circle,
+                      color: AppColors.primaryColor,
+                    )
+                        : null,
+                    onTap: () async {
+                      order.value = order.value.copyWith(paymentStatus: paymentStatus);
+                      await updatePaymentStatus(paymentStatus);
+                      Get.back();
+                    },
+                  ),
+                );
+              }).toList(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+
+  Future<void> updatePaymentStatus(PaymentStatus newStatus) async {
+    try {
+      await _firestore.collection('orders').doc(orderId).update({
+        'paymentStatus': newStatus.name,
+      });
+      pStatus.value = newStatus;
+
+      // order.value = order.value.copyWith(orderStatus: newStatus);
+
+      unawaited(fcmService.notifyCustomer(order.value, 'Updates on your order', 'Your Order is marked as ${newStatus.label}'));
+
+      Get.back();
+      // Get.back();
+      Get.snackbar('Success', 'Order status updated to ${newStatus.label}',snackPosition: SnackPosition.BOTTOM);
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to update status: $e',snackPosition: SnackPosition.BOTTOM);
     }
   }
 
@@ -168,7 +266,7 @@ class OrderDetailController extends GetxController {
         }
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to fetch user data: $e');
+      Get.snackbar('Error', 'Failed to fetch user data: $e',snackPosition: SnackPosition.BOTTOM);
     } finally {
       isLoading.value = false;
     }
@@ -191,7 +289,7 @@ class OrderDetailController extends GetxController {
         }
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to fetch user data: $e');
+      Get.snackbar('Error', 'Failed to fetch user data: $e',snackPosition: SnackPosition.BOTTOM);
     } finally {
       isLoading.value = false;
     }
@@ -227,14 +325,14 @@ class OrderDetailController extends GetxController {
               final input = controller.text.trim();
 
               if (input.isEmpty) {
-                Get.snackbar('Error', 'Field cannot be empty');
+                Get.snackbar('Error', 'Field cannot be empty',snackPosition: SnackPosition.BOTTOM);
                 return;
               }
 
               if (field == 'orderTotal') {
                 final value = double.tryParse(input);
                 if (value == null) {
-                  Get.snackbar('Error', 'Please enter a valid number');
+                  Get.snackbar('Error', 'Please enter a valid number',snackPosition: SnackPosition.BOTTOM);
                   return;
                 }
                 unawaited(updateOrderField('orderTotal', value));

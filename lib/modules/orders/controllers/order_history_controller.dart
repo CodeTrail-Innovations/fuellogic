@@ -34,7 +34,7 @@ class OrderHistoryController extends GetxController {
         ordersList.assignAll(fetchedOrders);
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to load orders: $e');
+      Get.snackbar('Error', 'Failed to load orders: $e',snackPosition: SnackPosition.BOTTOM);
     } finally {
       isLoading.value = false;
     }

@@ -9,11 +9,15 @@ import 'package:fuellogic/modules/orders/models/order_model.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
 
+import '../../company/repositories/company_repository.dart';
+
 class HomeController extends GetxController {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   final RxList<OrderModel> orders = <OrderModel>[].obs;
+  // final orders     = <OrderModel>[].obs;
   var isLoading = true.obs;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final companyOrderRepo = CompanyOrdersRepository();
 
   var selectedIndex = 0.obs;
   final role = HiveBox().getValue(key: roleKey);
@@ -29,6 +33,17 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     fetchOrders();
+    // final roleId = role == companyRoleKey ? 'companyId' : 'driverId';
+    // final user = _firebaseAuth.currentUser;
+    // final userId = user?.uid;
+    // if (user != null) {
+    //   companyOrderRepo.getDriverOrders(userId ?? '')
+    //       .listen((list) {
+    //     orders.assignAll(list);
+    //   });
+    //
+    // }
+
     super.onInit();
   }
 
@@ -103,13 +118,13 @@ class HomeController extends GetxController {
             onError: (error) {
               log('Error in Firestore snapshot listener: $error');
               isLoading(false);
-              Get.snackbar("Error", "Failed to fetch orders: $error");
+              Get.snackbar("Error", "Failed to fetch orders: $error",snackPosition: SnackPosition.BOTTOM);
             },
           );
     } catch (e, stack) {
       log('Exception in fetchOrders: $e\n$stack');
       isLoading(false);
-      Get.snackbar("Error", "Failed to fetch orders: $e");
+      Get.snackbar("Error", "Failed to fetch orders: $e",snackPosition: SnackPosition.BOTTOM);
     }
   }
 

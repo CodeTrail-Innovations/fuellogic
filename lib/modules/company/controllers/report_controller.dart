@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fuellogic/core/enums/enum.dart';
@@ -57,13 +59,14 @@ class ReportController extends GetxController {
         }
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to fetch user data: $e');
+      Get.snackbar('Error', 'Failed to fetch user data: $e',snackPosition: SnackPosition.BOTTOM);
     } finally {
       isLoading.value = false;
     }
   }
 
   Future<void> fetchCurrentUserOrders() async {
+    log('fetching current user Orders');
     try {
       isLoading.value = true;
       final user = auth.currentUser;
@@ -72,6 +75,7 @@ class ReportController extends GetxController {
             await firestore
                 .collection("orders")
                 .where("companyId", isEqualTo: user.uid)
+            .orderBy('createdAt', descending: true)
                 .get();
 
         final fetchedOrders =
@@ -82,7 +86,7 @@ class ReportController extends GetxController {
         ordersList.assignAll(fetchedOrders);
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to load company orders: $e');
+      Get.snackbar('Error', 'Failed to load company orders: $e',snackPosition: SnackPosition.BOTTOM);
     } finally {
       isLoading.value = false;
     }
@@ -107,7 +111,7 @@ class ReportController extends GetxController {
         ordersList.assignAll(fetchedOrders);
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to load your orders: $e');
+      Get.snackbar('Error', 'Failed to load your orders: $e',snackPosition: SnackPosition.BOTTOM);
     } finally {
       isLoading.value = false;
     }
@@ -145,7 +149,7 @@ class ReportController extends GetxController {
         }
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to fetch drivers: $e');
+      Get.snackbar('Error', 'Failed to fetch drivers: $e',snackPosition: SnackPosition.BOTTOM);
     } finally {
       isLoading.value = false;
     }

@@ -24,18 +24,6 @@ class ReportScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // appBar: AppBar(
-        //   elevation: 0,
-        //   centerTitle: true,
-        //   // leading: InkWell(
-        //   //   onTap: ()=> Get.back(),
-        //   //     child: Icon(Icons.chevron_left_rounded, color: AppColors.blackColor,)),
-        //   backgroundColor: AppColors.whiteColor,
-        //   title: Text('Fleet Manager', style: AppTextStyles.extraLargeStyle.copyWith(
-        //   color: AppColors.mainColor,
-        //     fontSize: 18
-        //   ),),
-        // ),
         body: Obx(() {
           if (controller.isLoading.value) {
             return const Center(child: CircularProgressIndicator());
@@ -132,6 +120,7 @@ class ReportScreen extends StatelessWidget {
                   ),
                 ),
                 20.vertical,
+
                 ...reportController.filteredOrders.map(
                   (order) => OrderCard(order: order),
                 ),

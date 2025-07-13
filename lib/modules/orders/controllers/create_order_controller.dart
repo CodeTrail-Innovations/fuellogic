@@ -6,10 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:fuellogic/core/enums/enum.dart';
 import 'package:fuellogic/helper/services/fcm_service.dart';
 import 'package:fuellogic/modules/auth/models/user_model.dart';
+import 'package:fuellogic/modules/company/controllers/report_controller.dart';
+import 'package:fuellogic/modules/home/controllers/home_controller.dart';
 import 'package:fuellogic/modules/orders/models/order_model.dart';
 import 'package:get/get.dart';
 
 class CreateOrderController extends GetxController {
+  // final reportController = Get.find<ReportController>();
+  // final homeController = Get.find<HomeController>();
+  final reportController = Get.put(ReportController());
+  final homeController = Get.put(HomeController());
+
   final locationController = TextEditingController();
   final quantityController = TextEditingController();
   final dateController = TextEditingController();
@@ -48,7 +55,7 @@ class CreateOrderController extends GetxController {
         }
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to fetch user data: $e');
+      Get.snackbar('Error', 'Failed to fetch user data: $e',snackPosition: SnackPosition.BOTTOM);
     } finally {}
   }
 
@@ -59,12 +66,12 @@ class CreateOrderController extends GetxController {
           quantityController.text.isEmpty ||
           descriptionController.text.isEmpty ||
           dateController.text.isEmpty) {
-        Get.snackbar("Error", "Please fill all fields");
+        Get.snackbar("Error", "Please fill all fields",snackPosition: SnackPosition.BOTTOM);
         return;
       }
 
       if (userData.value == null) {
-        Get.snackbar("Error", "User data not available");
+        Get.snackbar("Error", "User data not available",snackPosition: SnackPosition.BOTTOM);
         return;
       }
 
@@ -77,6 +84,7 @@ class CreateOrderController extends GetxController {
         date: dateController.text,
         orderStatus: OrderStatus.pending,
         companyId: currentUser.companyId,
+        paymentStatus: PaymentStatus.unpaid,
         // companyId: currentUser.uid,
         createdAt: DateTime.now(),
         driverId:
@@ -96,6 +104,8 @@ class CreateOrderController extends GetxController {
 
       // await fcmService.notifyAdmins(order);
       unawaited(fcmService.notifyAdmins(order));
+      reportController.fetchCurrentUserOrders();
+      homeController.fetchOrders();
 
       Get.snackbar(
         'Success',
@@ -103,6 +113,7 @@ class CreateOrderController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
       );
       clearFields();
+
     } catch (e) {
       Get.snackbar(
         'Error',
